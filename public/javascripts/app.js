@@ -1,0 +1,23 @@
+var app = angular.module('ggbooks', []);
+
+app.factory('cart', [function(){
+	var o = {
+		cart: ['Book 1', 'Book 2']
+	};
+	return o;
+}]);
+
+app.controller('MainCtrl', [
+'$scope',
+'cart',
+function($scope, cart){
+  $scope.cart = cart.cart;
+
+  $scope.addBook = function(){
+  	if(!$scope.title || $scope.title === '') { return; }
+  	$scope.cart.push($scope.title);
+  	$scope.title = 0;
+  }
+
+}]);
+

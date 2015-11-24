@@ -9,10 +9,10 @@ ggbooks is written with node, express, AngularJS and MySql
 Git clone this project
 
 Download the dependencies
-'''
+```
 npm install
 bower install
-'''
+```
 
 # Run
 ```

@@ -41,8 +41,12 @@
   text-align: center;
 }
 
-.navbar-brand{
-	
+.rating-container{
+	font-size: 0px;
+}
+
+.rating-container > div{
+	font-size: 16px;
 }
 
 a {

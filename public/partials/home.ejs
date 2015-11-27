@@ -1,6 +1,27 @@
-<div ng-repeat="item in cart">
-	{{item}}
+<div class="row">
+	<p>Top Items at ggbooks</p>
+	<div class="col-sm-6 col-md-4" ng-repeat="item in cart">
+		  <div class="thumbnail">
+		      <img src="images/American-Gods.jpg" alt="{{item.title}}">
+		      <h3>{{item.title}}</h3>
+		      <h4>{{item.author}}</h4>
+		      <span>
+		      	<span class="glyphicon glyphicon-star-empty" aria-hidden="true"ng-repeat="i in range((5-item.rating)) track by $index"></span>
+		      	<span class="glyphicon glyphicon-star" aria-hidden="true"ng-repeat="i in range(item.rating) track by $index"></span>
+		      </span>
+		  </div>
+	</div>
 </div>
+
+<div class="input-group">
+      <input type="text" class="form-control" placeholder="Search for...">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button">Go!</button>
+      </span>
+    </div>
+
+
+
 <form ng-submit="addBook()">
 	<input type="text" ng-model="title"></input>
 	<button type="submit">Post</button>

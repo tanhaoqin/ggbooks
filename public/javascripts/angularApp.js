@@ -1,4 +1,13 @@
-var app = angular.module('ggbooks', ['ui.router']);
+var app = angular.module('ggbooks', ['ui.router'])
+	.filter('range', function(){
+		return function(n){
+			var res = [];
+			for (var i = 0; i < n; i++){
+				res.push(i);
+			}
+			return res;
+		};
+	});
 
 app.config([
 	'$stateProvider',
@@ -91,7 +100,19 @@ app.factory('auth', ['$http','$window', function($http, $window){
 app.factory('cart', ['$http', 'auth', function($http, auth){
 	var o = {};
 
-	o.cart = ['book1', "book2"];
+	o.cart = [{
+		author: "Neil Gaimen",
+		title: "American Gods",
+		rating: 5
+	},{
+		author: "Neil Gaimen",
+		title: "American Gods",
+		rating: 4
+	},{
+		author: "Neil Gaimen",
+		title: "American Gods",
+		rating: 3
+	}];
 
 	o.featuredBook = [];
 
@@ -117,6 +138,10 @@ app.controller('MainCtrl', [
 	  $scope.cart = cart.cart;
 	  $scope.featuredBook = cart.featuredBook;
 	  
+	  $scope.range = function(num){
+	  	return new Array(num);
+	  }
+
 	  $scope.addBook = function(){
 	  	if(!$scope.title || $scope.title === '') { return; }
 	  	$scope.cart.push($scope.title);

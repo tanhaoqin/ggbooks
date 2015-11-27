@@ -1,7 +1,7 @@
 <body ng-app="ggbooks">
-<div style="height: 47px;"></div>
-<nav class="navbar navbar-default" ng-controller="NavCtrl">
-      <div class="container-fluid">
+<div class="navbar-inverse"></div>
+<nav class="navbar navbar-inverse" ng-controller="NavCtrl">
+      <div class="container-fluid navbar-content">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -14,20 +14,23 @@
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-          <form class="navbar-form navbar-left" role="search">
-            <div class="form-group">
-              <input type="text" class="form-control" placeholder="Search">
-            </div>
-            <button type="submit" class="btn btn-default">Submit</button>
-          </form>
+          
           <ul class="nav navbar-nav navbar-right">
             <li ng-hide="isLoggedIn()"><a href="#/login">Sign In</a></li>
             <li ng-hide="isLoggedIn()"><a href="#/register">Register</a>
             </li>
-            <li ng-show="isLoggedIn()"><a href="#">{{ currentUser()}}</a></li>
+            <li ng-show="isLoggedIn()"><a href="#">Hello, {{ currentUser()}}</a></li>
             <li ng-show="isLoggedIn()"><a href="#">Shopping Cart</a></li>
             <li ng-show="isLoggedIn()" ng-click="logOut()"><a href="#/">Log Out</a></li>
           </ul>
+          <form class="navbar-form" role="search">
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Search">
+              <span class="input-group-btn">
+                <button class="btn btn-default btn-search" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+              </span>
+            </div>
+          </form>
           </div><!-- /.navbar-collapse -->
           </div><!-- /.container-fluid -->
         </nav>

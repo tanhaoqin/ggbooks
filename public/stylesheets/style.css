@@ -5,6 +5,46 @@
 	font: 14px "Lucida Grande", Helvetica, Arial, sans-serif
 }
 
+.navbar-inverse {
+	min-height: 50px;
+	background-color:#22264b;
+	border-color: transparent;
+}
+
+.nav-left {
+	position: relative;
+	float: left;
+	width: auto;
+	display: inline-block;
+	*display: inline;
+	*zoom: 1
+}
+.nav-right {
+	position: relative;
+	float: right;
+	width: auto;
+	display: inline-block;
+	*display: inline;
+	*zoom: 1
+}
+.nav-fill {
+	width: auto;
+	overflow: hidden;
+	white-space: nowrap
+}
+
+.btn-search{
+	min-height: 34px;
+}
+
+.navbar .navbar-collapse {
+  text-align: center;
+}
+
+.navbar-brand{
+	
+}
+
 a {
 	color: #00B7FF
 }

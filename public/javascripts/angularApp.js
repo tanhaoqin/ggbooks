@@ -95,8 +95,7 @@ app.factory('cart', ['$http', 'auth', function($http, auth){
 
 	o.featuredBook = [];
 
-	o.getBook = function(isbn13){
-		console.log(isbn13);
+	o.getBook = function(isbn13, callback){
 		$http.get('/api/book',
 			{	
 				params: {ISBN: isbn13},
@@ -104,8 +103,8 @@ app.factory('cart', ['$http', 'auth', function($http, auth){
 			}
 			).success(
   		function(res){
-  			console.log(res);
-  			return o.featuredBook = res;
+  			o.featuredBook = res;
+  			callback();
   		});
 	};
 	return o;
@@ -126,8 +125,10 @@ app.controller('MainCtrl', [
 
 	  $scope.getBook = function(){
 	  	if (!$scope.isbn13 || $scope.isbn13 === ''){ return; }
-	  	cart.getBook($scope.isbn13);
-	  	$scope.featuredBook.push(cart.featuredBook);
+	  	cart.getBook($scope.isbn13, function(){
+	  		console.log(cart.featuredBook);
+		  	$scope.featuredBook.push(cart.featuredBook);
+	  	});
 	  };
 
 }]);

@@ -38,6 +38,11 @@ app.config([
 						$state.go('home');
 					}
 				}]
+			})
+			.state('search', {
+				url: '/search',
+				templateUrl: 'partials/search.ejs',
+				controller: 'SearchCtrl'
 			});
 		$urlRouterProvider.otherwise('home');
 	}]);
@@ -135,6 +140,66 @@ app.factory('recommendations', ['$http', 'auth', function($http, auth){
 	return o;
 }]);
 
+app.factory('searchResults', ['$http', 'auth', function($http, auth){
+	var o = {};
+
+	o.search = [{
+		author: "Neil Gaiman",
+		title: "American Gods",
+		rating: 4,
+		price: 10,
+		imageUrl: "http://spinoff.comicbookresources.com/wp-content/uploads/2011/03/american-gods.jpg" 
+	},{
+		author: "Tan Hao Qin",
+		title: "How to get full marks in ML",
+		rating: 5,
+		price: 1000,
+		imageUrl: "http://img6a.flixcart.com/image/book/9/5/2/machine-learning-400x400-imadhxzhxbzjffa4.jpeg" 
+	},{
+		author: "J.K. Rowling",
+		title: "Hairy Pot",
+		rating: 3,
+		price: 20,
+		imageUrl: "http://www.jkrowling.com/uploads/images/large/en_US-timeline-image-harry-potter-and-the-deathly-hallows-1333632499.jpg" 
+	}];
+
+	o.getSearchResults =  function() {
+		return o.search;
+	};
+
+	o.getSearchBooks = function(searchString, callback) {
+		$http.get('/api/books', 
+		{
+			params: {search:searchString},
+			headers: {Authorization: 'Bearer '+auth.getToken()}
+		}
+		).success(
+		function(res){
+			// o.search = res;
+			callback();
+		});
+	};
+	return o;
+}]);
+
+app.controller('SearchCtrl' , [
+	'$scope',
+	'auth',
+	'searchResults',
+	function($scope, auth, searchResults) {
+		$scope.update = function(){
+			$scope.currentUser = auth.currentUser();
+			$scope.featured = searchResults.getSearchResults();
+		}
+		$scope.update();
+
+		$scope.range = function(num){
+	  	return new Array(num);
+	  }
+	}
+
+]);
+
 app.controller('HomeCtrl', [
 	'$scope',
 	'auth',
@@ -196,17 +261,29 @@ app.controller('AuthCtrl', [
 				$state.go('home');
 			})
 		};
-	}])
+	}]);
 
 app.controller('NavCtrl', [
 	'$scope', 
+	'$state',
+	'recommendations',
 	'auth',
-	function($scope, auth){
+	function($scope, $state, recommendations, auth){
 		$scope.isLoggedIn = auth.isLoggedIn;
 		$scope.currentUser = auth.currentUser;
 		$scope.logOut = auth.logOut;
 		$scope.update = function(){
 			$scope.isLoggedIn = auth.isLoggedIn;
-		}
+		};
+		$scope.featuredBook = recommendations.featuredBook;
+
+		$scope.getBook = function() {
+	  	if (!$scope.isbn13 || $scope.isbn13 === ''){ return;}
+	  	recommendations.getBook($scope.isbn13, function(){
+	  		console.log(recommendations[0]);
+		  	$scope.featuredBook.push(recommendations[0]);
+		  	$state.go('search');
+	  	})
+	  };
 		auth.subscribe($scope.update);
 	}]);

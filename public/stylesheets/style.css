@@ -49,6 +49,37 @@
 	font-size: 16px;
 }
 
+.search-thumbnail {
+  display: inline-flex;
+  padding: 10px;
+  margin-bottom: 30px;
+  line-height: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+
+  margin-left: 5px;
+  margin-right: 5px;
+  
+}
+
+.search-caption {
+	padding: 3px;
+	color: #000;
+	margin-left: 30px;
+}
+
+
+.search-caption h4 {
+	margin-bottom: 30px;
+}
+
+.search-thumbnail img {
+	height: auto;
+	width: auto;
+	max-width: 300px;
+	max-height: 300px;
+}
+
 a {
 	color: #00B7FF
 }

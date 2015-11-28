@@ -23,9 +23,9 @@
             <li ng-show="isLoggedIn()"><a href="#">Shopping Cart</a></li>
             <li ng-show="isLoggedIn()" ng-click="logOut()"><a href="#/">Log Out</a></li>
           </ul>
-          <form class="navbar-form" role="search">
+          <form ng-submit="getBook()" class="navbar-form" role="search">
             <div class="input-group">
-              <input type="text" class="form-control" placeholder="Search">
+              <input type="text" class="form-control" placeholder="Search" ng-model="isbn13">
               <span class="input-group-btn">
                 <button class="btn btn-default btn-search" type="submit"><span class="glyphicon glyphicon-search"></span></button>
               </span>

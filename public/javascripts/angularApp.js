@@ -17,7 +17,7 @@ app.config([
 			.state('home', {
 				url: '/home',
 				templateUrl: '/partials/home.ejs',
-				controller: 'MainCtrl'
+				controller: 'HomeCtrl'
 			})
 			.state('login', {
 				url: '/login',
@@ -46,7 +46,7 @@ app.factory('auth', ['$http','$window', function($http, $window){
 	var auth = {};
 	var observers = [];
 
-	auth.register = function(callback){
+	auth.subscribe = function(callback){
 		observers.push(callback);
 	};
 
@@ -97,10 +97,10 @@ app.factory('auth', ['$http','$window', function($http, $window){
 	return auth;
 }]);
 
-app.factory('cart', ['$http', 'auth', function($http, auth){
+app.factory('recommendations', ['$http', 'auth', function($http, auth){
 	var o = {};
 
-	o.cart = [{
+	o.topSellers = [{
 		author: "Neil Gaimen",
 		title: "American Gods",
 		rating: 5
@@ -113,6 +113,10 @@ app.factory('cart', ['$http', 'auth', function($http, auth){
 		title: "American Gods",
 		rating: 3
 	}];
+
+	o.getRecommendations = function(){
+		return o.topSellers;
+	};
 
 	o.featuredBook = [];
 
@@ -131,12 +135,26 @@ app.factory('cart', ['$http', 'auth', function($http, auth){
 	return o;
 }]);
 
-app.controller('MainCtrl', [
+app.controller('HomeCtrl', [
 	'$scope',
-	'cart',
-	function($scope, cart){
-	  $scope.cart = cart.cart;
-	  $scope.featuredBook = cart.featuredBook;
+	'auth',
+	'recommendations',
+	function($scope, auth, recommendations){
+
+	  $scope.update = function(){
+  		  $scope.isLoggedIn = auth.isLoggedIn();
+  	  	  console.log(auth.isLoggedIn());
+		  if ($scope.isLoggedIn){
+		  	$scope.currentUser = auth.currentUser();
+		  	$scope.featured = recommendations.getRecommendations($scope.currentUser);
+		  } else {
+		  	$scope.featured = recommendations.topSellers;
+		  }	  	
+	  }
+	  $scope.update();
+	  auth.subscribe($scope.update);
+
+	  $scope.featuredBook = recommendations.featuredBook;
 	  
 	  $scope.range = function(num){
 	  	return new Array(num);
@@ -144,15 +162,15 @@ app.controller('MainCtrl', [
 
 	  $scope.addBook = function(){
 	  	if(!$scope.title || $scope.title === '') { return; }
-	  	$scope.cart.push($scope.title);
+	  	$scope.featured.push($scope.title);
 	  	$scope.title = 0;
 	  }
 
 	  $scope.getBook = function(){
 	  	if (!$scope.isbn13 || $scope.isbn13 === ''){ return; }
-	  	cart.getBook($scope.isbn13, function(){
-	  		console.log(cart.featuredBook);
-		  	$scope.featuredBook.push(cart.featuredBook);
+	  	recommendations.getBook($scope.isbn13, function(){
+	  		console.log(recommendations.featuredBook);
+		  	$scope.featuredBook.push(recommendations.featuredBook);
 	  	});
 	  };
 
@@ -190,5 +208,5 @@ app.controller('NavCtrl', [
 		$scope.update = function(){
 			$scope.isLoggedIn = auth.isLoggedIn;
 		}
-		auth.register($scope.update);
+		auth.subscribe($scope.update);
 	}]);

@@ -1,6 +1,7 @@
 <div class="row">
-	<p>Top Items at ggbooks</p>
-	<div class="col-sm-6 col-md-4" ng-repeat="item in cart">
+	<p ng-show="isLoggedIn">Recommendations for you</p>
+	<p ng-hide="isLoggedIn">Top Items at ggbooks</p>
+	<div class="col-sm-6 col-md-4" ng-repeat="item in featured">
 		  <div class="thumbnail">
 		      <img src="images/American-Gods.jpg" alt="{{item.title}}">
 		      <div class="caption">

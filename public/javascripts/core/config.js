@@ -35,6 +35,17 @@
 				url: '/search',
 				templateUrl: 'partials/search.ejs',
 				controller: 'SearchCtrl'
+			})
+			.state('book', {
+				resolve:{
+				      bookId: function($stateParams){
+			      		console.log($stateParams.bookId);
+				          return $stateParams.bookId;
+				      }
+				   },
+				url: '/book/:bookId',
+				templateUrl: 'partials/book.ejs',
+				controller: 'BookCtrl'
 			});
 		$urlRouterProvider.otherwise('home');
 	}]);

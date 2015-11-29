@@ -1,13 +1,11 @@
 (function(){
-	var home = angular.module('ggbooks.home', []);
+	var home = angular.module('ggbooks.book', []);
 
-	home.controller('HomeCtrl', [
+	home.controller('BookCtrl', [
 	'$scope',
-	'$state',
-	'$stateParams',
 	'auth',
 	'dataservice',
-	function($scope, $state, $stateParams, auth, dataservice){
+	function($scope, auth, dataservice){
 
 	  $scope.update = function(){
   		  $scope.isLoggedIn = auth.isLoggedIn();
@@ -42,9 +40,5 @@
 	  	});
 	  };
 
-	  $scope.goToBook = function(isbn13){
-	  	$stateParams.bookId = isbn13;
-	  	$state.go('book');
-	  }
-	}]);
+}]);
 })();

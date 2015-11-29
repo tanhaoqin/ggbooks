@@ -31,20 +31,27 @@ router.get('/books', function(req,res){
 router.get('/book', auth, function(req,res){
 	console.log("RESTFUL API: \t book");
 	ISBN = req.query.ISBN;
-	connection.query('select * from book where isbn13=?;', [ISBN] , function(err, rows, fields) {
-		
+
+	responseMessage = {};
+	connection.query('select * from book where ISBN13 LIKE ?;', [ISBN] , function(err, rows, fields) {	
 		if (err) throw err;
 		
 		if (rows.length == 0){
-			responseMessage = {};
 			responseMessage.status = 0;
 			res.send(responseMessage);
 		} else{
-			console.log(rows[0]);
 			responseMessage = rows[0];
 			responseMessage.status = 1;
-			// responseMessage missing feedback!
-			res.send(responseMessage);
+			connection.query('select fbID,date,score,comment,userID from feedback where book like ?;', [ISBN] , function(err, rows, fields) {
+				if (err) throw err;
+				if (rows.length == 0){
+					responseMessage.feedback = [];
+					res.send(responseMessage);
+				} else{
+					responseMessage.feedback = rows
+					res.send(responseMessage);
+				}
+			};
 		}
 	});
 });

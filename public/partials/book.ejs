@@ -15,13 +15,27 @@
 		<h2>${{displayedPrice}}</h2>
 		<div class="form-group">
 		  <label for="sel1">Quantity:</label>
-		  <select ng-model="qty" ng-change="updateQuantity(qty)" class="form-control" id="sel1">
-		    <option ng-repeat="i in range(book.copies) track by $index">{{$index+1}}</option>
-		  </select>
+		  <select ng-model="qtySelected" ng-change="updateQuantity()" class="form-control" id="sel1" ng-options="i as i for i in bookCopies">
+ 		  </select>
 		  <button type="button" class="btn btn-default">Add to Cart</button>
 		</div>
 	</div>
 </div>
-<div class="row">
-	
+<hr>
+<div id="feedback" class="row">
+	<h3>Feedback</h3>
+	<p>Top <span class="form-inline">
+		  <select ng-model="feedbackCount" ng-change="updateQuantity(qty)"class="form-control" value="5">
+		    <option ng-selected="true">5</option>
+		    <option>10</option>
+		    <option>25</option>
+		    <option>100</option>
+		  </select>
+		</span> submissions</p>
 </div>
+// <script>
+// 	$(document).ready(function(){
+// 		console.log('hello');
+// 		$('#sel1 > option:first-child').remove();
+// 	});
+// </script>

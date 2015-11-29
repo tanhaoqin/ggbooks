@@ -3,42 +3,31 @@
 
 	home.controller('BookCtrl', [
 	'$scope',
-	'auth',
+	'$stateParams',
 	'dataservice',
-	function($scope, auth, dataservice){
+	function($scope, $stateParams, dataservice){
 
-	  $scope.update = function(){
-  		  $scope.isLoggedIn = auth.isLoggedIn();
-  	  	  console.log(auth.isLoggedIn());
-		  if ($scope.isLoggedIn){
-		  	$scope.currentUser = auth.currentUser();
-		  	$scope.featured = dataservice.getRecommendations($scope.currentUser);
-		  } else {
-		  	$scope.featured = dataservice.topSellers;
-		  }	  	
-	  }
-	  $scope.update();
-	  auth.subscribe($scope.update);
+		$scope.init = function(){
+			$scope.bookId = $stateParams.bookId
+			dataservice.getBook($scope.bookId, function(res){
+				$scope.book = res;
+				$scope.qty = 1;
+				$scope.displayedPrice = parseFloat($scope.book.price) * $scope.qty;
+				console.log(res);
+			});
+		}
 
-	  $scope.featuredBook = dataservice.featuredBook;
-	  
-	  $scope.range = function(num){
-	  	return new Array(num);
-	  }
+		$scope.updateQuantity = function(qty){
+			$scope.qty = qty;
+			$scope.displayedPrice = (parseFloat($scope.book.price) * $scope.qty).toFixed(2);
+		}
 
-	  $scope.addBook = function(){
-	  	if(!$scope.title || $scope.title === '') { return; }
-	  	$scope.featured.push($scope.title);
-	  	$scope.title = 0;
-	  }
+		$scope.range = function(num){
+			return new Array(num);
+		}
 
-	  $scope.getBook = function(){
-	  	if (!$scope.isbn13 || $scope.isbn13 === ''){ return; }
-	  	recommendations.getBook($scope.isbn13, function(){
-	  		console.log(recommendations.featuredBook);
-		  	$scope.featuredBook.push(recommendations.featuredBook);
-	  	});
-	  };
+		$scope.init();
 
-}]);
+	}]);
+
 })();

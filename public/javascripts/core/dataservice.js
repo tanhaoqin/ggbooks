@@ -40,15 +40,13 @@
 		};
 
 		o.getBook = function(isbn13, callback){
-			$http.get('/api/book',
+			$http.get('/api/book?isbn13='+isbn13,
 				{	
-					params: {ISBN: isbn13},
 					headers: {Authorization: 'Bearer '+auth.getToken()}
 				}
 				).success(
 	  		function(res){
-	  			o.featuredBook = res;
-	  			callback();
+	  			callback(res);
 	  		});
 		};
 

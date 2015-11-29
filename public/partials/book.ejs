@@ -1,1 +1,27 @@
-Hello World!
+<div class="row">
+	<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+		<img src="/images/American-Gods.jpg" alt="book.title">
+	</div>
+	<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+		<h2>{{book.title}}</h2>
+		<div class="rating-container">
+			<div class="glyphicon glyphicon-star" aria-hidden="true"ng-repeat="i in range(book.avgScore) track by $index"></div>
+			<div class="glyphicon glyphicon-star-empty" aria-hidden="true"ng-repeat="i in range((5-book.avgScore)) track by $index"></div>
+		</div>
+		<p>{{book.desc}}</p>
+		<p>{{book.subject}}</p>
+	</div>
+	<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+		<h2>${{displayedPrice}}</h2>
+		<div class="form-group">
+		  <label for="sel1">Quantity:</label>
+		  <select ng-model="qty" ng-change="updateQuantity(qty)" class="form-control" id="sel1">
+		    <option ng-repeat="i in range(book.copies) track by $index">{{$index+1}}</option>
+		  </select>
+		  <button type="button" class="btn btn-default">Add to Cart</button>
+		</div>
+	</div>
+</div>
+<div class="row">
+	
+</div>

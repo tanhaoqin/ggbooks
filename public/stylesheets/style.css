@@ -43,9 +43,10 @@
 
 .rating-container{
 	font-size: 0px;
+	display: inline-block;
 }
 
-.rating-container > div{
+.rating-container > span,.rating-container > i{
 	font-size: 16px;
 }
 
@@ -87,3 +88,50 @@ a {
 #feedback{
 	padding-left: 20px;
 }
+
+.feedback-user{
+	text-indent: 0.5em;
+	height: 32px;
+	display: inline-block;
+	line-height: 32px;
+	vertical-align: bottom;
+}
+
+.feedback-user > span{
+	vertical-align: middle;
+}
+
+.glyphicon{
+	text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+}
+
+/*.fa.fa-star{
+	color:yellow;
+	-webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+}
+
+.fa.fa-star-half-o{
+	color:yellow;
+	width: 14.8594px;
+	-webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+}*/
+
+.fa-stack i.fa-star {
+    color:transparent;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+}
+
+.fa-stack i.fa-star-half {
+    color:yellow;
+    margin-left: -4.5px;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+}
+
+.yellow {
+	color: yellow !important;
+}
+

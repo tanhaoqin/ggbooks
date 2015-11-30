@@ -5,8 +5,16 @@
 	<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 		<h2>{{book.title}}</h2>
 		<div class="rating-container">
-			<div class="glyphicon glyphicon-star" aria-hidden="true"ng-repeat="i in range(book.avgScore) track by $index"></div>
-			<div class="glyphicon glyphicon-star-empty" aria-hidden="true"ng-repeat="i in range((5-book.avgScore)) track by $index"></div>
+			<span class="fa-stack" ng-repeat="i in countFullStars(book.avgScore) track by $index">
+			     <i class="fa fa-fw fa-lg fa-star fa-stack-1x yellow"></i>
+			</span>
+			<span class="fa-stack" ng-repeat="i in countHalfStars(book.avgScore) track by $index">
+			     <i class="fa fa-fw fa-lg fa-star-half fa-stack-1x"></i>
+			     <i class="fa fa-fw fa-lg fa-star fa-stack-1x"></i>
+			</span>
+			<span class="fa-stack" ng-repeat="i in countEmptyStars(book.avgScore) track by $index">
+			     <i class="fa fa-fw fa-lg fa-star fa-stack-1x"></i>
+			</span>
 		</div>
 		<p>{{book.desc}}</p>
 		<p>{{book.subject}}</p>
@@ -32,10 +40,34 @@
 		    <option>100</option>
 		  </select>
 		</span> submissions</p>
+	<div ng-if="book.feedback.length==0">
+		<p>There are no submitted feedback for this item yet.</p>
+	</div>
+	<div ng-repeat="feedback in book.feedback">
+		<hr>
+		<div class="rating-container">
+			<span class="fa-stack" ng-repeat="i in countFullStars(feedback.score) track by $index">
+			     <i class="fa fa-fw fa-lg fa-star fa-stack-1x yellow"></i>
+			</span>
+			<span class="fa-stack" ng-repeat="i in countHalfStars(feedback.score) track by $index">
+			     <i class="fa fa-fw fa-lg fa-star-half fa-stack-1x"></i>
+			     <i class="fa fa-fw fa-lg fa-star fa-stack-1x"></i>
+			</span>
+			<span class="fa-stack" ng-repeat="i in countEmptyStars(feedback.score) track by $index">
+			     <i class="fa fa-fw fa-lg fa-star fa-stack-1x"></i>
+			</span>
+		</div>
+		<div class="feedback-user"><span>by {{feedback.userID}}</span></div>
+		<p><br>
+			<span ng-if="feedback.comment != null">{{feedback.comment}}</span>
+			<span ng-if="feedback.comment == null"><i>No comments.</i></span>
+		</p>
+		<p>
+			Rate this review: 
+			<button type="button" class="btn btn-default">Good</button>
+			<button type="button" class="btn btn-default">Bad</button>
+			<button type="button" class="btn btn-default">Neutral</button>
+		</p>
+	</div>
 </div>
-// <script>
-// 	$(document).ready(function(){
-// 		console.log('hello');
-// 		$('#sel1 > option:first-child').remove();
-// 	});
-// </script>
+

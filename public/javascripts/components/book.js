@@ -52,6 +52,11 @@
 			return new Array(5 - parseInt(parseInt(num)/2) - parseInt(num%2));
 		}
 
+		$scope.postFeedbackRating =  function(rating, feedback, user){
+			console.log('test', rating, feedback, user);
+			dataservice.postFeedbackRating(rating, feedback, user);
+		}
+
 	}]);
 
 })();

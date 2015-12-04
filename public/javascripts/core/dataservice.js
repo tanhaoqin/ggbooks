@@ -54,9 +54,21 @@
 			//$http.post('/api/feedback')
 		}
 
-		o.postFeedbackRating = function(){
-			//$http.post('/api/feedback/rating')
-		}
+		o.postFeedbackRating = function(rating, feedback, user, callback){
+			$http.post('/api/feedback/rating',
+			{
+				params: {
+					rating : rating,
+					feedback : feedback,
+				},
+					headers: {Authorization: 'Bearer '+auth.getToken()}
+
+			}
+			).success(
+			function(res){
+				callback(res);
+			});
+		};
 
 		o.getCart = function(){
 

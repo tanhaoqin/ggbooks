@@ -41,7 +41,7 @@
 		  </select>
 		</span> submissions</p>
 	<div ng-if="book.feedback.length==0">
-		<p>There are no submitted feedback for this item yet.</p>
+		<p>There is no feedback available for this item yet.</p>
 	</div>
 	<div ng-repeat="feedback in book.feedback">
 		<hr>
@@ -64,9 +64,9 @@
 		</p>
 		<p>
 			Rate this review: 
-			<button type="button" class="btn btn-default">Good</button>
-			<button type="button" class="btn btn-default">Bad</button>
-			<button type="button" class="btn btn-default">Neutral</button>
+			<button type="button" class="btn btn-default" ng-click = "postFeedbackRating(2, feedback.fbID, feedback.userID)">Good</button>
+			<button type="button" class="btn btn-default" ng-click = "postFeedbackRating(0, feedback.fbID, feedback.userID)">Bad</button>
+			<button type="button" class="btn btn-default" ng-click = "postFeedbackRating(1, feedback.fbID, feedback.userID)">Neutral</button>
 		</p>
 	</div>
 </div>

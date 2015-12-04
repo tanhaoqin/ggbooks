@@ -3,9 +3,9 @@
 	<br>
 	<div ng-repeat="item in featured">
 		  <div class="search-thumbnail">
-		      <img src={{item.imageUrl}} alt="{{item.title}}">
+		      <a href="#/book/{{item.isbn13}}"><img src={{item.imageUrl}} alt="{{item.title}}"></a>
 		      <div class="search-caption">
-		      <h2>{{item.title}}</h2>
+		      <h2><a href="#/book/{{item.isbn13}}">{{item.title}}</a></h2>
 		      <h4>{{item.author}}</h4>
 		      <br>
 		      <br>

@@ -10,11 +10,11 @@
 	function($scope, $state, $stateParams, auth, dataservice) {
 		$scope.update = function(){
 			$scope.currentUser = auth.currentUser();
-			$scope.cart = dataservice.getCart();
-
+			// $scope.cart = dataservice.getCart();
+			$scope.cart = dataservice.getSearchResults();
 		}
 		$scope.update();
-		
+
 		$scope.range = function(num){
 	  	return new Array(num);
 	  }

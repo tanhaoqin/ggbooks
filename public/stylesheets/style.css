@@ -33,7 +33,12 @@
 	white-space: nowrap
 }
 
-.btn-search{
+.form-control {
+		min-width: 500px;
+
+}
+
+.btn-search {
 	min-height: 34px;
 }
 
@@ -135,3 +140,8 @@ a {
 	color: yellow !important;
 }
 
+.cart-quantity {
+	position: relative;
+  float: right;
+
+}

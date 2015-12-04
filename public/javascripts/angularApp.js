@@ -3,7 +3,8 @@ var app = angular.module('ggbooks',
 	'ggbooks.home',
 	'ggbooks.nav',
 	'ggbooks.search',
-	'ggbooks.book']);
+	'ggbooks.book',
+	'ggbooks.cart']);
 
 
 

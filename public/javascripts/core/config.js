@@ -40,6 +40,11 @@
 				url: '/book/:bookId',
 				templateUrl: 'partials/book.ejs',
 				controller: 'BookCtrl'
+			})
+			.state('cart', {
+				url: '/cart',
+				templateUrl: 'partials/cart.ejs',
+				controller: 'CartCtrl'
 			});
 		$urlRouterProvider.otherwise('home');
 	}]);

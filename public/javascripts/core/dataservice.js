@@ -55,18 +55,17 @@
 		}
 
 		o.postFeedbackRating = function(rating, feedback, user, callback){
-			$http.post('/api/feedback/rating',
+			console.log("WHAT");
+			$http.post('/api/feedback/rating?user='+user+'&feedback='+feedback+'&rating='+rating,null,
 			{
-				params: {
-					rating : rating,
-					feedback : feedback,
-				},
-					headers: {Authorization: 'Bearer '+auth.getToken()}
-
+				headers: {Authorization: 'Bearer '+auth.getToken()}
 			}
 			).success(
 			function(res){
 				callback(res);
+			}).error(
+			function(err){
+				console.log(err);
 			});
 		};
 

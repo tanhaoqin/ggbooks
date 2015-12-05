@@ -4,7 +4,8 @@ var app = angular.module('ggbooks',
 	'ggbooks.nav',
 	'ggbooks.search',
 	'ggbooks.book',
-	'ggbooks.cart']);
+	'ggbooks.cart',
+	'ggbooks.profile']);
 
 
 

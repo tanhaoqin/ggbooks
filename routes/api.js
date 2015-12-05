@@ -48,8 +48,10 @@ router.get('/book', auth, function(req,res){
 });
 
 
-router.post('/feedback', auth,function (req, res) {
+router.post('/feedback', auth, function (req, res) {
 	console.log("RESTFUL API: \t feedback");
+	console.log("hello");
+	console.log(req);
 	isbn13 = req.query.isbn13;
 	user = req.query.user;
 	score = req.query.score;
@@ -69,12 +71,11 @@ router.post('/feedback', auth,function (req, res) {
 	}
 });
 
-router.post('/feedback/rating', auth,function (req, res) {
+router.post('/feedback/rating', auth ,function (req, res) {
 	console.log("RESTFUL API: \t feedback/rating");
 	user = req.query.user;
 	feedback = req.query.feedback;
 	rating = req.query.rating;
-
 	responseMessage = {};
 	try{
 		connection.query('INSERT into rating (usefulness, fbID, userID) values (?,?,?);', [rating, feedback, user], function(err, rows, fields) {

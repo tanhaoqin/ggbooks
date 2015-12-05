@@ -1,73 +1,74 @@
-<div class="row">
-	<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-		<img src="/images/American-Gods.jpg" alt="book.title">
-	</div>
-	<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-		<h2>{{book.title}}</h2>
-		<div class="rating-container">
-			<span class="fa-stack" ng-repeat="i in countFullStars(book.avgScore) track by $index">
-			     <i class="fa fa-fw fa-lg fa-star fa-stack-1x yellow"></i>
-			</span>
-			<span class="fa-stack" ng-repeat="i in countHalfStars(book.avgScore) track by $index">
-			     <i class="fa fa-fw fa-lg fa-star-half fa-stack-1x"></i>
-			     <i class="fa fa-fw fa-lg fa-star fa-stack-1x"></i>
-			</span>
-			<span class="fa-stack" ng-repeat="i in countEmptyStars(book.avgScore) track by $index">
-			     <i class="fa fa-fw fa-lg fa-star fa-stack-1x"></i>
-			</span>
+<div class="container">
+	<div class="row">
+		<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+			<img src="/images/American-Gods.jpg" alt="book.title">
 		</div>
-		<p>{{book.desc}}</p>
-		<p>{{book.subject}}</p>
+		<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+			<h2>{{book.title}}</h2>
+			<div class="rating-container">
+				<span class="fa-stack" ng-repeat="i in countFullStars(book.avgScore) track by $index">
+				     <i class="fa fa-fw fa-lg fa-star fa-stack-1x yellow"></i>
+				</span>
+				<span class="fa-stack" ng-repeat="i in countHalfStars(book.avgScore) track by $index">
+				     <i class="fa fa-fw fa-lg fa-star-half fa-stack-1x"></i>
+				     <i class="fa fa-fw fa-lg fa-star fa-stack-1x"></i>
+				</span>
+				<span class="fa-stack" ng-repeat="i in countEmptyStars(book.avgScore) track by $index">
+				     <i class="fa fa-fw fa-lg fa-star fa-stack-1x"></i>
+				</span>
+			</div>
+			<p>{{book.desc}}</p>
+			<p>{{book.subject}}</p>
+		</div>
+		<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+			<h2>${{displayedPrice}}</h2>
+			<div class="form-group">
+			  <label for="sel1">Quantity:</label>
+			  <select ng-model="qtySelected" ng-change="updateQuantity()" class="form-control" id="sel1" ng-options="i as i for i in bookCopies">
+	 		  </select>
+			  <button type="button" class="btn btn-default">Add to Cart</button>
+			</div>
+		</div>
 	</div>
-	<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-		<h2>${{displayedPrice}}</h2>
-		<div class="form-group">
-		  <label for="sel1">Quantity:</label>
-		  <select ng-model="qtySelected" ng-change="updateQuantity()" class="form-control" id="sel1" ng-options="i as i for i in bookCopies">
- 		  </select>
-		  <button type="button" class="btn btn-default">Add to Cart</button>
+	<hr>
+	<div id="feedback" class="row">
+		<h3>Feedback</h3>
+		<p>Top <span class="form-inline">
+			  <select ng-model="feedbackCount" ng-change="updateQuantity(qty)"class="form-control" value="5">
+			    <option ng-selected="true">5</option>
+			    <option>10</option>
+			    <option>25</option>
+			    <option>100</option>
+			  </select>
+			</span> submissions</p>
+		<div ng-if="book.feedback.length==0">
+			<p>There is no feedback available for this item yet.</p>
+		</div>
+		<div ng-repeat="feedback in book.feedback">
+			<hr>
+			<div class="rating-container">
+				<span class="fa-stack" ng-repeat="i in countFullStars(feedback.score) track by $index">
+				     <i class="fa fa-fw fa-lg fa-star fa-stack-1x yellow"></i>
+				</span>
+				<span class="fa-stack" ng-repeat="i in countHalfStars(feedback.score) track by $index">
+				     <i class="fa fa-fw fa-lg fa-star-half fa-stack-1x"></i>
+				     <i class="fa fa-fw fa-lg fa-star fa-stack-1x"></i>
+				</span>
+				<span class="fa-stack" ng-repeat="i in countEmptyStars(feedback.score) track by $index">
+				     <i class="fa fa-fw fa-lg fa-star fa-stack-1x"></i>
+				</span>
+			</div>
+			<div class="feedback-user"><span>by {{feedback.userID}}</span></div>
+			<p><br>
+				<span ng-if="feedback.comment != null">{{feedback.comment}}</span>
+				<span ng-if="feedback.comment == null"><i>No comments.</i></span>
+			</p>
+			<p>
+				Rate this review: 
+				<button type="button" class="btn btn-default" ng-click = "postFeedbackRating(2, feedback.fbID, feedback.userID)">Good</button>
+				<button type="button" class="btn btn-default" ng-click = "postFeedbackRating(0, feedback.fbID, feedback.userID)">Bad</button>
+				<button type="button" class="btn btn-default" ng-click = "postFeedbackRating(1, feedback.fbID, feedback.userID)">Neutral</button>
+			</p>
 		</div>
 	</div>
 </div>
-<hr>
-<div id="feedback" class="row">
-	<h3>Feedback</h3>
-	<p>Top <span class="form-inline">
-		  <select ng-model="feedbackCount" ng-change="updateQuantity(qty)"class="form-control" value="5">
-		    <option ng-selected="true">5</option>
-		    <option>10</option>
-		    <option>25</option>
-		    <option>100</option>
-		  </select>
-		</span> submissions</p>
-	<div ng-if="book.feedback.length==0">
-		<p>There is no feedback available for this item yet.</p>
-	</div>
-	<div ng-repeat="feedback in book.feedback">
-		<hr>
-		<div class="rating-container">
-			<span class="fa-stack" ng-repeat="i in countFullStars(feedback.score) track by $index">
-			     <i class="fa fa-fw fa-lg fa-star fa-stack-1x yellow"></i>
-			</span>
-			<span class="fa-stack" ng-repeat="i in countHalfStars(feedback.score) track by $index">
-			     <i class="fa fa-fw fa-lg fa-star-half fa-stack-1x"></i>
-			     <i class="fa fa-fw fa-lg fa-star fa-stack-1x"></i>
-			</span>
-			<span class="fa-stack" ng-repeat="i in countEmptyStars(feedback.score) track by $index">
-			     <i class="fa fa-fw fa-lg fa-star fa-stack-1x"></i>
-			</span>
-		</div>
-		<div class="feedback-user"><span>by {{feedback.userID}}</span></div>
-		<p><br>
-			<span ng-if="feedback.comment != null">{{feedback.comment}}</span>
-			<span ng-if="feedback.comment == null"><i>No comments.</i></span>
-		</p>
-		<p>
-			Rate this review: 
-			<button type="button" class="btn btn-default" ng-click = "postFeedbackRating(2, feedback.fbID, feedback.userID)">Good</button>
-			<button type="button" class="btn btn-default" ng-click = "postFeedbackRating(0, feedback.fbID, feedback.userID)">Bad</button>
-			<button type="button" class="btn btn-default" ng-click = "postFeedbackRating(1, feedback.fbID, feedback.userID)">Neutral</button>
-		</p>
-	</div>
-</div>
-

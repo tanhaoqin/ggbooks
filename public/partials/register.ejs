@@ -1,5 +1,5 @@
+<div class="container">
 <div class="jumbotron">
-  <div class="container">
     <h1>Welcome to ggbooks!</h1>
     <p>Fill in the following fields to register, it's that easy!</p>
     <p>
@@ -20,7 +20,8 @@
           <input ng-model="user.phone" type="text" class="form-control" placeholder="Phone Number">
         </div>
         <p></p>
-        <button type="submit" class="btn btn-primary">Register</button></a>
+        <button type="submit" class="btn btn-primary">Register</button>
+        <span>Already registered? <a href="/#/login" title="">Login here instead.</a></span>
       </form>
       
     </p>
@@ -29,6 +30,7 @@
 
   <div ng-show="error" class="alert alert-danger row">
     <span>{{ error.message }}</span>
+  </div>
   </div>
 <!-- 
   <form ng-submit="register()"

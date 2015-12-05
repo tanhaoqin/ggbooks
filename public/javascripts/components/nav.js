@@ -8,6 +8,7 @@
 		function($scope, $state, dataservice, auth){
 			$scope.isLoggedIn = auth.isLoggedIn;
 			$scope.currentUser = auth.currentUser;
+			$scope.isAdmin = auth.isAdmin;
 			$scope.logOut = auth.logOut;
 			$scope.update = function(){
 				$scope.isLoggedIn = auth.isLoggedIn;

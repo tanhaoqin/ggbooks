@@ -8,6 +8,12 @@ var User = function(){
 
 	this.salt = "";
 
+	this.type = "";
+
+	this.setType = function(type){
+		this.type = type;
+	}
+
 	this.setPassword = function(password){
 		this.salt = crypto.randomBytes(16).toString('hex');
 		this.hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64).toString('hex');
@@ -25,9 +31,9 @@ var User = function(){
 		token = jwt.sign({
 			_id: this._id,
 			username: this.username,
+			type: this.type, 
 			exp: parseInt(exp.getTime() / 1000),
 		}, 'SECRET')
-		console.log(token);
 		return token;
 	}
 };

@@ -37,6 +37,13 @@
 				return payload.username;
 			}
 		};
+		auth.isAdmin = function(){
+			if (auth.isLoggedIn()){
+				var token = auth.getToken();
+				var payload = JSON.parse($window.atob(token.split('.')[1]));
+				return payload.type == "a";
+			}
+		};
 		auth.register = function(user){
 			return $http.post('/register', user).success(function(data){
 				auth.saveToken(data.token);

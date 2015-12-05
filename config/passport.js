@@ -13,6 +13,7 @@ passport.use(new LocalStrategy(
         if (rows.length != 1){
             return done(null, false, { message: 'Incorrect username or password.' });
         } else {
+            user.setType(rows[0]['type']);
             return done(null, user);
         }
     });

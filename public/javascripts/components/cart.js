@@ -5,7 +5,7 @@
 	'$scope',
 	'$state',
 	'$stateParams',
-	'auth',
+	'auth',	
 	'dataservice',
 	function($scope, $state, $stateParams, auth, dataservice) {
 		$scope.update = function(){

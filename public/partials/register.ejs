@@ -1,7 +1,36 @@
+<div class="jumbotron">
+  <div class="container">
+    <h1>Welcome to ggbooks!</h1>
+    <p>Fill in the following fields to register, it's that easy!</p>
+    <p>
+      <form ng-submit="register()" role="form">
+        <div class="form-inline">
+          <input ng-model="user.username" type="email" class="form-control" placeholder="Email">
+          <input ng-model="user.password" type="password" class="form-control" placeholder="Password">
+          <input type="password" class="form-control" placeholder="Retype your password">
+        </div>
+        <p></p>
+        <div class="form-inline">
+          <input ng-model="user.name" type="text" class="form-control" placeholder="Full Name">
+          <input ng-model="user.credit" type="text" class="form-control" placeholder="Credit Card">
+        </div>
+        <p></p>
+        <div class="form-inline">
+          <input ng-model="user.address" type="text" class="form-control" placeholder="Delivery Address">
+          <input ng-model="user.phone" type="text" class="form-control" placeholder="Phone Number">
+        </div>
+        <p></p>
+        <button type="submit" class="btn btn-primary">Register</button></a>
+      </form>
+      
+    </p>
+  </div>
+</div>
+
   <div ng-show="error" class="alert alert-danger row">
     <span>{{ error.message }}</span>
   </div>
-
+<!-- 
   <form ng-submit="register()"
     style="margin-top:30px;">
     <h3>Register</h3>
@@ -19,4 +48,4 @@
       ng-model="user.password"></input>
     </div>
     <button type="submit" class="btn btn-primary">Register</button>
-  </form>
+  </form> -->

@@ -38,13 +38,15 @@ CREATE TABLE orders(
     date DATETIME DEFAULT CURRENT_TIMESTAMP,
     userID int NOT NULL,
     totalcost decimal(7,2) NOT NULL DEFAULT 0.00,
+    creditcard varchar(16) NOT NULL,
     FOREIGN KEY (userID) REFERENCES user(id)
 );
 
 CREATE TABLE orderItem(
-	orderid int PRIMARY KEY,
-	quantity int NOT NULL,
-    book char(13),
+	orderId int NOT NULL,
+	book char(13) NOT NULL,
+    quantity int NOT NULL,
+    PRIMARY KEY (orderId, book),
     FOREIGN KEY (orderid) REFERENCES orders(orderid),
     FOREIGN KEY (book) REFERENCES book(isbn13)
 );
@@ -69,6 +71,15 @@ CREATE TABLE rating(
     PRIMARY KEY (userID, fbID),
     FOREIGN KEY (userID) REFERENCES user(id),
     FOREIGN KEY (fbID) REFERENCES feedback(fbID)
+);
+
+CREATE TABLE cart(
+    book char(13),
+    userID int,
+    quantity int not null default 1,
+    PRIMARY KEY (userID, book),
+    FOREIGN KEY (userID) REFERENCES user(id),
+    FOREIGN KEY (book) REFERENCES book(isbn13)
 );
 
 DELIMITER $$

@@ -189,3 +189,13 @@ a {
 	margin-top: 15px;
 	clear: both;
 }
+
+.profile {
+	min-height: 32px;
+	line-height: 32px;
+}
+
+.profile-label {
+	font-weight: bold;
+	text-align: right;
+}

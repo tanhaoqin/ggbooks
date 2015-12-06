@@ -1,97 +1,95 @@
 <div class="container">
 	<h1>Hello, {{user}}</h1>
 	
-	<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="false">
-		<div class="panel panel-default">
-			<div class="panel-heading" role="tab" id="infoHeader">
-				<h4 class="panel-title">
-				<a role="button" data-toggle="collapse" data-parent="#accordion" data-target="#infoContent" aria-expanded="true" aria-controls="infoContent">
-					Account Information
-				</a>
-				</h4>
-			</div>
-			<div id="infoContent" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="infoHeader">
-				<div class="panel-body">
-					<form class="form-horizontal">
+	<div class="panel panel-default">
+		<div class="panel-heading" role="tab" id="infoHeader">
+			<h4 class="panel-title">
+			<a role="button" data-toggle="collapse" data-parent="#accordion" data-target="#infoContent" aria-expanded="true" aria-controls="infoContent">
+				Account Information
+			</a>
+			</h4>
+		</div>
+		<div id="infoContent" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="infoHeader">
+			<div class="panel-body">
+				<form class="form-horizontal">
 					<div class="form-group">
-							<label for="account-name" class="col-sm-2 control-label">Full Name</label>
-							<div class="col-sm-10">
-								<input type="email" class="form-control" id="account-name" placeholder="Full Name" value="Nikhil Sharma">
-							</div>
+						<label for="account-name" class="col-sm-2 control-label">Full Name</label>
+						<div class="col-sm-10">
+							<input type="email" class="form-control" id="account-name" placeholder="Full Name" value="Nikhil Sharma">
 						</div>
-						<div class="form-group">
-							<label for="account-email" class="col-sm-2 control-label">Email</label>
-							<div class="col-sm-10">
-								<input type="email" class="form-control" id="account-email" placeholder="Email" value="ns@ggbooks.com">
-							</div>
+					</div>
+					<div class="form-group">
+						<label for="account-email" class="col-sm-2 control-label">Email</label>
+						<div class="col-sm-10">
+							<input type="email" class="form-control" id="account-email" placeholder="Email" value="ns@ggbooks.com">
 						</div>
-						<div class="form-group">
-							<label for="account-password" class="col-sm-2 control-label">Password</label>
-							<div class="col-sm-10">
-								<input type="password" class="form-control" id="account-password" placeholder="Password hidden">
-							</div>
+					</div>
+					<div class="form-group">
+						<label for="account-password" class="col-sm-2 control-label">Password</label>
+						<div class="col-sm-10">
+							<input type="password" class="form-control" id="account-password" placeholder="Password hidden">
 						</div>
-						<div class="form-group">
-							<label for="account-retype" class="col-sm-2 control-label">Retype Password</label>
-							<div class="col-sm-10">
-								<input type="password" class="form-control" id="account-retype" placeholder="Retype your password">
-							</div>
+					</div>
+					<div class="form-group">
+						<label for="account-retype" class="col-sm-2 control-label">Retype Password</label>
+						<div class="col-sm-10">
+							<input type="password" class="form-control" id="account-retype" placeholder="Retype your password">
 						</div>
-						<div class="form-group">
-							<label for="account-address" class="col-sm-2 control-label">Shipping Address</label>
-							<div class="col-sm-10">
-								<input type="address" class="form-control" id="account-address" placeholder="Shipping Address" value="8 Somapah Road">
-							</div>
+					</div>
+					<div class="form-group">
+						<label for="account-address" class="col-sm-2 control-label">Shipping Address</label>
+						<div class="col-sm-10">
+							<input type="address" class="form-control" id="account-address" placeholder="Shipping Address" value="8 Somapah Road">
 						</div>
-						<div class="form-group">
-						    <div class="col-sm-offset-2 col-sm-10">
-						      <button type="submit" class="btn btn-primary">Change Details</button>
-						    </div>
-					  	</div>
-					</form>
-				</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<button type="submit" class="btn btn-primary">Change Details</button>
+						</div>
+					</div>
+				</form>
 			</div>
 		</div>
-		<div class="panel panel-default">
-			<div class="panel-heading" role="tab" id="ordersHeader">
-				<h4 class="panel-title">
-				<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" data-target="#ordersContent" aria-expanded="true" aria-controls="ordersContent">
-					Your Orders
-				</a>
-				</h4>
-			</div>
-			<div id="ordersContent" class="panel-collapse collapse" role="tabpanel" aria-labelledby="ordersHeader">
-				<div class="panel-body">
-					Orders here bitches
-				</div>
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-heading" role="tab" id="ordersHeader">
+			<h4 class="panel-title">
+			<a class="collapsed" role="button" data-toggle="collapse" data-target="#ordersContent" aria-expanded="true" aria-controls="ordersContent">
+				Your Orders
+			</a>
+			</h4>
+		</div>
+		<div id="ordersContent" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="ordersHeader">
+			<div class="panel-body">
+				Orders here bitches
 			</div>
 		</div>
-		<div class="panel panel-default">
-			<div class="panel-heading" role="tab" id="feedbackHeader">
-				<h4 class="panel-title">
-				<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" data-target="#feedbackContent" aria-expanded="true" aria-controls="feedbackContent">
-					Your Feedbacks
-				</a>
-				</h4>
-			</div>
-			<div id="feedbackContent" class="panel-collapse collapse" role="tabpanel" aria-labelledby="feedbackHeader">
-				<div class="panel-body">
-					Feedbacks here muahaha
-				</div>
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-heading" role="tab" id="feedbackHeader">
+			<h4 class="panel-title">
+			<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" data-target="#feedbackContent" aria-expanded="true" aria-controls="feedbackContent">
+				Your Feedbacks
+			</a>
+			</h4>
+		</div>
+		<div id="feedbackContent" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="feedbackHeader">
+			<div class="panel-body">
+				Feedbacks here muahaha
 			</div>
 		</div>
-		<div class="panel panel-default">
-			<div class="panel-heading" role="tab" id="billingHeader">
-				<h4 class="panel-title">
-				<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" data-target="#billingContent" aria-expanded="true" aria-controls="billingContent">
-					Billing Details
-				</a>
-				</h4>
-			</div>
-			<div id="billingContent" class="panel-collapse collapse" role="tabpanel" aria-labelledby="billingHeader">
-				<div class="panel-body">
-					Feedbacks here muahaha
-				</div>
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-heading" role="tab" id="billingHeader">
+			<h4 class="panel-title">
+			<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" data-target="#billingContent" aria-expanded="true" aria-controls="billingContent">
+				Billing Details
+			</a>
+			</h4>
+		</div>
+		<div id="billingContent" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="billingHeader">
+			<div class="panel-body">
+				Feedbacks here muahaha
 			</div>
 		</div>
 	</div>

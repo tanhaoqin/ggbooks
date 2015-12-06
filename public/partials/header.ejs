@@ -19,7 +19,7 @@
             <li ng-hide="isLoggedIn()"><a href="#/login">Sign In</a></li>
             <li ng-hide="isLoggedIn()"><a href="#/register">Register</a>
             </li>
-            <li ng-show="isLoggedIn()"><a href="#">Hello, {{ currentUser()}}</a></li>
+            <li ng-show="isLoggedIn()"><a href="#/profile">Hello, {{ currentUser()}}</a></li>
             <li ng-show="isAdmin()"><a href="#/admin">Admin Panel</a></li>
             <li ng-show="isLoggedIn()"><a href="#/cart">Shopping Cart</a></li>
             <li ng-show="isLoggedIn()" ng-click="logOut()"><a href="#/">Log Out</a></li>

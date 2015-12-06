@@ -45,6 +45,10 @@
 				url: '/cart',
 				templateUrl: 'partials/cart.ejs',
 				controller: 'CartCtrl'
+			}).state('profile', {
+				url: '/profile',
+				templateUrl: 'partials/profile.ejs',
+				controller: 'ProfileCtrl'
 			});
 		$urlRouterProvider.otherwise('home');
 	}]);

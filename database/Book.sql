@@ -27,8 +27,46 @@ INSERT into feedback values (DEFAULT,DEFAULT,9,NULL,4,'9780380973651',DEFAULT);
 
 INSERT into rating values (3,2,3);
 
+INSERT into cart values ('9780380973651',3,DEFAULT);
+INSERT into cart values ('9780380973651',4,DEFAULT);
+INSERT into cart values ('9780571314263',3,DEFAULT);
+INSERT into cart values ('9781118951309',3,DEFAULT);
+select * from cart;
+
+insert into orders 
+values (default, default, default, 4, 
+(select sum(b.price)*c.quantity from book b join cart c where b.isbn13=c.book and c.userID=4),
+'876543');
+insert into orderItem 
+select o.orderid, c.book,c.quantity from orders o join cart c where o.userID=c.userID;
+delete from cart where userID=4;
+
+select * from book b join cart c where c.book=b.isbn13 and userID=3;
+
 select * from book where title like '%Neil%' or author like '%Neil%';
 select fbID,date,score,comment,userID from  feedback where book like '9780380973651';
 select * from user u where u.email='ks@gmail.com' and u.password='pw1';
 
+select * from feedback where book like '9780380973651' ORDER BY avgUseful DESC  LIMIT 1, 10;
+
+select * from orders o join orderItem oi join book b where oi.book=b.isbn13 AND o.orderId=oi.orderId AND o.userID= 3;
+select * from feedback f join book b where f.book=b.isbn13 AND f.userID = 3;
+
+select * from orders o join orderItem oi join book b 
+where oi.book=b.isbn13 AND o.orderId=oi.orderId AND o.userID in
+(SELECT customer.userID
+FROM (customer INNER JOIN (orders INNER JOIN orderItem))
+WHERE orderItem.book = '9780380973651');
+
+
+select book from orders o join orderItem oi where o.orderid=oi.orderid AND userId=4;
+
+select * from orders o2 join orderItem oi2 join book b where o2.orderid=oi2.orderid AND oi2.book=b.isbn13 AND o2.orderid in
+(select o1.orderid from orders o1 join orderItem oi1 where o1.orderid=oi1.orderid AND book in
+(select book from orders o join orderItem oi where o.orderid=oi.orderid AND userId=4) AND o1.userID !=4);
+
+
+select * from cart;
+select * from customer;
+select * from rating;
 select * from feedback;

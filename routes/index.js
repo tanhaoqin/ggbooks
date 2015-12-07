@@ -9,13 +9,13 @@ var connection = require('../database/database.js');
 // var auth = jwt({secret: 'SECRET', userProperty: 'payload'});
 
 router.post('/register', function(req, res, next){
-	if(!req.body.password || !req.body.email || !req.body['credit_card'] ){
+	if(!req.body.password || !req.body.username || !req.body['credit_card'] ){
 		return res.status(400).json({message: "Please fill out all the fields"});
 	}
-	
+
 	name = req.body.name;
 	password = req.body.password;
-	email = req.body.email;
+	email = req.body.username;
 	credit_card = req.body['credit_card'];
 	phone = req.body.phone;
 	address = req.body.address;

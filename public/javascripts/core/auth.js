@@ -16,6 +16,7 @@
 		}
 
 		auth.saveToken = function(token){
+			console.log("token saved");
 			$window.localStorage['ggbooks-token'] = token;
 		};
 		auth.getToken = function(){
@@ -46,11 +47,10 @@
 		};
 		auth.register = function(user){
 			return $http.post('/register', user).success(function(data){
-				auth.saveToken(data.token);
+				console.log(data);
 			});
 		};
 		auth.logIn = function(user){
-			console.log(user);
 			return $http.post('/login', user).success(function(data){
 				auth.saveToken(data.token);
 				auth.notify();
@@ -69,11 +69,14 @@
 		'auth',
 		function($scope, $state, auth){
 			$scope.user = {};
+			$scope.trackRegister = function(data){
+				console.log(data);
+			}
 			$scope.register = function(){
 				auth.register($scope.user).error(function(error){
 					$scope.error = error;
 				}).then(function(){
-					$state.go('home');
+					$scope.logIn();
 				});
 			};
 			$scope.logIn = function(){

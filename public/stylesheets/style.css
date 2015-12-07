@@ -199,3 +199,7 @@ a {
 	font-weight: bold;
 	text-align: right;
 }
+
+.alert {
+	color: #FF0000;
+}

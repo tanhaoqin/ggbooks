@@ -7,12 +7,13 @@
         <div class="form-inline">
           <input ng-model="user.username" type="email" class="form-control" placeholder="Email">
           <input ng-model="user.password" type="password" class="form-control" placeholder="Password">
-          <input type="password" class="form-control" placeholder="Retype your password">
+          <input ng-model="password" type="password" class="form-control" placeholder="Retype your password">
+          <span ng-show="(user.password!=password)&&password!=null" class="alert"><i class="fa fa-exclamation-triangle"></i> Password does not match.</span>
         </div>
         <p></p>
         <div class="form-inline">
           <input ng-model="user.name" type="text" class="form-control" placeholder="Full Name">
-          <input ng-model="user.credit" type="text" class="form-control" placeholder="Credit Card">
+          <input ng-model="user.credit_card" type="text" class="form-control" placeholder="Credit Card">
         </div>
         <p></p>
         <div class="form-inline">
@@ -23,15 +24,12 @@
         <button type="submit" class="btn btn-primary">Register</button>
         <span>Already registered? <a href="/#/login" title="">Login here instead.</a></span>
       </form>
-      
+      <div ng-show="error" class="alert alert-danger row">
+    <span>{{ error.message }}</span>
+  </div>
     </p>
   </div>
 </div>
-
-  <div ng-show="error" class="alert alert-danger row">
-    <span>{{ error.message }}</span>
-  </div>
-  </div>
 <!-- 
   <form ng-submit="register()"
     style="margin-top:30px;">

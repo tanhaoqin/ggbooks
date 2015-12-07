@@ -7,11 +7,34 @@ var auth = jwt({secret: 'SECRET', userProperty: 'payload'});
 var connection = require('../database/database.js');
 
 /*
-connection.query('INSERT into feedback (score, comment, userID, book) values (?,?,?,?);', [10, "nil", 4, '9780007179732'], function(err,results) {
-	if (err) throw err;
-	console.log(results);
-});
+select feedback.fbID, feedback.date, feedback.score, feedback.comment, customer.fullname, customer.userID from feedback
+left join customer on (feedback.userID = customer.userID)
+where book like '9780007179732' 
+ORDER BY avgUseful 
+DESC  LIMIT 0, 1;
 */
+
+isbn13 = '9780007179732';
+start = 0;
+end = 1;
+
+responseMessage = {}
+try{
+	query = "select feedback.fbID, feedback.date, feedback.score, feedback.comment, customer.fullname, customer.userID from feedback left join customer on (feedback.userID = customer.userID) where book like ?  ORDER BY avgUseful  DESC  LIMIT ?, ?;"
+	connection.query(query,[isbn13, start, end], function(err, rows, fields) {
+		if (err) throw err;
+		responseMessage.feedback = rows;
+		// res.send(responseMessage);
+		// console.log(rows);
+		console.log(responseMessage);
+	});
+} catch (err){
+	console.log(err);
+	responseMessage.feedback = [];
+	// res.send(responseMessage)
+}
+
+
 
 router.get('/book', auth, function(req,res){
 	console.log("RESTFUL API: \t book");
@@ -45,6 +68,53 @@ router.get('/book', auth, function(req,res){
 		responseMessage.status = 0;
 		res.send(responseMessage);
 	}
+});
+
+router.get('/books', auth, function(req,res){
+	console.log("RESTFUL API: \t books");
+	search = req.query.search;
+	responseMessage = {}
+	try{
+		connection.query("select * from book where title like '%"+search+"%' or author like '%"+search+"%';", function(err, rows, fields) {
+			if (err) throw err;
+			if (rows.length == 0){
+				responseMessage.status = 0;
+				res.send(responseMessage);
+			} else{
+				responseMessage.status = 1;
+				responseMessage.book = rows;
+				res.send(responseMessage);
+			}
+		});
+	} catch(err){
+		console.log(err);
+		responseMessage.status = 0;
+		res.send(responseMessage);
+	}
+
+});
+
+router.get('/feedback', auth, function(req,res){
+	console.log("RESTFUL API: \t feedback");
+	isbn13 = req.query.isbn13;
+	start = req.query.start;
+	end = req.query.end;
+
+	responseMessage = {}
+	try{
+		query = "select feedback.fbID, feedback.date, feedback.score, feedback.comment, customer.fullname, customer.userID from feedback left join customer on (feedback.userID = customer.userID) where book like ?  ORDER BY avgUseful  DESC  LIMIT ?, ?;"
+		connection.query(query,[isbn13, start, end], function(err, rows, fields) {
+			if (err) throw err;
+			responseMessage.feedback = rows;
+			res.send(responseMessage);
+		});
+	} catch (err){
+		console.log(err);
+		responseMessage.feedback = [];
+		res.send(responseMessage)
+	}
+
+
 });
 
 

@@ -74,7 +74,7 @@
 					</div>
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-10">
-							<button type="submit" class="btn btn-primary">Change Details</button>
+							<button type="submit" class="btn btn-primary">Change Password</button>
 						</div>
 					</div>
 				</form>
@@ -208,9 +208,40 @@
 			</h4>
 		</div>
 		<div id="billingContent" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="billingHeader">
-			<div class="panel-body">
-				Feedbacks here muahaha
+			<div class="panel-body list-group"><div class="list-group-item row">
+				<div class="row">
+					<div class="col-sm-2">
+						<div class="thumbnail">
+							<img src="https://dut2up1aqgazz.cloudfront.net/3a33a793/m/9780380973651.jpg" alt="">
+						</div>
+					</div>
+					<div class="col-sm-7">
+						<p><span class="details-label">Title: </span>American Gods</p>
+						<p><span class="details-label">Author: </span>Neil</p>
+						<p><span class="details-label">ISBN-13: </span>1234</p>
+						<div class="rating-container">
+							<span class="fa-stack" ng-repeat="i in countFullStars(8) track by $index">
+								<i class="fa fa-fw fa-lg fa-star fa-stack-1x yellow"></i>
+							</span>
+							<span class="fa-stack" ng-repeat="i in countHalfStars(8) track by $index">
+								<i class="fa fa-fw fa-lg fa-star-half fa-stack-1x"></i>
+								<i class="fa fa-fw fa-lg fa-star fa-stack-1x"></i>
+							</span>
+							<span class="fa-stack" ng-repeat="i in countEmptyStars(8) track by $index">
+								<i class="fa fa-fw fa-lg fa-star fa-stack-1x"></i>
+							</span>
+						</div>
+						<h6 class="feedback-content">Rated on {{feedback.date | date:"dd-mm-yy"}}</h6>
+						<p class="feedback-content"><br>
+							<span ng-if="feedback.comment != null">{{feedback.comment}}</span>
+							<span class="feedback-none" ng-if="feedback.comment == null">No comments.</span>
+						</p>
+						<p>You rated this feedback as useful.</p>
+					</div>
+				</div>
+				
 			</div>
 		</div>
 	</div>
+</div>
 </div>

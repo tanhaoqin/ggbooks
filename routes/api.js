@@ -6,34 +6,6 @@ var auth = jwt({secret: 'SECRET', userProperty: 'payload'});
 
 var connection = require('../database/database.js');
 
-/*
-select feedback.fbID, feedback.date, feedback.score, feedback.comment, customer.fullname, customer.userID from feedback
-left join customer on (feedback.userID = customer.userID)
-where book like '9780007179732' 
-ORDER BY avgUseful 
-DESC  LIMIT 0, 1;
-*/
-
-isbn13 = '9780007179732';
-start = 0;
-end = 1;
-
-responseMessage = {}
-try{
-	query = "select feedback.fbID, feedback.date, feedback.score, feedback.comment, customer.fullname, customer.userID from feedback left join customer on (feedback.userID = customer.userID) where book like ?  ORDER BY avgUseful  DESC  LIMIT ?, ?;"
-	connection.query(query,[isbn13, start, end], function(err, rows, fields) {
-		if (err) throw err;
-		responseMessage.feedback = rows;
-		// res.send(responseMessage);
-		// console.log(rows);
-		console.log(responseMessage);
-	});
-} catch (err){
-	console.log(err);
-	responseMessage.feedback = [];
-	// res.send(responseMessage)
-}
-
 
 
 router.get('/book', auth, function(req,res){

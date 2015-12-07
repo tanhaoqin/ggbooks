@@ -1,0 +1,169 @@
+<div class="container">
+	<h1>Hello, Admin</h1>
+	
+	<div class="panel panel-default">
+		<div class="panel-heading" role="tab" id="infoHeader">
+			<h4 class="panel-title">
+			<a role="button" data-toggle="collapse" data-parent="#accordion" data-target="#infoContent" aria-expanded="true" aria-controls="infoContent">
+				Add Books
+			</a>
+			</h4>
+		</div>
+		<div id="infoContent" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="infoHeader">
+			<div class="panel-body">
+				<form class="form-horizontal">
+					<div class="form-group">
+						<label for="account-name" class="col-sm-2 control-label">Title</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" id="account-name" placeholder="Title" value="">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="account-email" class="col-sm-2 control-label">ISBN13</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" id="account-email" placeholder="ISBN13" value="">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="account-password" class="col-sm-2 control-label">Author</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" id="account-password" placeholder="Author">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="account-retype" class="col-sm-2 control-label">Copies</label>
+						<div class="col-sm-10">
+							<input type="number" class="form-control" id="account-retype" placeholder="Copies">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="account-retype" class="col-sm-2 control-label">Year</label>
+						<div class="col-sm-10">
+							<input type="number" class="form-control" id="account-retype" placeholder="Year">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="account-address" class="col-sm-2 control-label">Image URL</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" id="account-credit" placeholder="Image URL" value="">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="account-address" class="col-sm-2 control-label">Subject</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" id="account-address" placeholder="Subject" value="">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<button type="submit" class="btn btn-primary">Insert Book</button>
+						</div>
+					</div>
+					<hr>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="panel panel-default">
+		<div class="panel-heading" role="tab" id="infoHeader">
+			<h4 class="panel-title">
+			<a role="button" data-toggle="collapse" data-parent="#accordion" data-target="#infoContent" aria-expanded="true" aria-controls="infoContent">
+				Increase Quantity
+			</a>
+			</h4>
+		</div>
+		<div id="infoContent" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="infoHeader">
+			<div class="panel-body">
+				<form class="form-horizontal">
+					<div class="form-group">
+						<label for="account-email" class="col-sm-2 control-label">ISBN13</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" id="account-email" placeholder="ISBN13" value="">
+							<!-- Add search here. When search done, change to book info and increase quantity -->
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<button type="submit" class="btn btn-primary">Search For Book</button>
+						</div>
+					</div>
+					<hr>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-heading" role="tab" id="ordersHeader">
+			<h4 class="panel-title">
+			<a class="collapsed" role="button" data-toggle="collapse" data-target="#ordersContent" aria-expanded="true" aria-controls="ordersContent">
+				Statistics
+			</a>
+			</h4>
+		</div>
+		<div id="ordersContent" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="ordersHeader">
+			<div class="panel-body list-group">
+				<div class="list-group-item">
+					<div class="row">
+						<div class="col-sm-2 profile profile-label">
+							<span>Title</span>
+						</div>
+						<div class="col-sm-10 profile">
+							<span>Never Let You Go</span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-2 profile profile-label">
+							<span>Date</span>
+						</div>
+						<div class="col-sm-10 profile">
+							<span>11/11/11</span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-2 profile profile-label">
+							<span>Price </span>
+						</div>
+						<div class="col-sm-10 profile">
+							<span>$1.00</span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-2 profile profile-label">
+							<span>Quantity Ordered</span>
+						</div>
+						<div class="col-sm-10 profile">
+							<span>2</span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-2 profile profile-label">
+							<span>Total Price</span>
+						</div>
+						<div class="col-sm-10 profile">
+							<span>$2.00</span>
+						</div>
+					</div>
+				</div>
+				<div class="list-group-item">
+					<div class="row">
+						<div class="col-sm-2 profile profile-label">
+							<span>Title</span>
+						</div>
+						<div class="col-sm-10 profile">
+							<span>Never Let You Go</span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-2 profile profile-label">
+							<span>Date</span>
+						</div>
+						<div class="col-sm-10 profile">
+							<span>11/11/11</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

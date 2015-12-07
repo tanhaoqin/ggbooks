@@ -23,6 +23,11 @@
 	  	$stateParams.bookId = isbn13;
 	  	$state.go('book');
 	  }
-
+	  $scope.sortArray =  function(sortType){
+	  	$scope.order = function(predicate, reverse) {
+   			 $scope.featured = orderBy($scope.featured, predicate, reverse);
+  		};
+  		$scope.order(sortType,false);
+		}
 	}]);
 })();

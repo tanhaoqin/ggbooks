@@ -217,3 +217,7 @@ a {
 .details-label{
 	font-weight: bold;
 }
+
+.sorting {
+	display: inline-block;
+}

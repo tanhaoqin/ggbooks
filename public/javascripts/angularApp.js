@@ -5,7 +5,8 @@ var app = angular.module('ggbooks',
 	'ggbooks.search',
 	'ggbooks.book',
 	'ggbooks.cart',
-	'ggbooks.profile']);
+	'ggbooks.profile',
+	'ggbooks.admin']);
 
 
 

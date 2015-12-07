@@ -8,6 +8,7 @@
 	function($scope, $stateParams, dataservice){
 
 		$scope.init = function(){
+			$scope.show = false;
 			$scope.bookId = $stateParams.bookId
 			$scope.qtySelected = 1;
 			dataservice.getBook($scope.bookId, function(res){
@@ -55,6 +56,14 @@
 		$scope.postFeedbackRating =  function(rating, feedback, user){
 			console.log('test', rating, feedback, user);
 			dataservice.postFeedbackRating(rating, feedback, user);
+		}
+
+		$scope.expand = function(){
+			$scope.show = true;
+		}
+
+		$scope.hide = function(){
+			$scope.show = false;
 		}
 
 	}]);

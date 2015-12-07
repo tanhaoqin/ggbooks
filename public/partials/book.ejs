@@ -1,10 +1,11 @@
 <div class="container">
 	<div class="row">
 		<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-			<img src="/images/American-Gods.jpg" alt="book.title">
+			<img src="{{book.image_url}}" alt="book.title">
 		</div>
 		<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-			<h2>{{book.title}}</h2>
+			<h2>{{book.title}} ({{book.year}})<small ng-if="book.format=='H'"> - Hardcover</small><small ng-if="book.format=='p'"> - Paperback</small><small></small></h2>
+			<h4>by {{book.author}}</h4>
 			<div class="rating-container">
 				<span class="fa-stack" ng-repeat="i in countFullStars(book.avgScore) track by $index">
 				     <i class="fa fa-fw fa-lg fa-star fa-stack-1x yellow"></i>
@@ -17,8 +18,11 @@
 				     <i class="fa fa-fw fa-lg fa-star fa-stack-1x"></i>
 				</span>
 			</div>
-			<p>{{book.desc}}</p>
-			<p>{{book.subject}}</p>
+			<hr>
+			<h4>Summary</h4>
+			<p class="collapse-group" ng-if="book.summary!=null">
+				<span>{{(book.summary).substring(0,1000)}}</span><span ng-if="book.summary.length>1000" ng-show="show">{{(book.summary).substring(1000)}}</span><span ng-if="book.summary.length>1000" ng-hide="show">...</span><a class="btn" ng-click="expand()" ng-if="book.summary.length>1000" ng-hide="show">Show more</a><a class="btn" ng-click="hide()" ng-if="book.summary.length>1000" ng-show="show">Show less</a>
+			</p>
 		</div>
 		<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
 			<h2>${{displayedPrice}}</h2>
@@ -32,7 +36,15 @@
 		</div>
 	</div>
 	<hr>
-	<div id="feedback" class="row">
+	<div class="book-card" class="row">
+		<h3>Details</h3>
+		<p ng-if="book.publisher!=null"><span class="details-label">Publisher: </span>{{book.publisher}}</p>
+		<p><span class="details-label">ISBN-13: </span>{{book.isbn13}}</p>
+		<p ng-if="book.subject!=null"><span class="details-label">Subject: </span>{{book.subject}}</p>
+		<p ng-if="book.keywords!=null"><span class="details-label">Key words: </span>{{book.keywords}}</p>
+	</div>
+	<hr>
+	<div class="book-card" class="row">
 		<h3>Feedback</h3>
 		<p>Top <span class="form-inline">
 			  <select ng-model="feedbackCount" ng-change="updateQuantity(qty)"class="form-control" value="5">

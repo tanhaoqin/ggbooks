@@ -127,6 +127,12 @@ a {
 	vertical-align: bottom;
 }
 
+
+
+.feedback-none{
+	font-style: italic;
+}
+
 .feedback-user > span{
 	vertical-align: middle;
 }

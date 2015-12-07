@@ -20,7 +20,7 @@
 			</div>
 			<hr>
 			<h4>Summary</h4>
-			<p class="collapse-group" ng-if="book.summary!=null">
+			<p ng-if="book.summary!=null">
 				<span>{{(book.summary).substring(0,1000)}}</span><span ng-if="book.summary.length>1000" ng-show="show">{{(book.summary).substring(1000)}}</span><span ng-if="book.summary.length>1000" ng-hide="show">...</span><a class="btn" ng-click="expand()" ng-if="book.summary.length>1000" ng-hide="show">Show more</a><a class="btn" ng-click="hide()" ng-if="book.summary.length>1000" ng-show="show">Show less</a>
 			</p>
 		</div>
@@ -72,11 +72,12 @@
 				</span>
 			</div>
 			<div class="feedback-user"><span>by {{feedback.userID}}</span></div>
-			<p><br>
+			<h6 class="feedback-content">Rated on {{feedback.date | date:"dd-mm-yy"}}</h6>
+			<p class="feedback-content"><br>
 				<span ng-if="feedback.comment != null">{{feedback.comment}}</span>
-				<span ng-if="feedback.comment == null"><i>No comments.</i></span>
+				<span class="feedback-none" ng-if="feedback.comment == null">No comments.</span>
 			</p>
-			<p>
+			<p class="feedback-content">
 				Rate this review: 
 				<button type="button" class="btn btn-default" ng-click = "postFeedbackRating(2, feedback.fbID, feedback.userID)">Good</button>
 				<button type="button" class="btn btn-default" ng-click = "postFeedbackRating(0, feedback.fbID, feedback.userID)">Bad</button>

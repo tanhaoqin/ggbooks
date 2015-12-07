@@ -8,6 +8,7 @@
 	function($scope, $stateParams, dataservice){
 
 		$scope.init = function(){
+			$scope.Date = Date;
 			$scope.show = false;
 			$scope.bookId = $stateParams.bookId
 			$scope.qtySelected = 1;

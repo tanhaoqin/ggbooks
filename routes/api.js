@@ -85,8 +85,6 @@ router.get('/feedback', auth, function(req,res){
 		responseMessage.feedback = [];
 		res.send(responseMessage)
 	}
-
-
 });
 
 
@@ -131,6 +129,74 @@ router.post('/feedback/rating', auth ,function (req, res) {
 		res.send(responseMessage);
 	}
 });
+
+router.post('/cart', auth, function (req, res) {
+	console.log("RESTFUL API: \t cart");
+	console.log("hello");
+	console.log(req);
+	isbn13 = req.query.isbn13;
+	user = req.query.user;
+	quantity = req.query.quantity;
+
+	responseMessage = {};
+	try{
+		connection.query('INSERT into cart (user, book,quantity) values (?,?,?);', [user, ISBN13, quantity], function(err,rows, fields) {
+			if (err) throw err;
+			responseMessage.status = 1;
+			res.send(responseMessage);
+		});
+	} catch (err){
+		console.log(err);
+		responseMessage.status = 0;
+		res.send(responseMessage);
+	}
+});
+
+router.get('/cart', auth, function(req,res){
+	console.log("RESTFUL API: \t cart");
+	user = req.query.user;
+
+	responseMessage = {}
+	try{
+		query = "select * from book b join cart c where c.book=b.isbn13 and userID=?;"
+		connection.query(query,[user], function(err, rows, fields) {
+			if (err) throw err;
+			responseMessage.cart = rows;
+			res.send(responseMessage);
+		});
+	} catch (err){
+		console.log(err);
+		responseMessage.cart = [];
+		res.send(responseMessage)
+	}
+});
+
+router.post('/order', auth, function (req, res) {
+	console.log("RESTFUL API: \t order");
+	console.log("hello");
+	console.log(req);
+	user = req.query.user;
+
+	responseMessage = {};
+	try{
+		connection.query('INSERT into orders (userID, totalcost, creditcard) values (?, (select sum(b.price)*c.quantity from book b join cart c where b.isbn13=c.book and c.userID=?),(select creditcard from user where userID=?)));', [user,user,user], function(err,rows, fields) {
+			if (err) throw err;	
+		});
+		connection.query('INSERT into orderItem select o.orderid, c.book,c.quantity from orders o join cart c where o.userID=c.userID AND o.userID=?;', [user], function(err,rows, fields) {
+			if (err) throw err;	
+		});
+		connection.query('DELETE from cart where userID=?;', [user], function(err,rows, fields) {
+			if (err) throw err;	
+		});
+		responseMessage.status = 1;
+		res.send(responseMessage);
+	} catch (err){
+		console.log(err);
+		responseMessage.status = 0;
+		res.send(responseMessage);
+	}
+});
+
 
 
 

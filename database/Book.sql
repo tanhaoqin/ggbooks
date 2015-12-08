@@ -107,6 +107,7 @@ where oi.book=b.isbn13 AND o.orderId=oi.orderId AND o.userID in
 FROM (customer INNER JOIN (orders INNER JOIN orderItem))
 WHERE orderItem.book = '9780380973651');
 
+select * from cart;
 
 select book from orders o join orderItem oi where o.orderid=oi.orderid AND userId=4;
 

@@ -19,10 +19,22 @@ router.get('/book', auth, function(req,res){
 			
 			if (rows.length == 0){
 				responseMessage.status = 0;
-				res.send(responseMessage);
 			} else{
 				responseMessage = rows[0];
 				responseMessage.status = 1;
+
+				connection.query('select * from feedback where book LIKE ? AND userID like ?;', [isbn13,user] , function(err, rows, fields) {	
+					if (err) throw err;
+				
+					if (rows.length == 0){
+						responseMessage.fb_sub = 0;
+					} else{
+						responseMessage.fb_sub = 1;
+					}
+
+					res.send(responseMessage);
+
+				});
 			}
 		});
 	} catch (err){
@@ -42,12 +54,11 @@ router.get('/books', auth, function(req,res){
 			if (err) throw err;
 			if (rows.length == 0){
 				responseMessage.status = 0;
-				res.send(responseMessage);
 			} else{
 				responseMessage.status = 1;
 				responseMessage.book = rows;
-				res.send(responseMessage);
 			}
+			res.send(responseMessage);
 		});
 	} catch(err){
 		console.log(err);
@@ -83,7 +94,7 @@ router.post('/feedback', auth, function (req, res) {
 	console.log("RESTFUL API: \t feedback");
 	isbn13 = req.body.isbn13;
 	user = req.payload._id;
-	score = req.body.score;
+	score = parseInt(req.body.score);
 	comment = req.body.comment;
 
 	responseMessage = {};
@@ -104,7 +115,7 @@ router.post('/feedback/rating', auth ,function (req, res) {
 	console.log("RESTFUL API: \t feedback/rating");
 	user = req.payload._id;
 	feedback = req.body.feedback;
-	rating = req.body.rating;
+	rating = parseInt(req.body.rating);
 
 	responseMessage = {};
 	try{
@@ -189,33 +200,52 @@ router.post('/order', auth, function (req, res) {
 
 	responseMessage = {};
 	try{
-		connection.query('INSERT into orders (userID, totalcost, creditcard) values (?, (select sum(b.price)*c.quantity from book b join cart c where b.isbn13=c.book and c.userID=?),(select creditcard from user where userID=?)));', [user,user,user], function(err,rows, fields) {
-			if (err) throw err;
-			
-			if (rows.length == 0){
-				responseMessage.status = 0;
-				res.send(responseMessage);
-			} else{
-	
-				connection.query('INSERT into orderItem select o.orderid, c.book,c.quantity from orders o join cart c where o.userID=c.userID AND o.userID=?;', [user], function(err,rows, fields) {
-					if (rows.length == 0){
-						responseMessage.status = 0;
-						res.send(responseMessage);
-					} else{
-						connection.query('DELETE from cart where userID=?;', [user], function(err,rows, fields) {
-				if (err) throw err;	
-			});
-			
-			});
-			responseMessage.status = 1;
-			res.send(responseMessage);
-			});
+		connection.beginTransaction(function(err) {
+		  if (err) { throw err; }
+		  connection.query('INSERT into orders (userID, totalcost, creditcard) values (?, (select sum(b.price)*c.quantity from book b join cart c where b.isbn13=c.book and c.userID=?),(select creditcard from user where userID=?)));', [user,user,user], function(err, result) {
+		    if (err) { 
+		      connection.rollback(function() {
+		        throw err;
+		      });
+		    }
+
+		    console.log('Order ' + result.insertId + ' added';);
+
+		    connection.query('INSERT into orderItem select o.orderid, c.book,c.quantity from orders o join cart c where o.userID=c.userID AND o.userID=?;', [user], function(err, result) {
+		      if (err) { 
+		        connection.rollback(function() {
+		          throw err;
+		        });
+		      }  
+		      console.log('OrderItem ' + result.insertId + ' added';);
+
+			    connection.query('DELETE from cart where userID=?;', [user], function(err, result) {
+			      if (err) { 
+			        connection.rollback(function() {
+			          throw err;
+			        });
+			      }  
+			      console.log('CartItem ' + result.insertId + ' delete';);
+			      connection.commit(function(err) {
+			        if (err) { 
+			          connection.rollback(function() {
+			            throw err;
+			          });
+			        }
+			        responseMessage.status = 1;
+							res.send(responseMessage);
+		        	console.log('success!');
+		      	});
+		      });
+		    });
+		  });
+		});
 	} catch (err){
 		console.log(err);
 		responseMessage.status = 0;
-		res.send(responseMessage);
+		res.send(responseMessage)
 	}
-}
+});
 
 router.get('/user', auth, function(req,res){
 	console.log("RESTFUL API: \t user");

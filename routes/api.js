@@ -209,7 +209,7 @@ router.post('/order', auth, function (req, res) {
 		      });
 		    }
 
-		    console.log('Order ' + result.insertId + ' added';);
+		    console.log('Order ' + result.insertId() + ' added');
 
 		    connection.query('INSERT into orderItem select o.orderid, c.book,c.quantity from orders o join cart c where o.userID=c.userID AND o.userID=?;', [user], function(err, result) {
 		      if (err) { 
@@ -217,7 +217,7 @@ router.post('/order', auth, function (req, res) {
 		          throw err;
 		        });
 		      }  
-		      console.log('OrderItem ' + result.insertId + ' added';);
+		      console.log('OrderItem ' + result.insertId() + ' added');
 
 			    connection.query('DELETE from cart where userID=?;', [user], function(err, result) {
 			      if (err) { 
@@ -225,7 +225,7 @@ router.post('/order', auth, function (req, res) {
 			          throw err;
 			        });
 			      }  
-			      console.log('CartItem ' + result.insertId + ' delete';);
+			      console.log('CartItem ' + result.insertId() + ' delete');
 			      connection.commit(function(err) {
 			        if (err) { 
 			          connection.rollback(function() {

@@ -10,6 +10,8 @@
 	function($scope, $state, $stateParams, auth, dataservice) {
 		$scope.update = function(){
 			$scope.currentUser = auth.currentUser();
+			$scope.orderStatus = false;
+			$scope.recommendedBooks = ""
 			// $scope.cart = dataservice.getCart();
 			$scope.cart = dataservice.getSearchResults();
 		}
@@ -21,7 +23,12 @@
 
 	  $scope.orderBooks = function(cart){
 	  	$stateParams.cart = cart;
-	  	$state.go('order');
+			$scope.orderStatus = true;
+			$scope.getRecommendations();
+	  }
+
+	  $scope.getRecommendations = function() {
+	  	$scope.recommendedBooks = dataservice.topSellers;
 	  }
 
 	}]);

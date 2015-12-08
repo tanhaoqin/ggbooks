@@ -84,8 +84,12 @@
 			//$http.post('/api/order')
 		}
 
-		o.getUser = function(){
-			// $http.get('/api/user')
+		o.getUser = function(callback){
+			$http.get('/api/user', {
+				headers: {Authorization: 'Bearer '+auth.getToken()}
+			}).success(function(res){
+				callback(res);
+			})
 		}
 
 		o.insertBook = function(book, callback) {

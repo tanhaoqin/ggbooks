@@ -59,7 +59,7 @@
 				<div class="form-group">
 					<label class="control-label">Your Comments</label><textarea ng-model="feedback.comment" class="form-control" rows="5" placeholder="Your comments here."></textarea>
 				</div>
-				<button ng-disabled="feedbackWaiting" class="btn btn-primary">Shoot away!</button>
+				<button ng-disabled="feedbackWaiting" class="btn btn-primary">Shoot away!</button> <i ng-show="feedbackWaiting" class="fa fa-spinner fa-pulse"></i>
 			</form>
 		</div>
 		<p>Top <span class="form-inline">

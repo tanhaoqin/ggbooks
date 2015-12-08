@@ -10,6 +10,9 @@
 	function($scope, $state, $stateParams, auth, dataservice) {
 		$scope.init = function(){
 			$scope.user = auth.currentUser();
+			dataservice.getUser(function(res){
+				console.log(res);
+			});
 		};
 
 		$scope.countFullStars = function(num){

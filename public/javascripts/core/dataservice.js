@@ -88,6 +88,17 @@
 			// $http.get('/api/user')
 		}
 
+		o.insertBook = function(book, callback) {
+			$http.post('/api/admin/book', book, {
+				headers: {Authorization: 'Bearer '+auth.getToken()}
+			}).success(function(res){
+				callback(res);
+			}).error(function(err){
+				console.log(book);
+				console.log(err);
+			});
+		};
+
 		o.featuredBook = [];
 
 		o.search = [{

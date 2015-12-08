@@ -26,15 +26,13 @@
             $scope.sortArray = function() {
                 if ($scope.sortingStyle == "Normal") {
                     $scope.featured = dataservice.getSearchResults();
-                } else if ($scope.sortingStyle == "Year") {
-                	$scope.featured = _.sortBy(dataservice.getSearchResults(), "year")
-            			
+                } 
+                else if ($scope.sortingStyle == "Year") {
+                	$scope.featured = _.sortBy($scope.featured, "year")
                 }
                 else {
-                	$scope.order = function(reverse) {
-                        $scope.featured = orderBy($scope.featured, "avgScore", reverse);
-                    };
-                    $scope.order("avgScore", false);
+                	$scope.featured = _.sortBy($scope.featured, "avgScore")
+
                 }
             }
         }

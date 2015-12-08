@@ -50,6 +50,14 @@
 	  		});
 		};
 
+		o.getFeedback = function(isbn13, start, end){
+			$http.get('/api/feedback?isbn13='+isbn13+'&start='+start+'&end='+end, {
+				headers: {Authorization: 'Bearer '+auth.getToken()}				
+			}).success(function(res){
+				callback(res);
+			});
+		}
+
 		o.postFeedback = function(feedback, callback, error){
 			$http.post('/api/feedback', feedback,{
 				headers: {Authorization: 'Bearer '+auth.getToken()}

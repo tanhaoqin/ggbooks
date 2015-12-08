@@ -70,12 +70,13 @@ router.get('/books', auth, function(req,res){
 router.get('/feedback', auth, function(req,res){
 	console.log("RESTFUL API: \t feedback");
 	isbn13 = req.query.isbn13;
-	start = req.query.start;
-	end = req.query.end;
+	start = parseInt(req.query.start);
+	end = parseInt(req.query.end);
 
 	responseMessage = {}
 	try{
 		query = "select feedback.fbID, feedback.date, feedback.score, feedback.comment, customer.fullname, customer.userID from feedback left join customer on (feedback.userID = customer.userID) where book like ?  ORDER BY avgUseful  DESC  LIMIT ?, ?;"
+		console.log(query);
 		connection.query(query,[isbn13, start, end], function(err, rows, fields) {
 			if (err) throw err;
 			responseMessage.feedback = rows;

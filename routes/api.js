@@ -131,9 +131,9 @@ router.post('/cart', auth, function (req, res) {
 	console.log("RESTFUL API: \t cart");
 	console.log("hello");
 	console.log(req);
-	isbn13 = req.query.isbn13;
-	user = req.query.user;
-	quantity = req.query.quantity;
+	isbn13 = req.body.isbn13;
+	user = req.payload._id;
+	quantity = req.body.quantity;
 
 	responseMessage = {};
 	try{
@@ -172,7 +172,7 @@ router.post('/order', auth, function (req, res) {
 	console.log("RESTFUL API: \t order");
 	console.log("hello");
 	console.log(req);
-	user = req.query.user;
+	user = req.payload._id;
 
 	responseMessage = {};
 	try{
@@ -196,7 +196,7 @@ router.post('/order', auth, function (req, res) {
 
 router.get('/user', auth, function(req,res){
 	console.log("RESTFUL API: \t user");
-	user = req.query.user;
+	user = req.payload._id;
 
 	responseMessage = {}
 	try{

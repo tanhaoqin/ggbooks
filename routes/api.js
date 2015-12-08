@@ -23,16 +23,6 @@ router.get('/book', auth, function(req,res){
 			} else{
 				responseMessage = rows[0];
 				responseMessage.status = 1;
-				connection.query('select fbID,date,score,comment,userID from feedback where book like ?;', [isbn13] , function(err, rows, fields) {
-					if (err) throw err;
-					if (rows.length == 0){
-						responseMessage.feedback = [];
-						res.send(responseMessage);
-					} else{
-						responseMessage.feedback = rows;
-						res.send(responseMessage);
-					}
-				});
 			}
 		});
 	} catch (err){
@@ -200,22 +190,32 @@ router.post('/order', auth, function (req, res) {
 	responseMessage = {};
 	try{
 		connection.query('INSERT into orders (userID, totalcost, creditcard) values (?, (select sum(b.price)*c.quantity from book b join cart c where b.isbn13=c.book and c.userID=?),(select creditcard from user where userID=?)));', [user,user,user], function(err,rows, fields) {
-			if (err) throw err;	
-		});
-		connection.query('INSERT into orderItem select o.orderid, c.book,c.quantity from orders o join cart c where o.userID=c.userID AND o.userID=?;', [user], function(err,rows, fields) {
-			if (err) throw err;	
-		});
-		connection.query('DELETE from cart where userID=?;', [user], function(err,rows, fields) {
-			if (err) throw err;	
-		});
-		responseMessage.status = 1;
-		res.send(responseMessage);
+			if (err) throw err;
+			
+			if (rows.length == 0){
+				responseMessage.status = 0;
+				res.send(responseMessage);
+			} else{
+	
+				connection.query('INSERT into orderItem select o.orderid, c.book,c.quantity from orders o join cart c where o.userID=c.userID AND o.userID=?;', [user], function(err,rows, fields) {
+					if (rows.length == 0){
+						responseMessage.status = 0;
+						res.send(responseMessage);
+					} else{
+						connection.query('DELETE from cart where userID=?;', [user], function(err,rows, fields) {
+				if (err) throw err;	
+			});
+			
+			});
+			responseMessage.status = 1;
+			res.send(responseMessage);
+			});
 	} catch (err){
 		console.log(err);
 		responseMessage.status = 0;
 		res.send(responseMessage);
 	}
-});
+}
 
 router.get('/user', auth, function(req,res){
 	console.log("RESTFUL API: \t user");

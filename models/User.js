@@ -2,6 +2,8 @@ var crypto = require('crypto');
 var jwt = require('jsonwebtoken');
 
 var User = function(){
+	this._id = ""
+
 	this.username = "";
 
 	this.hash = "";
@@ -9,6 +11,10 @@ var User = function(){
 	this.salt = "";
 
 	this.type = "";
+
+	this.setId = function(id){
+		this._id = id;
+	}
 
 	this.setType = function(type){
 		this.type = type;

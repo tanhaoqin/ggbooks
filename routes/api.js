@@ -92,13 +92,10 @@ router.get('/feedback', auth, function(req,res){
 
 router.post('/feedback', auth, function (req, res) {
 	console.log("RESTFUL API: \t feedback");
-	console.log("hello");
-	console.log(req);
-	isbn13 = req.query.isbn13;
-	user = req.query.user;
-	score = req.query.score;
-	comment = req.query.comment;
-
+	isbn13 = req.body.isbn13;
+	user = req.payload._id;
+	score = req.body.score;
+	comment = req.body.comment;
 	responseMessage = {};
 	try{
 		connection.query('INSERT into feedback (score, comment, userID, book) values (?,?,?,?);', [score, comment, user, isbn13], function(err,rows, fields) {
@@ -115,9 +112,9 @@ router.post('/feedback', auth, function (req, res) {
 
 router.post('/feedback/rating', auth ,function (req, res) {
 	console.log("RESTFUL API: \t feedback/rating");
-	user = req.query.user;
-	feedback = req.query.feedback;
-	rating = req.query.rating;
+	user = req.payload._id;
+	feedback = req.body.feedback;
+	rating = req.body.rating;
 	responseMessage = {};
 	try{
 		connection.query('INSERT into rating (usefulness, fbID, userID) values (?,?,?);', [rating, feedback, user], function(err, rows, fields) {

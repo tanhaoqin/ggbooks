@@ -48,16 +48,16 @@
 		<h3>Feedback</h3>
 		<div class="well">
 			<h4>We would love to hear from you! Submit your feedback here!</h4>
-			<form>
+			<form ng-submit="postFeedback()">
 				<div class="form-group">
-					<label class="control-label">Your Rating</label><select class="form-control">
+					<label class="control-label">Your Rating</label><select ng-model="feedback.score" class="form-control">
 						<option value="">Choose your rating, 0 for terrible, 10 for awesomeness.</option>
 						option
 						<option ng-repeat="i in range(11) track by $index" value="{{11 - $index}}">{{10 - $index}}</option>
 					</select>
 				</div>
 				<div class="form-group">
-					<label class="control-label">Your Comments</label><textarea class="form-control" rows="5" placeholder="Your comments here."></textarea>
+					<label class="control-label">Your Comments</label><textarea ng-model="feedback.comment" class="form-control" rows="5" placeholder="Your comments here."></textarea>
 				</div>
 				<button class="btn btn-primary">Shoot away!</button>
 			</form>

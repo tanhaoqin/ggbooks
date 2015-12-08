@@ -22,6 +22,7 @@
 				$scope.displayedPrice = parseFloat($scope.book.price) * $scope.qtySelected;
 			});
 			$scope.feedbackCount = 5;
+			$scope.feedback = {};
 		};
 
 		$scope.getFeedback = function(){
@@ -31,14 +32,12 @@
 		};
 
 		$scope.updateQuantity = function(){
-			console.log($scope.qty);
 			$scope.displayedPrice = (parseFloat($scope.book.price) * $scope.qtySelected).toFixed(2);
 		};
 
 		$scope.init();
 
 		$scope.range = function(num){
-			console.log(num);
 			return new Array(num);
 		};
 
@@ -54,9 +53,20 @@
 			return new Array(5 - parseInt(parseInt(num)/2) - parseInt(num%2));
 		}
 
-		$scope.postFeedbackRating =  function(rating, feedback, user){
-			console.log('test', rating, feedback, user);
-			dataservice.postFeedbackRating(rating, feedback, user);
+		$scope.postFeedbackRating = function(rating, feedback, user){
+
+			dataservice.postFeedbackRating({
+				"rating": rating, "feedback": feedback, "user": user},
+				function(){});
+
+		}
+
+		$scope.postFeedback = function(){
+			dataservice.postFeedback({
+				"score": $scope.feedback.score,
+				"comment": $scope.feedback.comment,
+				"isbn13": $scope.bookId
+			});
 		}
 
 		$scope.expand = function(){

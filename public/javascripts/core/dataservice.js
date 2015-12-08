@@ -50,13 +50,18 @@
 	  		});
 		};
 
-		o.postFeedback = function(){
-			//$http.post('/api/feedback')
+		o.postFeedback = function(feedback){
+			$http.post('/api/feedback', feedback,{
+				headers: {Authorization: 'Bearer '+auth.getToken()}
+			}).success(function(res){
+				callback(res);
+			}).error(function(err){
+				console.log(err);
+			});
 		}
 
-		o.postFeedbackRating = function(rating, feedback, user, callback){
-			console.log("WHAT");
-			$http.post('/api/feedback/rating?user='+user+'&feedback='+feedback+'&rating='+rating,null,
+		o.postFeedbackRating = function(feedback, callback){
+			$http.post('/api/feedback/rating', feedback,
 			{
 				headers: {Authorization: 'Bearer '+auth.getToken()}
 			}

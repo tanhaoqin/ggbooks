@@ -50,7 +50,7 @@
 	  		});
 		};
 
-		o.postFeedback = function(feedback){
+		o.postFeedback = function(feedback, callback, error){
 			$http.post('/api/feedback', feedback,{
 				headers: {Authorization: 'Bearer '+auth.getToken()}
 			}).success(function(res){

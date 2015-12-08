@@ -46,9 +46,9 @@
 	<hr>
 	<div class="book-card" class="row">
 		<h3>Feedback</h3>
-		<div class="well">
+		<div ng-hide="feedbackSubmitted" class="well">
 			<h4>We would love to hear from you! Submit your feedback here!</h4>
-			<form ng-submit="postFeedback()">
+			<form ng-disabled="feedbackWaiting" ng-submit="postFeedback()">
 				<div class="form-group">
 					<label class="control-label">Your Rating</label><select ng-model="feedback.score" class="form-control">
 						<option value="">Choose your rating, 0 for terrible, 10 for awesomeness.</option>
@@ -59,7 +59,7 @@
 				<div class="form-group">
 					<label class="control-label">Your Comments</label><textarea ng-model="feedback.comment" class="form-control" rows="5" placeholder="Your comments here."></textarea>
 				</div>
-				<button class="btn btn-primary">Shoot away!</button>
+				<button ng-disabled="feedbackWaiting" class="btn btn-primary">Shoot away!</button>
 			</form>
 		</div>
 		<p>Top <span class="form-inline">

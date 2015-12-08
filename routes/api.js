@@ -226,18 +226,20 @@ router.get('/user', auth, function(req,res){
 		connection.query(query,[user], function(err, rows, fields) {
 			if (err) throw err;
 			responseMessage.user = rows;
+			query = "select * from orders o join orderItem oi join book b where oi.book=b.isbn13 AND o.orderId=oi.orderId AND o.userID= ?;"
+			connection.query(query,[user], function(err, rows, fields) {
+				if (err) throw err;
+				responseMessage.orders = rows;
+				query = "select * from feedback f join book b where f.book=b.isbn13 AND f.userID = ?;"
+				connection.query(query,[user], function(err, rows, fields) {
+					if (err) throw err;
+					responseMessage.feedback = rows;
+					res.send(responseMessage);
+				});
+			});
 		});
-		query = "select * from orders o join orderItem oi join book b where oi.book=b.isbn13 AND o.orderId=oi.orderId AND o.userID= ?;"
-		connection.query(query,[user], function(err, rows, fields) {
-			if (err) throw err;
-			responseMessage.orders = rows;
-		});
-		query = "select * from feedback f join book b where f.book=b.isbn13 AND f.userID = ?;"
-		connection.query(query,[user], function(err, rows, fields) {
-			if (err) throw err;
-			responseMessage.feedback = rows;
-		});
-		res.send(responseMessage);
+		
+		
 	} catch (err){
 		console.log(err);
 		responseMessage.cart = [];
@@ -251,22 +253,13 @@ router.get('/recommendation', auth, function(req,res){
 
 	responseMessage = {}
 	try{
-		query = "select * from customer where userID = ?;"
-		connection.query(query,[user], function(err, rows, fields) {
+		query = "select * from orders o2 join orderItem oi2 join book b where o2.orderid=oi2.orderid AND oi2.book=b.isbn13 AND o2.orderid in (select o1.orderid from orders o1 join orderItem oi1 where o1.orderid=oi1.orderid AND book in (select book from orders o join orderItem oi where o.orderid=oi.orderid AND userId=?) AND o1.userID !=?) AND book not in (select book from orders o join orderItem oi where o.orderid=oi.orderid AND userId=?);"
+		connection.query(query,[user,user,user], function(err, rows, fields) {
 			if (err) throw err;
 			responseMessage.user = rows;
+			res.send(responseMessage);
 		});
-		query = "select * from orders o join orderItem oi join book b where oi.book=b.isbn13 AND o.orderId=oi.orderId AND o.userID= ?;"
-		connection.query(query,[user], function(err, rows, fields) {
-			if (err) throw err;
-			responseMessage.orders = rows;
-		});
-		query = "select * from feedback f join book b where f.book=b.isbn13 AND f.userID = ?;"
-		connection.query(query,[user], function(err, rows, fields) {
-			if (err) throw err;
-			responseMessage.feedback = rows;
-		});
-		res.send(responseMessage);
+		
 	} catch (err){
 		console.log(err);
 		responseMessage.cart = [];

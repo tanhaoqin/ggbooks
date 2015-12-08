@@ -13,23 +13,25 @@ CREATE TABLE book(
     subject varchar(255),
     publisher varchar(100),
     year int,
+    image_url varchar(255),
+    summary text,
     avgScore decimal(2,1) UNSIGNED NOT NULL DEFAULT 0
 );
 
-CREATE TABLE user(
+CREATE TABLE admin(
 	id int auto_increment PRIMARY KEY,
-    email varchar(255) NOT NULL UNIQUE,
-    password varchar(255) NOT NULL,
-    type char(1) NOT NULL
+    username varchar(255) NOT NULL UNIQUE,
+    password varchar(255) NOT NULL
 );
 
-CREATE TABLE customer(
-	userID int PRIMARY KEY,
+CREATE TABLE user(
+	userID int auto_increment PRIMARY KEY,
+    email varchar(255) NOT NULL UNIQUE,
+    password varchar(255) NOT NULL,
     fullname varchar(255),
     creditcard varchar(16),
     addressid varchar(255),
-    phone varchar(50),
-    FOREIGN KEY (userID) REFERENCES user(id)
+    phone varchar(50)
 );
 
 CREATE TABLE orders(

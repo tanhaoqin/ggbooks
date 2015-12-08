@@ -1,47 +1,47 @@
 <div class="container">
-<div class="row">
-	<h2>Search Results</h2>
-	<div class="sorting">
-	<h4>Sort By</h4>
-	<button type="button" class="btn btn-default" ng-click = "sortArray("")">Normal</button>
-	<button type="button" class="btn btn-default" ng-click = "sortArray("year")">Year</button>
-	<button type="button" class="btn btn-default" ng-click = "sortArray("avg_rating")">Popularity</button>
-	<br>
-	<div ng-repeat="item in featured">
-		  <div class="search-thumbnail">
-		      <a href="#/book/{{item.isbn13}}"><img src={{item.imageUrl}} alt="{{item.title}}"></a>
-		      <div class="search-caption">
-		      <h2><a href="#/book/{{item.isbn13}}">{{item.title}}</a></h2>
-		      <h4>{{item.author}}</h4>
-		      <br>
-		      <br>
-		      <h4>${{item.price}}</h4> 
-		      <div class="rating-container">
-		      	<div class="glyphicon glyphicon-star" aria-hidden="true"ng-repeat="i in range(item.rating) track by $index"></div>
-		      	<div class="glyphicon glyphicon-star-empty" aria-hidden="true"ng-repeat="i in range((5-item.rating)) track by $index"></div>
-		      </div>
-		      </div>
-		  </div>
+	<div class="row">
+		<h2>Search Results</h2>
+		<div class="sorting">
+			<h4>Sort By:
+			</h4>
+			<select ng-model="sortingStyle" ng-change="sortArray()"class="form-control">
+				<option ng-selected="true">Normal</option>
+				<option>Year</option>
+				<option>Average Rating</option>
+			</select>
+		</div>
+		<br>
+		<div ng-repeat="item in featured">
+			<div class="search-thumbnail">
+				<a href="#/book/{{item.isbn13}}"><img src={{item.imageUrl}} alt="{{item.title}}"></a>
+				<div class="search-caption">
+					<h2><a href="#/book/{{item.isbn13}}">{{item.title}}</a></h2>
+					<h4>{{item.author}}</h4>
+					<br>
+					<br>
+					<h4>${{item.price}}</h4>
+					<div class="rating-container">
+						<div class="glyphicon glyphicon-star" aria-hidden="true"ng-repeat="i in range(item.rating) track by $index"></div>
+						<div class="glyphicon glyphicon-star-empty" aria-hidden="true"ng-repeat="i in range((5-item.rating)) track by $index"></div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
-</div>
-
 <!-- <div class="input-group">
-      <input type="text" class="form-control" placeholder="Search for...">
-      <span class="input-group-btn">
-        <button class="btn btn-default" type="button">Go!</button>
-      </span>
-    </div>
-
-
-
+			<input type="text" class="form-control" placeholder="Search for...">
+			<span class="input-group-btn">
+						<button class="btn btn-default" type="button">Go!</button>
+			</span>
+</div>
 <form ng-submit="addBook()">
-	<input type="text" ng-model="title"></input>
-	<button type="submit">Post</button>
+				<input type="text" ng-model="title"></input>
+				<button type="submit">Post</button>
 </form>
 <form ng-submit="getBook()">
-	<input type="text" ng-model="isbn13"></input>
-	<button type="submit">Find Book</button>
+				<input type="text" ng-model="isbn13"></input>
+				<button type="submit">Find Book</button>
 </form>
 <div ng-repeat="book in featuredBook">
-<p>{{book.isbn13}}</p><p>{{book.title}}</p></div> -->
+	<p>{{book.isbn13}}</p><p>{{book.title}}</p></div> -->

@@ -86,7 +86,6 @@
 							<button type="submit" ng-click="insertBook(book.name, book.isbn, book.author, book.format, book.price, book.publisher, book.summary, book.quantity, book.year, book.url, book.subject)" class="btn btn-primary">Insert Book</button>
 						</div>
 					</div>
-					<hr>
 				</form>
 			</div>
 		</div>
@@ -114,36 +113,30 @@
 							<button type="submit" ng-click="getBook(isbn)" class="btn btn-primary">Search For Book</button>
 						</div>
 					</div>
-					<hr>
-				</form>
-			</div>
-		</div>
-	</div>
-	<div class="panel panel-default">
-		<div class="panel-heading" role="tab" id="ordersHeader">
-			<h4 class="panel-title">
-			<a class="collapsed" role="button" data-toggle="collapse" data-target="#ordersContent" aria-expanded="true" aria-controls="ordersContent">
-				Statistics
-			</a>
-			</h4>
-		</div>
-		<div id="ordersContent" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="ordersHeader">
-			<div class="panel-body list-group">
-				<div class="list-group-item">
+					<div class="panel-body list-group">
+				<div class="list-group-item" ng-show="bookFound">
 					<div class="row">
 						<div class="col-sm-2 profile profile-label">
 							<span>Title</span>
 						</div>
 						<div class="col-sm-10 profile">
-							<span>Never Let You Go</span>
+							<span>{{book.title}}</span>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-sm-2 profile profile-label">
-							<span>Date</span>
+							<span>ISBN 13</span>
 						</div>
 						<div class="col-sm-10 profile">
-							<span>11/11/11</span>
+							<span>{{book.isbn13}}</span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-2 profile profile-label">
+							<span>Subject</span>
+						</div>
+						<div class="col-sm-10 profile">
+							<span>{{book.subject}}</span>
 						</div>
 					</div>
 					<div class="row">
@@ -151,45 +144,40 @@
 							<span>Price </span>
 						</div>
 						<div class="col-sm-10 profile">
-							<span>$1.00</span>
+							<span>{{book.price}}</span>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-sm-2 profile profile-label">
-							<span>Quantity Ordered</span>
+							<span>Quantity</span>
 						</div>
 						<div class="col-sm-10 profile">
-							<span>2</span>
+							<span>{{book.copies}}</span>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-sm-2 profile profile-label">
-							<span>Total Price</span>
+							<span>Author</span>
 						</div>
 						<div class="col-sm-10 profile">
-							<span>$2.00</span>
+							<span>{{book.author}}</span>
+						</div>
+					</div>
+					<hr>
+					<div class="form-group">
+						<label for="account-retype" class="col-sm-2 control-label">Quantity</label>
+						<div class="col-sm-10">
+							<input type="number" class="form-control" ng-model="book.quantity" placeholder="Quantity">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<button type="submit" ng-click="updateQuantity(book.quantity, isbn)" class="btn btn-primary">Update Quantity</button>
 						</div>
 					</div>
 				</div>
-				<div class="list-group-item">
-					<div class="row">
-						<div class="col-sm-2 profile profile-label">
-							<span>Title</span>
-						</div>
-						<div class="col-sm-10 profile">
-							<span>Never Let You Go</span>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-sm-2 profile profile-label">
-							<span>Date</span>
-						</div>
-						<div class="col-sm-10 profile">
-							<span>11/11/11</span>
-						</div>
-					</div>
-				</div>
+				</form>
 			</div>
 		</div>
-	</div>
+	</div>	
 </div>

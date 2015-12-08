@@ -103,6 +103,18 @@
 			});
 		};
 
+		o.updateQuantity = function(quantity, callback) {
+			$http.post('/api/admin/book/quantity', quantity, {
+				headers: {Authorization: 'Bearer '+auth.getToken()
+			}
+			}).success(function(res){
+				callback(res);
+			}).error(function(err){
+				console.log(quantity);
+				console.log(err);
+			});
+		};
+
 		o.featuredBook = [];
 
 		o.search = [{

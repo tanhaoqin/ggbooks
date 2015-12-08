@@ -45,9 +45,10 @@ router.get('/book', auth, function(req,res){
 router.get('/books', auth, function(req,res){
 	console.log("RESTFUL API: \t books");
 	search = req.query.search;
+
 	responseMessage = {}
 	try{
-		connection.query("select * from book where title like '%"+search+"%' or author like '%"+search+"%';", function(err, rows, fields) {
+		connection.query("select * from book where title like '%"+search+"%' or author like '%"+search+"%' or isbn13 like '%"+search+"%';", function(err, rows, fields) {
 			if (err) throw err;
 			if (rows.length == 0){
 				responseMessage.status = 0;
@@ -87,13 +88,13 @@ router.get('/feedback', auth, function(req,res){
 	}
 });
 
-
 router.post('/feedback', auth, function (req, res) {
 	console.log("RESTFUL API: \t feedback");
 	isbn13 = req.body.isbn13;
 	user = req.payload._id;
 	score = req.body.score;
 	comment = req.body.comment;
+
 	responseMessage = {};
 	try{
 		connection.query('INSERT into feedback (score, comment, userID, book) values (?,?,?,?);', [score, comment, user, isbn13], function(err,rows, fields) {
@@ -113,6 +114,7 @@ router.post('/feedback/rating', auth ,function (req, res) {
 	user = req.payload._id;
 	feedback = req.body.feedback;
 	rating = req.body.rating;
+
 	responseMessage = {};
 	try{
 		connection.query('INSERT into rating (usefulness, fbID, userID) values (?,?,?);', [rating, feedback, user], function(err, rows, fields) {
@@ -151,7 +153,7 @@ router.post('/cart', auth, function (req, res) {
 
 router.get('/cart', auth, function(req,res){
 	console.log("RESTFUL API: \t cart");
-	user = req.query.user;
+	user = req.payload._id;
 
 	responseMessage = {}
 	try{
@@ -164,6 +166,26 @@ router.get('/cart', auth, function(req,res){
 	} catch (err){
 		console.log(err);
 		responseMessage.cart = [];
+		res.send(responseMessage)
+	}
+});
+
+router.delete('/cart', auth, function(req,res){
+	console.log("RESTFUL API: \t cart");
+	user = req.payload._id;
+	isbn13 = req.body.isbn13;
+
+	responseMessage = {}
+	try{
+		query = "delete from cart where userID like ? AND book like ?;"
+		connection.query(query,[user,isbn13], function(err, rows, fields) {
+			if (err) throw err;
+			responseMessage.status = 1;
+			res.send(responseMessage);
+		});
+	} catch (err){
+		console.log(err);
+		responseMessage.status = 0;
 		res.send(responseMessage)
 	}
 });
@@ -204,18 +226,40 @@ router.get('/user', auth, function(req,res){
 		connection.query(query,[user], function(err, rows, fields) {
 			if (err) throw err;
 			responseMessage.user = rows;
+			query = "select * from orders o join orderItem oi join book b where oi.book=b.isbn13 AND o.orderId=oi.orderId AND o.userID= ?;"
+			connection.query(query,[user], function(err, rows, fields) {
+				if (err) throw err;
+				responseMessage.orders = rows;
+				query = "select * from feedback f join book b where f.book=b.isbn13 AND f.userID = ?;"
+				connection.query(query,[user], function(err, rows, fields) {
+					if (err) throw err;
+					responseMessage.feedback = rows;
+					res.send(responseMessage);
+				});
+			});
 		});
-		query = "select * from orders o join orderItem oi join book b where oi.book=b.isbn13 AND o.orderId=oi.orderId AND o.userID= ?;"
-		connection.query(query,[user], function(err, rows, fields) {
+		
+		
+	} catch (err){
+		console.log(err);
+		responseMessage.cart = [];
+		res.send(responseMessage)
+	}
+});
+
+router.get('/recommendation', auth, function(req,res){
+	console.log("RESTFUL API: \t recommendation");
+	user = req.payload._id;
+
+	responseMessage = {}
+	try{
+		query = "select * from orders o2 join orderItem oi2 join book b where o2.orderid=oi2.orderid AND oi2.book=b.isbn13 AND o2.orderid in (select o1.orderid from orders o1 join orderItem oi1 where o1.orderid=oi1.orderid AND book in (select book from orders o join orderItem oi where o.orderid=oi.orderid AND userId=?) AND o1.userID !=?) AND book not in (select book from orders o join orderItem oi where o.orderid=oi.orderid AND userId=?);"
+		connection.query(query,[user,user,user], function(err, rows, fields) {
 			if (err) throw err;
-			responseMessage.orders = rows;
+			responseMessage.user = rows;
+			res.send(responseMessage);
 		});
-		query = "select * from feedback f join book b where f.book=b.isbn13 AND f.userID = ?;"
-		connection.query(query,[user], function(err, rows, fields) {
-			if (err) throw err;
-			responseMessage.feedback = rows;
-		});
-		res.send(responseMessage);
+		
 	} catch (err){
 		console.log(err);
 		responseMessage.cart = [];

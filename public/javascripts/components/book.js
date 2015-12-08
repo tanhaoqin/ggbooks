@@ -4,8 +4,9 @@
 	home.controller('BookCtrl', [
 	'$scope',
 	'$stateParams',
+	'$timeout',
 	'dataservice',
-	function($scope, $stateParams, dataservice){
+	function($scope, $stateParams, $timeout, dataservice){
 
 		$scope.init = function(){
 			$scope.Date = Date;
@@ -66,7 +67,15 @@
 				"score": $scope.feedback.score,
 				"comment": $scope.feedback.comment,
 				"isbn13": $scope.bookId
+			}, function(){
+				$timeout(function(){
+					$scope.feedbackWaiting = false;
+					$scope.feedbackSubmitted = true;
+				}, 1500);
+			}, function(err){
+				$scope.feedbackWaiting = false;
 			});
+			$scope.feedbackWaiting = true;
 		}
 
 		$scope.expand = function(){

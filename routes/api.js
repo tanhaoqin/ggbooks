@@ -194,6 +194,34 @@ router.post('/order', auth, function (req, res) {
 	}
 });
 
+router.get('/user', auth, function(req,res){
+	console.log("RESTFUL API: \t user");
+	user = req.query.user;
+
+	responseMessage = {}
+	try{
+		query = "select * from customer where userID = ?;"
+		connection.query(query,[user], function(err, rows, fields) {
+			if (err) throw err;
+			responseMessage.user = rows;
+		});
+		query = "select * from orders o join orderItem oi join book b where oi.book=b.isbn13 AND o.orderId=oi.orderId AND o.userID= ?;"
+		connection.query(query,[user], function(err, rows, fields) {
+			if (err) throw err;
+			responseMessage.orders = rows;
+		});
+		query = "select * from feedback f join book b where f.book=b.isbn13 AND f.userID = ?;"
+		connection.query(query,[user], function(err, rows, fields) {
+			if (err) throw err;
+			responseMessage.feedback = rows;
+		});
+		res.send(responseMessage);
+	} catch (err){
+		console.log(err);
+		responseMessage.cart = [];
+		res.send(responseMessage)
+	}
+});
 
 
 

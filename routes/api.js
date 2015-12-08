@@ -131,9 +131,9 @@ router.post('/cart', auth, function (req, res) {
 	console.log("RESTFUL API: \t cart");
 	console.log("hello");
 	console.log(req);
-	isbn13 = req.query.isbn13;
-	user = req.query.user;
-	quantity = req.query.quantity;
+	isbn13 = req.body.isbn13;
+	user = req.payload._id;
+	quantity = req.body.quantity;
 
 	responseMessage = {};
 	try{
@@ -172,7 +172,7 @@ router.post('/order', auth, function (req, res) {
 	console.log("RESTFUL API: \t order");
 	console.log("hello");
 	console.log(req);
-	user = req.query.user;
+	user = req.payload._id;
 
 	responseMessage = {};
 	try{
@@ -194,6 +194,34 @@ router.post('/order', auth, function (req, res) {
 	}
 });
 
+router.get('/user', auth, function(req,res){
+	console.log("RESTFUL API: \t user");
+	user = req.payload._id;
+
+	responseMessage = {}
+	try{
+		query = "select * from customer where userID = ?;"
+		connection.query(query,[user], function(err, rows, fields) {
+			if (err) throw err;
+			responseMessage.user = rows;
+		});
+		query = "select * from orders o join orderItem oi join book b where oi.book=b.isbn13 AND o.orderId=oi.orderId AND o.userID= ?;"
+		connection.query(query,[user], function(err, rows, fields) {
+			if (err) throw err;
+			responseMessage.orders = rows;
+		});
+		query = "select * from feedback f join book b where f.book=b.isbn13 AND f.userID = ?;"
+		connection.query(query,[user], function(err, rows, fields) {
+			if (err) throw err;
+			responseMessage.feedback = rows;
+		});
+		res.send(responseMessage);
+	} catch (err){
+		console.log(err);
+		responseMessage.cart = [];
+		res.send(responseMessage)
+	}
+});
 
 
 

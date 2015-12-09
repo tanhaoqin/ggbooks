@@ -22,7 +22,11 @@ router.get('/book', auth, function(req,res){
 				responseMessage = rows[0];
 				responseMessage.status = 1;
 
+<<<<<<< HEAD
 				connection.query('select fbID from feedback where book LIKE ? AND userID like ?;', [isbn13,user] , function(err, rows, fields) {	
+=======
+				connection.query('select * from feedback where book LIKE ? ;', [isbn13] , function(err, rows, fields) {	
+>>>>>>> origin/master
 					if (err) throw err;
 				
 					if (rows.length == 0){
@@ -79,8 +83,12 @@ router.get('/feedback', auth, function(req,res){
 
 	responseMessage = {}
 	try{
+<<<<<<< HEAD
 		query = "select f.fbID, f.date, f.score, f.comment, c.fullname, c.userID from feedback f left join customer c on (f.userID = c.userID) where f.book like ?  ORDER BY f.avgUseful  DESC  LIMIT ?, ?;"
 		console.log(query);
+=======
+		query = "select feedback.fbID, feedback.date, feedback.score, feedback.comment, customer.fullname, customer.userID from feedback left join customer on (feedback.userID = customer.userID) where book like ?  ORDER BY avgUseful  DESC  LIMIT ?, ?;"
+>>>>>>> origin/master
 		connection.query(query,[isbn13, start, end], function(err, rows, fields) {
 			if (err) throw err;
 			responseMessage.feedback = rows;
@@ -212,7 +220,7 @@ router.post('/order', auth, function (req, res) {
 		      });
 		    }
 
-		    console.log('Order ' + result.insertId + ' added';);
+		    console.log('Order ' + result.insertId() + ' added');
 
 		    connection.query('INSERT into orderItem select o.orderid, c.book,c.quantity from orders o join cart c where o.userID=c.userID AND o.userID=?;', [user], function(err, result) {
 		      if (err) { 
@@ -220,7 +228,7 @@ router.post('/order', auth, function (req, res) {
 		          throw err;
 		        });
 		      }  
-		      console.log('OrderItem ' + result.insertId + ' added';);
+		      console.log('OrderItem ' + result.insertId() + ' added');
 
 			    connection.query('DELETE from cart where userID=?;', [user], function(err, result) {
 			      if (err) { 
@@ -228,7 +236,7 @@ router.post('/order', auth, function (req, res) {
 			          throw err;
 			        });
 			      }  
-			      console.log('CartItem ' + result.insertId + ' delete';);
+			      console.log('CartItem ' + result.insertId() + ' delete');
 			      connection.commit(function(err) {
 			        if (err) { 
 			          connection.rollback(function() {

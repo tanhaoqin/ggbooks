@@ -22,16 +22,13 @@
 				console.log($scope.book);
 				$scope.displayedPrice = parseFloat($scope.book.price) * $scope.qtySelected;
 			});
-			dataservice.getFeedback($scope.bookId, 1, 5, function(res){
-				console.log(res);
-			});
 			$scope.feedbackCount = 5;
-			$scope.feedback = {};
+			$scope.getFeedback(1,5);
 		};
 
-		$scope.getFeedback = function(){
-			dataservice.getFeedback($scope.feedbackCount, function(res){
-				$scope.feedbacks = res;
+		$scope.getFeedback = function(start, count){
+			dataservice.getFeedback($scope.bookId, start, start + count - 1, function(res){
+				$scope.feedbacks = res.feedback;
 			});
 		};
 

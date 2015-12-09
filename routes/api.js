@@ -6,11 +6,10 @@ var auth = jwt({secret: 'SECRET', userProperty: 'payload'});
 
 var connection = require('../database/database.js');
 
-
-
 router.get('/book', auth, function(req,res){
 	console.log("RESTFUL API: \t book");
 	isbn13 = req.query.isbn13;
+	user = req.payload._id;
 
 	responseMessage = {};
 	try{
@@ -23,7 +22,7 @@ router.get('/book', auth, function(req,res){
 				responseMessage = rows[0];
 				responseMessage.status = 1;
 
-				connection.query('select * from feedback where book LIKE ? AND userID like ?;', [isbn13,user] , function(err, rows, fields) {	
+				connection.query('select fbID from feedback where book LIKE ? AND userID like ?;', [isbn13,user] , function(err, rows, fields) {	
 					if (err) throw err;
 				
 					if (rows.length == 0){
@@ -31,6 +30,10 @@ router.get('/book', auth, function(req,res){
 					} else{
 						responseMessage.fb_sub = 1;
 					}
+					connection.query("select count(fbID) from feedback where book LIKE ?",[isbn13], function(err, rows, fields) {
+						if (err) throw err;
+						responseMessage.fb_quantity = rows[0];
+					});
 
 					res.send(responseMessage);
 
@@ -76,7 +79,7 @@ router.get('/feedback', auth, function(req,res){
 
 	responseMessage = {}
 	try{
-		query = "select feedback.fbID, feedback.date, feedback.score, feedback.comment, customer.fullname, customer.userID from feedback left join customer on (feedback.userID = customer.userID) where book like ?  ORDER BY avgUseful  DESC  LIMIT ?, ?;"
+		query = "select f.fbID, f.date, f.score, f.comment, c.fullname, c.userID from feedback f left join customer c on (f.userID = c.userID) where f.book like ?  ORDER BY f.avgUseful  DESC  LIMIT ?, ?;"
 		console.log(query);
 		connection.query(query,[isbn13, start, end], function(err, rows, fields) {
 			if (err) throw err;
@@ -141,7 +144,7 @@ router.post('/cart', auth, function (req, res) {
 
 	responseMessage = {};
 	try{
-		connection.query('INSERT into cart (user, book,quantity) values (?,?,?);', [user, ISBN13, quantity], function(err,rows, fields) {
+		connection.query('INSERT into cart (user, book,quantity) values (?,?,?);', [user, isbn13, quantity], function(err,rows, fields) {
 			if (err) throw err;
 			responseMessage.status = 1;
 			res.send(responseMessage);
@@ -257,10 +260,12 @@ router.get('/user', auth, function(req,res){
 		connection.query(query,[user], function(err, rows, fields) {
 			if (err) throw err;
 			responseMessage.user = rows;
+
 			query = "select * from orders o join orderItem oi join book b where oi.book=b.isbn13 AND o.orderId=oi.orderId AND o.userID= ?;"
 			connection.query(query,[user], function(err, rows, fields) {
 				if (err) throw err;
 				responseMessage.orders = rows;
+
 				query = "select * from feedback f join book b where f.book=b.isbn13 AND f.userID = ?;"
 				connection.query(query,[user], function(err, rows, fields) {
 					if (err) throw err;
@@ -269,8 +274,6 @@ router.get('/user', auth, function(req,res){
 				});
 			});
 		});
-		
-		
 	} catch (err){
 		console.log(err);
 		responseMessage.cart = [];
@@ -297,6 +300,47 @@ router.get('/recommendation', auth, function(req,res){
 		res.send(responseMessage)
 	}
 });
+
+router.get('/popular/books', auth, function(req,res){
+	console.log("RESTFUL API: \t popular/books");
+	quantity = parseInt(req.query.quantity);
+
+	responseMessage = {}
+	try{
+		query = "select sum(quantity) AS sold, b.* from orders o join orderItem oi join book b where o.orderid=oi.orderid and b.isbn13=oi.book and o.date BETWEEN NOW() - INTERVAL 30 DAY AND NOW() group by book order by sold DESC limit ?;"
+		connection.query(query,[quantity], function(err, rows, fields) {
+			if (err) throw err;
+			responseMessage.user = rows;
+			res.send(responseMessage);
+		});
+		
+	} catch (err){
+		console.log(err);
+		responseMessage.cart = [];
+		res.send(responseMessage)
+	}
+});
+
+router.get('/popular/author', auth, function(req,res){
+	console.log("RESTFUL API: \t popular/author");
+	quantity = parseInt(req.query.quantity);
+
+	responseMessage = {}
+	try{
+		query = "select sum(quantity) AS sold, b.* from orders o join orderItem oi join book b where o.orderid=oi.orderid and b.isbn13=oi.book and o.date BETWEEN NOW() - INTERVAL 30 DAY AND NOW() group by book order by sold DESC limit ?;"
+		connection.query(query,[quantity], function(err, rows, fields) {
+			if (err) throw err;
+			responseMessage.user = rows;
+			res.send(responseMessage);
+		});
+		
+	} catch (err){
+		console.log(err);
+		responseMessage.cart = [];
+		res.send(responseMessage)
+	}
+});
+
 
 
 

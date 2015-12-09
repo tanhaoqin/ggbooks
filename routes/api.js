@@ -76,7 +76,6 @@ router.get('/feedback', auth, function(req,res){
 	responseMessage = {}
 	try{
 		query = "select feedback.fbID, feedback.date, feedback.score, feedback.comment, customer.fullname, customer.userID from feedback left join customer on (feedback.userID = customer.userID) where book like ?  ORDER BY avgUseful  DESC  LIMIT ?, ?;"
-		console.log(query);
 		connection.query(query,[isbn13, start, end], function(err, rows, fields) {
 			if (err) throw err;
 			responseMessage.feedback = rows;

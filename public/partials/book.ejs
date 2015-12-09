@@ -70,10 +70,10 @@
 			    <option>100</option>
 			  </select>
 			</span> submissions</p>
-		<div ng-if="book.feedback.length==0">
-			<p>There is no feedback available for this item yet.</p>
+		<div ng-if="feedbacks.length==0">
+			<p>There are no feedbacks available for this item yet.</p>
 		</div>
-		<div ng-repeat="feedback in book.feedback">
+		<div ng-repeat="feedback in feedbacks">
 			<hr>
 			<div class="rating-container">
 				<span class="fa-stack" ng-repeat="i in countFullStars(feedback.score) track by $index">
@@ -87,7 +87,7 @@
 				     <i class="fa fa-fw fa-lg fa-star fa-stack-1x"></i>
 				</span>
 			</div>
-			<div class="feedback-user"><span>by {{feedback.userID}}</span></div>
+			<div class="feedback-user"><span>by {{feedback.fullname}}</span></div>
 			<h6 class="feedback-content">Rated on {{feedback.date | date:"dd-mm-yy"}}</h6>
 			<p class="feedback-content"><br>
 				<span ng-if="feedback.comment != null">{{feedback.comment}}</span>

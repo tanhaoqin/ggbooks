@@ -23,7 +23,7 @@ router.get('/book', auth, function(req,res){
 				responseMessage = rows[0];
 				responseMessage.status = 1;
 
-				connection.query('select * from feedback where book LIKE ? AND userID like ?;', [isbn13,user] , function(err, rows, fields) {	
+				connection.query('select * from feedback where book LIKE ? ;', [isbn13] , function(err, rows, fields) {	
 					if (err) throw err;
 				
 					if (rows.length == 0){

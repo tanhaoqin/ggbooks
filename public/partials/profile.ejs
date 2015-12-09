@@ -15,37 +15,31 @@
 					<div class="form-group">
 						<label for="account-name" class="col-sm-2 control-label">Full Name</label>
 						<div class="col-sm-10">
-							<input type="email" class="form-control" id="account-name" placeholder="Full Name" value="Nikhil Sharma">
+							<input class="form-control" id="account-name" placeholder="Full Name" value="{{profile.fullname}}">
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="account-email" class="col-sm-2 control-label">Email</label>
 						<div class="col-sm-10">
-							<input type="email" class="form-control" id="account-email" placeholder="Email" value="ns@ggbooks.com">
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="account-password" class="col-sm-2 control-label">Password</label>
-						<div class="col-sm-10">
-							<input type="password" class="form-control" id="account-password" placeholder="Password hidden">
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="account-retype" class="col-sm-2 control-label">Retype Password</label>
-						<div class="col-sm-10">
-							<input type="password" class="form-control" id="account-retype" placeholder="Retype your password">
+							<input type="email" class="form-control" id="account-email" placeholder="Email" value="{{user}}">
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="account-address" class="col-sm-2 control-label">Credit Card Number</label>
 						<div class="col-sm-10">
-							<input type="number" class="form-control" id="account-credit" placeholder="Credit Card Number" value="1234">
+							<input type="number" class="form-control" id="account-credit" placeholder="Credit Card Number" value="{{profile.creditcard}}">
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="account-address" class="col-sm-2 control-label">Shipping Address</label>
 						<div class="col-sm-10">
-							<input type="address" class="form-control" id="account-address" placeholder="Shipping Address" value="8 Somapah Road">
+							<input type="address" class="form-control" id="account-address" placeholder="Shipping Address" value="{{profile.addressid}}">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="account-phone" class="col-sm-2 control-label">Phone Number</label>
+						<div class="col-sm-10">
+							<input type="number" class="form-control" id="account-phone" placeholder="Phone Number" value="{{profile.phone}}">
 						</div>
 					</div>
 					<div class="form-group">
@@ -91,7 +85,10 @@
 		</div>
 		<div id="ordersContent" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="ordersHeader">
 			<div class="panel-body list-group">
-				<div class="list-group-item">
+				<div ng-if="orders.length == 0">
+					There are no orders in your order history.
+				</div>
+				<div ng-repeat="order in orders" class="list-group-item">
 					<div class="row">
 						<div class="col-sm-2 profile profile-label">
 							<span>Title</span>
@@ -133,24 +130,6 @@
 						</div>
 					</div>
 				</div>
-				<div class="list-group-item">
-					<div class="row">
-						<div class="col-sm-2 profile profile-label">
-							<span>Title</span>
-						</div>
-						<div class="col-sm-10 profile">
-							<span>Never Let You Go</span>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-sm-2 profile profile-label">
-							<span>Date</span>
-						</div>
-						<div class="col-sm-10 profile">
-							<span>11/11/11</span>
-						</div>
-					</div>
-				</div>
 			</div>
 		</div>
 	</div>
@@ -164,30 +143,30 @@
 		</div>
 		<div id="feedbackContent" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="feedbackHeader">
 			<div class="panel-body list-group">
-				<div class="list-group-item row">
+				<div ng-repeat="feedback in feedbacks" class="list-group-item">
 					<div class="row">
 						<div class="col-sm-2">
 							<div class="thumbnail">
-								<img src="https://dut2up1aqgazz.cloudfront.net/3a33a793/m/9780380973651.jpg" alt="">
+								<img src="{{feedback.image_url}}" alt="">
 							</div>
 						</div>
 						<div class="col-sm-7">
-							<p><span class="details-label">Title: </span>American Gods</p>
-							<p><span class="details-label">Author: </span>Neil</p>
-							<p><span class="details-label">ISBN-13: </span>1234</p>
+							<p><span class="details-label">Title: </span>{{feedback.title}}</p>
+							<p><span class="details-label">Author: </span>{{feedback.author}}</p>
+							<p><span class="details-label">ISBN-13: </span>{{feedback.book}}</p>
 							<div class="rating-container">
-								<span class="fa-stack" ng-repeat="i in countFullStars(8) track by $index">
+								<span class="fa-stack" ng-repeat="i in countFullStars(feedback.score) track by $index">
 									<i class="fa fa-fw fa-lg fa-star fa-stack-1x yellow"></i>
 								</span>
-								<span class="fa-stack" ng-repeat="i in countHalfStars(8) track by $index">
+								<span class="fa-stack" ng-repeat="i in countHalfStars(feedback.score) track by $index">
 									<i class="fa fa-fw fa-lg fa-star-half fa-stack-1x"></i>
 									<i class="fa fa-fw fa-lg fa-star fa-stack-1x"></i>
 								</span>
-								<span class="fa-stack" ng-repeat="i in countEmptyStars(8) track by $index">
+								<span class="fa-stack" ng-repeat="i in countEmptyStars(feedback.score) track by $index">
 									<i class="fa fa-fw fa-lg fa-star fa-stack-1x"></i>
 								</span>
 							</div>
-							<h6 class="feedback-content">Rated on {{feedback.date | date:"dd-mm-yy"}}</h6>
+							<h6 class="feedback-content">Rated on {{feedback.date | date:"dd-MM-yy"}}</h6>
 							<p class="feedback-content"><br>
 								<span ng-if="feedback.comment != null">{{feedback.comment}}</span>
 								<span class="feedback-none" ng-if="feedback.comment == null">No comments.</span>

@@ -10,6 +10,8 @@
         function($scope, $state, $stateParams, auth, dataservice) {
             $scope.init = function() {
                 $scope.user = auth.currentUser();
+                $scope.bookFound = false;
+                $scope.book = "";
             };
 
             $scope.countFullStars = function(num) {
@@ -27,11 +29,12 @@
             $scope.getBook = function(isbn) {
                 dataservice.getBook(isbn, function(res) {
                     $scope.book = res;
+                    $scope.bookFound = true;
                     console.log($scope.book);
                 });
             };
 
-            $scope.insertBook = function(title, isbn, author, format, price, publisher, summary, quantity, year, url, subject) {
+            $scope.insertBook = function(title, isbn, author, format, price, publisher, summary, quantity, year, url, subject){
             	var bookFormat = format == 'Hardcover' ? 'H' : 'P';
                 var book = {
                     'title': title,
@@ -47,6 +50,16 @@
                     'year': year
                 };
                 dataservice.insertBook(book, function(res) {
+                    console.log(res);
+                })
+            };
+
+            $scope.updateQuantity = function(quantity, isbn) {
+                var quantityJSON = {
+                    'isbn13' : isbn,
+                    'quantity' : quantity
+                }
+                dataservice.updateQuantity(quantityJSON, function(res) {
                     console.log(res);
                 })
             };

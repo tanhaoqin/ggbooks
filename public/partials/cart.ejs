@@ -1,36 +1,51 @@
 <div class="container">
 	<div class="row">
-		<div class="cart">
+		<div class="cart" ng-hide='orderStatus'>
 			<h2>Shopping Cart</h2>
 			<br>
 			<div ng-repeat="item in cart">
-				  <div class="search-thumbnail">
-				      <a href="#/book/{{item.isbn13}}"><img src={{item.imageUrl}} alt="{{item.title}}"></a>
-				      <div class="search-caption">
-				      <h2><a href="#/book/{{item.isbn13}}">{{item.title}}</a></h2>
-				      <h4>{{item.author}}</h4>
-				      <br>
-				      <br>
-				      <h4 class="price">${{item.price}}</h4> 
-				      <div class="cart-quantity">
-					      <div class="overflow">
-									<label for="sel1">Quantity:</label>
-					  			<select class="form-control" id="sel1" ng-options="i as i for i in bookCopies">		      	
-					  			</select>
-					      </div>
-		 		  		</div>
-				      <div class="rating-container">
-				      	<div class="glyphicon glyphicon-star" aria-hidden="true"ng-repeat="i in range(item.rating) track by $index"></div>
-				      	<div class="glyphicon glyphicon-star-empty" aria-hidden="true"ng-repeat="i in range((5-item.rating)) track by $index"></div>
-				      </div>
-				      </div>
-				  </div>
-			</div>		
+				<div class="search-thumbnail">
+					<a href="#/book/{{item.isbn13}}"><img src={{item.imageUrl}} alt="{{item.title}}"></a>
+					<div class="search-caption">
+						<h2><a href="#/book/{{item.isbn13}}">{{item.title}}</a></h2>
+						<h4>{{item.author}}</h4>
+						<br>
+						<br>
+						<h4 class="price">${{item.price}}</h4>
+						<div class="cart-quantity">
+							<div class="overflow">
+								<label for="sel1">Quantity:</label>
+								<select class="form-control" id="sel1" ng-options="i as i for i in bookCopies">
+								</select>
+							</div>
+						</div>
+						<div class="rating-container">
+							<div class="glyphicon glyphicon-star" aria-hidden="true"ng-repeat="i in range(item.rating) track by $index"></div>
+							<div class="glyphicon glyphicon-star-empty" aria-hidden="true"ng-repeat="i in range((5-item.rating)) track by $index"></div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-		<div class="cart-order">
+		<div class="cart-order" ng-hide='orderStatus'>
 			<div class="total-price"><h4>Total Price: $10000</h4></div>
 			<button type="submit" class="btn btn-default" ng-click = "orderBooks()">Order</button>
 		</div>
+		<div class="row" ng-show='orderStatus'>
+			<p>Recommendations for you</p>
+			<div class="col-sm-6 col-md-4" ng-repeat="item in recommendedBooks">
+				<div class="thumbnail">
+					<a href="#/book/{{item.isbn13}}"><img src="images/American-Gods.jpg" alt="{{item.title}}"></a>
+					<div class="caption">
+						<h3><a href="#/book/{{item.isbn13}}">{{item.title}}</a></h3>
+						<h4>{{item.author}}</h4>
+						<div class="rating-container">
+							<div class="glyphicon glyphicon-star" aria-hidden="true"ng-repeat="i in range(item.rating) track by $index"></div>
+							<div class="glyphicon glyphicon-star-empty" aria-hidden="true"ng-repeat="i in range((5-item.rating)) track by $index"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
-

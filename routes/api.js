@@ -110,6 +110,7 @@ router.post('/feedback', auth, function (req, res) {
 			responseMessage.status = 1;
 			res.send(responseMessage);
 		});
+
 	} catch (err){
 		console.log(err);
 		responseMessage.status = 0;
@@ -344,6 +345,36 @@ router.get('/popular/author', auth, function(req,res){
 	}
 });
 
+router.post('/admin/book', auth, function(req,res){
+	console.log("RESTFUL API: \t admin/book");
+	//req.body.??
+	title = req.body.title
+	isbn13 = req.body.isbn13
+	author = req.body.author
+	format = req.body.format
+	image_url = req.body['image_url']
+	subject = req.body.subject
+	year = req.body.year
+	price = req.body.price
+	publisher = req.body.publisher
+	summary = req.body.summary
+	quantity = req.body.quantity
+
+	responseMessage = {}
+	try{
+		query = "INSERT into book values (?,?,?,DEFAULT,?,NULL,?,?,?,?,?,DEFAULT,?,?);"
+		connection.query(query,[isbn13,title,author,format,copies,price,subject,publisher,year,image_url,summary], function(err, rows, fields) {
+			if (err) throw err;
+			responseMessage.status = 1;
+			res.send(responseMessage);
+		});
+		
+	} catch (err){
+		console.log(err);
+		responseMessage.status = 0;
+		res.send(responseMessage)
+	}
+});
 
 
 

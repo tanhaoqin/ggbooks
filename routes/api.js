@@ -311,16 +311,15 @@ router.get('/popular/books', auth, function(req,res){
 
 	responseMessage = {}
 	try{
-		query = "select sum(quantity) AS sold, b.* from orders o join orderItem oi join book b where o.orderid=oi.orderid and b.isbn13=oi.book and o.date BETWEEN NOW() - INTERVAL 30 DAY AND NOW() group by book order by sold DESC limit ?;"
+		query = "select sum(oi.quantity) as quantity, b.* from orders o left join orderItem oi on (o.orderid = oi.orderID) left join book b on (oi.book = b.isbn13) WHERE MONTH(o.date) = MONTH(NOW()) and YEAR(o.date) = YEAR(NOW()) group by oi.book order by quantity desc limit ?;"
 		connection.query(query,[quantity], function(err, rows, fields) {
 			if (err) throw err;
-			responseMessage.user = rows;
-			res.send(responseMessage);
+			responseMessage.books = rows;
 		});
-		
+		res.send(responseMessage);
 	} catch (err){
 		console.log(err);
-		responseMessage.cart = [];
+		responseMessage.books = [];
 		res.send(responseMessage)
 	}
 });
@@ -331,13 +330,12 @@ router.get('/popular/author', auth, function(req,res){
 
 	responseMessage = {}
 	try{
-		query = "select sum(quantity) AS sold, b.* from orders o join orderItem oi join book b where o.orderid=oi.orderid and b.isbn13=oi.book and o.date BETWEEN NOW() - INTERVAL 30 DAY AND NOW() group by book order by sold DESC limit ?;"
+		query = "select b.author from orders o left join orderItem oi on (o.orderid = oi.orderID) left join book b on (oi.book = b.isbn13) WHERE MONTH(o.date) = MONTH(NOW()) and YEAR(o.date) = YEAR(NOW()) group by b.author order by sum(oi.quantity) desc limit ? ;"
 		connection.query(query,[quantity], function(err, rows, fields) {
 			if (err) throw err;
-			responseMessage.user = rows;
-			res.send(responseMessage);
+			responseMessage.author = rows;
 		});
-		
+		res.send(responseMessage);
 	} catch (err){
 		console.log(err);
 		responseMessage.cart = [];
@@ -364,6 +362,28 @@ router.post('/admin/book', auth, function(req,res){
 	try{
 		query = "INSERT into book values (?,?,?,DEFAULT,?,NULL,?,?,?,?,?,DEFAULT,?,?);"
 		connection.query(query,[isbn13,title,author,format,copies,price,subject,publisher,year,image_url,summary], function(err, rows, fields) {
+			if (err) throw err;
+			responseMessage.status = 1;
+			res.send(responseMessage);
+		});
+		
+	} catch (err){
+		console.log(err);
+		responseMessage.status = 0;
+		res.send(responseMessage)
+	}
+});
+
+router.post('/admin/book/quantity', auth, function(req,res){
+	console.log("RESTFUL API: \t admin/book/quantity");
+	
+	isbn13 = req.body.isbn13
+	quantity = req.body.quantity
+
+	responseMessage = {}
+	try{
+		query = "UPDATE book SET copies = copies + ? WHERE isbn13 = ?;"
+		connection.query(query,[quantity, isbn13], function(err, rows, fields) {
 			if (err) throw err;
 			responseMessage.status = 1;
 			res.send(responseMessage);

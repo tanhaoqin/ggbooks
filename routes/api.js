@@ -343,6 +343,25 @@ router.get('/popular/author', auth, function(req,res){
 	}
 });
 
+router.get('/popular/publisher', auth, function(req,res){
+	console.log("RESTFUL API: \t popular/publisher");
+	quantity = parseInt(req.query.quantity);
+
+	responseMessage = {}
+	try{
+		query = "select b.publisher from orders o left join orderItem oi on (o.orderid = oi.orderID) left join book b on (oi.book = b.isbn13) WHERE MONTH(o.date) = MONTH(NOW()) and YEAR(o.date) = YEAR(NOW()) group by b.publisher order by sum(oi.quantity) desc limit ? ;"
+		connection.query(query,[quantity], function(err, rows, fields) {
+			if (err) throw err;
+			responseMessage.publisher = rows;
+		});
+		res.send(responseMessage);
+	} catch (err){
+		console.log(err);
+		responseMessage.cart = [];
+		res.send(responseMessage)
+	}
+});
+
 router.post('/admin/book', auth, function(req,res){
 	console.log("RESTFUL API: \t admin/book");
 	//req.body.??

@@ -88,12 +88,13 @@ router.get('/feedback', auth, function(req,res){
 		connection.query(query,[isbn13, start, end], function(err, rows, fields) {
 			if (err) throw err;
 			responseMessage.feedback = rows;
+			query = "select usefulness,fbID from rating where userID = ?;"
+			connection.query(query,[user], function(err, rows, fields) {
+				if (err) throw err;
+				responseMessage.rating = rows;
+			});
 		});
-		query = "select usefulness,fbID from rating where userID = ?;"
-		connection.query(query,[user], function(err, rows, fields) {
-			if (err) throw err;
-			responseMessage.rating = rows;
-		});
+		
 		res.send(responseMessage);
 	} catch (err){
 		console.log(err);
@@ -266,24 +267,32 @@ router.get('/user', auth, function(req,res){
 
 	responseMessage = {}
 	try{
-		query = "select * from customer where userID = ?;"
+		query = "select c.fullname as name, u.email, c.creditcard, c.addressid as shipping_address, phone from user u, customer c where u.id = c.userID and u.id = ?;"
 		connection.query(query,[user], function(err, rows, fields) {
 			if (err) throw err;
 			responseMessage.user = rows;
 
-			query = "select * from orders o join orderItem oi join book b where oi.book=b.isbn13 AND o.orderId=oi.orderId AND o.userID= ?;"
+			query = "select b.title, b.isbn13, b.author, b.publisher, b.subject, b.year, b.image_url, oi.quantity from orders o join orderItem oi join book b where oi.book=b.isbn13 AND o.orderId=oi.orderId AND o.userID= ?;"
 			connection.query(query,[user], function(err, rows, fields) {
 				if (err) throw err;
 				responseMessage.orders = rows;
 
-				query = "select * from feedback f join book b where f.book=b.isbn13 AND f.userID = ?;"
+				query = "select f.fbID as fb_id, f.date, f.score, f.comment, f.book as isbn13 from feedback f where f.userID = ? order by f.date desc;"
 				connection.query(query,[user], function(err, rows, fields) {
 					if (err) throw err;
 					responseMessage.feedback = rows;
-					res.send(responseMessage);
+
+					query = "select f.fbID, f.date, f.score, f.comment, r.usefulness, f.book as isbn13, b.title from rating r left join feedback f on (r.fbID = f.fbID) left join book b on (f.book = b.isbn13) where r.userID = ? order by f.date desc, usefulness desc;"
+					connection.query(query,[user], function(err, rows, fields) {
+						if (err) throw err;
+						responseMessage["own_feedback"] = rows;
+
+					});
+
 				});
 			});
 		});
+		res.send(responseMessage);
 	} catch (err){
 		console.log(err);
 		responseMessage.cart = [];

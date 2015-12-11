@@ -77,6 +77,7 @@ router.get('/books', auth, function(req,res){
 
 router.get('/feedback', auth, function(req,res){
 	console.log("RESTFUL API: \t feedback");
+	user = req.payload._id;
 	isbn13 = req.query.isbn13;
 	start = parseInt(req.query.start);
 	end = parseInt(req.query.end);
@@ -87,8 +88,13 @@ router.get('/feedback', auth, function(req,res){
 		connection.query(query,[isbn13, start, end], function(err, rows, fields) {
 			if (err) throw err;
 			responseMessage.feedback = rows;
-			res.send(responseMessage);
 		});
+		query = "select usefulness,fbID from rating where userID = ?;"
+		connection.query(query,[user], function(err, rows, fields) {
+			if (err) throw err;
+			responseMessage.rating = rows;
+		});
+		res.send(responseMessage);
 	} catch (err){
 		console.log(err);
 		responseMessage.feedback = [];

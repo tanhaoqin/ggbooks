@@ -90,14 +90,15 @@ router.get('/feedback', auth, function(req,res){
 			if (err) throw err;
 
 			responseMessage['feedback'] = rows;
+			query = "select usefulness,fbID from rating where userID = ?;";
+			connection.query(query,[user], function(err, rows, fields) {
+				if (err) throw err;
+				responseMessage['rating'] = rows;
+				console.log(responseMessage);
+				res.send(responseMessage);
+			});
 		});
-		query = "select usefulness,fbID from rating where userID = ?;";
-		connection.query(query,[user], function(err, rows, fields) {
-			if (err) throw err;
-			responseMessage['rating'] = rows;
-			res.send(responseMessage);
-		});
-		
+
 	} catch (err){
 		console.log(err);
 		responseMessage['feedback'] = [];
@@ -397,10 +398,12 @@ router.post('/admin/book', auth, function(req,res){
 	responseMessage = {}
 	try{
 		query = "INSERT into book values (?,?,?,DEFAULT,?,NULL,?,?,?,?,?,DEFAULT,?,?);"
-		connection.query(query,[isbn13,title,author,format,copies,price,subject,publisher,year,image_url,summary], function(err, rows, fields) {
+		connection.query(query,[isbn13,title,author,format,quantity,price,subject,publisher,year,image_url,summary], function(err, rows, fields) {
 			if (err) throw err;
 			responseMessage.status = 1;
 			res.send(responseMessage);
+
+			
 		});
 		
 	} catch (err){

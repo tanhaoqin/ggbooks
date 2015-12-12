@@ -95,9 +95,12 @@
 			</p>
 			<p class="feedback-content">
 				Rate this review: 
-				<button type="button" class="btn btn-default" ng-click = "postFeedbackRating(2, feedback.fbID, feedback.userID)">Very Useful</button>
-				<button type="button" class="btn btn-default" ng-click = "postFeedbackRating(1, feedback.fbID, feedback.userID)">Useful</button>
-				<button type="button" class="btn btn-default" ng-click = "postFeedbackRating(0, feedback.fbID, feedback.userID)">Useless</button>
+				<button ng-if="feedback.rating != 2" type="button" class="btn btn-default" ng-click = "postFeedbackRating(2, feedback.fbID, feedback.userID)">Very Useful</button>
+				<button ng-if="feedback.rating == 2" type="button" class="btn btn-primary" ng-click = "postFeedbackRating(2, feedback.fbID, feedback.userID)">Very Useful</button>
+				<button ng-if="feedback.rating != 1" type="button" class="btn btn-default" ng-click = "postFeedbackRating(1, feedback.fbID, feedback.userID)">Useful</button>
+				<button ng-if="feedback.rating == 1" type="button" class="btn btn-primary" ng-click = "postFeedbackRating(1, feedback.fbID, feedback.userID)">Useful</button>
+				<button ng-if="feedback.rating != 0" type="button" class="btn btn-default" ng-click = "postFeedbackRating(0, feedback.fbID, feedback.userID)">Useless</button>
+				<button ng-if="feedback.rating == 0" type="button" class="btn btn-primary" ng-click = "postFeedbackRating(0, feedback.fbID, feedback.userID)">Useless</button>
 			</p>
 		</div>
 	</div>

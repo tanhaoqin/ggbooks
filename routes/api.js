@@ -90,13 +90,11 @@ router.get('/feedback', auth, function(req,res){
 			if (err) throw err;
 
 			responseMessage['feedback'] = rows;
-			console.log(rows);
 		});
 		query = "select usefulness,fbID from rating where userID = ?;";
 		connection.query(query,[user], function(err, rows, fields) {
 			if (err) throw err;
 			responseMessage['rating'] = rows;
-			console.log(responseMessage);
 			res.send(responseMessage);
 		});
 		

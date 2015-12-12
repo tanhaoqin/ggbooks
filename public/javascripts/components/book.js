@@ -32,6 +32,15 @@
 		$scope.getFeedback = function(start, count){
 			dataservice.getFeedback($scope.bookId, start, start + count - 1, function(res){
 				$scope.feedbacks = res.feedback;
+				$scope.ratings = res.rating;
+				for (var i = 0; i < $scope.feedbacks.length; i++){
+					$scope.feedbacks[i].rating = null;
+					for (var j = 0; j < $scope.ratings.length; j++){
+						if($scope.feedbacks[i].fbID == $scope.ratings[j].fbID){
+							$scope.feedbacks[i].rating = $scope.ratings[j].usefulness;
+						}
+					}
+				}
 			});
 		};
 
@@ -61,7 +70,13 @@
 
 			dataservice.postFeedbackRating({
 				"rating": rating, "feedback": feedback, "user": user},
-				function(){});
+				function(){
+					for (var i = 0; i < $scope.feedbacks.length; i++){
+						if ($scope.feedbacks[i].fbID == feedback){							
+							$scope.feedbacks[i].rating = rating;
+						}
+					}
+				});
 
 		}
 

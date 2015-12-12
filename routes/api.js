@@ -85,24 +85,25 @@ router.get('/feedback', auth, function(req,res){
 
 	responseMessage = {};
 	try{
-		query = "select f.fbID, f.date, f.score, f.comment, c.fullname, c.userID from feedback f left join customer c on (f.userID = c.userID) where f.book like ?  ORDER BY f.avgUseful  DESC  LIMIT ?, ?;"
+		query = "select f.fbID, f.date, f.score, f.comment, c.fullname, c.userID from feedback f left join customer c on (f.userID = c.userID) where f.book like ?  ORDER BY f.avgUseful  DESC  LIMIT ?, ?;";
 		connection.query(query,[isbn13, start, end], function(err, rows, fields) {
 			if (err) throw err;
 
 			responseMessage['feedback'] = rows;
 			console.log(rows);
 		});
-		query = "select usefulness,fbID from rating where userID = ?;"
+		query = "select usefulness,fbID from rating where userID = ?;";
 		connection.query(query,[user], function(err, rows, fields) {
 			if (err) throw err;
 			responseMessage['rating'] = rows;
+			console.log(responseMessage);
+			res.send(responseMessage);
 		});
-
-		res.send(responseMessage);
+		
 	} catch (err){
 		console.log(err);
 		responseMessage['feedback'] = [];
-		res.send(responseMessage)
+		res.send(responseMessage);
 	}
 });
 

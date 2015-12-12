@@ -81,24 +81,27 @@ router.get('/feedback', auth, function(req,res){
 	isbn13 = req.query.isbn13;
 	start = parseInt(req.query.start);
 	end = parseInt(req.query.end);
+	console.log(start, end, isbn13);
 
-	responseMessage = {}
+	responseMessage = {};
 	try{
 		query = "select f.fbID, f.date, f.score, f.comment, c.fullname, c.userID from feedback f left join customer c on (f.userID = c.userID) where f.book like ?  ORDER BY f.avgUseful  DESC  LIMIT ?, ?;"
 		connection.query(query,[isbn13, start, end], function(err, rows, fields) {
 			if (err) throw err;
-			responseMessage.feedback = rows;
-			query = "select usefulness,fbID from rating where userID = ?;"
-			connection.query(query,[user], function(err, rows, fields) {
-				if (err) throw err;
-				responseMessage.rating = rows;
-			});
+
+			responseMessage['feedback'] = rows;
+			console.log(rows);
 		});
-		
+		query = "select usefulness,fbID from rating where userID = ?;"
+		connection.query(query,[user], function(err, rows, fields) {
+			if (err) throw err;
+			responseMessage['rating'] = rows;
+		});
+
 		res.send(responseMessage);
 	} catch (err){
 		console.log(err);
-		responseMessage.feedback = [];
+		responseMessage['feedback'] = [];
 		res.send(responseMessage)
 	}
 });

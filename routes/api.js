@@ -383,17 +383,17 @@ router.get('/popular/publisher', auth, function(req,res){
 router.post('/admin/book', auth, function(req,res){
 	console.log("RESTFUL API: \t admin/book");
 	//req.body.??
-	title = req.body.title
-	isbn13 = req.body.isbn13
-	author = req.body.author
-	format = req.body.format
-	image_url = req.body['image_url']
-	subject = req.body.subject
-	year = req.body.year
-	price = req.body.price
-	publisher = req.body.publisher
-	summary = req.body.summary
-	quantity = req.body.quantity
+	title = req.body.book.title
+	isbn13 = req.body.book.isbn13
+	author = req.body.book.author
+	format = req.body.book.format
+	image_url = req.body.book['image_url']
+	subject = req.body.book.subject
+	year = req.body.book.year
+	price = req.body.book.price
+	publisher = req.body.book.publisher
+	summary = req.body.book.summary
+	quantity = req.body.book.quantity
 
 	responseMessage = {}
 	try{
@@ -403,7 +403,6 @@ router.post('/admin/book', auth, function(req,res){
 			responseMessage.status = 1;
 			res.send(responseMessage);
 
-			
 		});
 		
 	} catch (err){

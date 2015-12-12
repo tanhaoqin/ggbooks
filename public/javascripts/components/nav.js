@@ -18,8 +18,7 @@
 			$scope.getBooks = function() {
 		  	if (!$scope.searchText || $scope.searchText === ''){ return;}
 		  	dataservice.getBooks($scope.searchText, function(res){
-		  		dataservice.search = res;
-			  	$state.go('search');
+			  	$state.go('search', {}, { reload: true });
 		  	})
 		  };
 			auth.subscribe($scope.update);

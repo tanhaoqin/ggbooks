@@ -31,9 +31,8 @@
 		};
 
 		o.getBooks = function(searchString, callback) {
-			$http.get('/api/books', 
+			$http.get('/api/books?search='+searchString, 
 			{
-				params: {search:searchString},
 				headers: {Authorization: 'Bearer '+auth.getToken()}
 			}
 			).success(

@@ -1,6 +1,5 @@
 (function() {
     var admin = angular.module('ggbooks.admin', []);
-
     admin.controller('AdminCtrl', [
         '$scope',
         '$state',
@@ -13,19 +12,15 @@
                 $scope.bookFound = false;
                 $scope.book = "";
             };
-
             $scope.countFullStars = function(num) {
                 return new Array(parseInt(num / 2));
             }
-
             $scope.countHalfStars = function(num) {
                 return new Array(parseInt(num % 2));
             }
-
             $scope.countEmptyStars = function(num) {
                 return new Array(5 - parseInt(parseInt(num) / 2) - parseInt(num % 2));
             }
-
             $scope.getBook = function(isbn) {
                 dataservice.getBook(isbn, function(res) {
                     $scope.book = res;
@@ -33,37 +28,37 @@
                     console.log($scope.book);
                 });
             };
-
-            $scope.insertBook = function(title, isbn, author, format, price, publisher, summary, quantity, year, url, subject){
-            	var bookFormat = format == 'Hardcover' ? 'H' : 'P';
+            $scope.insertBook = function(title, isbn, author, format, price, publisher, summary, quantity, year, url, subject) {
+                var bookFormat = format == 'Hardcover' ? 'H' : 'P';
                 var book = {
-                    'title': title,
-                    'ISBN13': isbn,
-                    'author': author,
-                    'format': bookFormat,
-                    'price' : price,
-                    'publisher': publisher,
-                    'summary': summary,
-                    'quantity': quantity,
-                    'image_url': url,
-                    'subject': subject,
-                    'year': year
-                };
+                    'book': {
+                        'title': title,
+                        'isbn13': isbn,
+                        'author': author,
+                        'format': bookFormat,
+                        'price': price,
+                        'publisher': publisher,
+                        'summary': summary,
+                        'quantity': quantity,
+                        'image_url': url,
+                        'subject': subject,
+                        'year': year
+                    }
+                }
                 dataservice.insertBook(book, function(res) {
+                    console.log(book);
                     console.log(res);
                 })
             };
-
             $scope.updateQuantity = function(quantity, isbn) {
                 var quantityJSON = {
-                    'isbn13' : isbn,
-                    'quantity' : quantity
+                    'isbn13': isbn,
+                    'quantity': quantity
                 }
                 dataservice.updateQuantity(quantityJSON, function(res) {
                     console.log(res);
                 })
             };
-
             $scope.init();
         }
     ]);

@@ -11,9 +11,9 @@
 			</select>
 		</div>
 		<br>
-		<div ng-repeat="item in featured">
+		<div ng-repeat="item in searchArray">
 			<div class="search-thumbnail">
-				<a href="#/book/{{item.isbn13}}"><img src={{item.imageUrl}} alt="{{item.title}}"></a>
+				<a href="#/book/{{item.isbn13}}"><img src={{item.image_url}} alt="{{item.title}}"></a>
 				<div class="search-caption">
 					<h2><a href="#/book/{{item.isbn13}}">{{item.title}}</a></h2>
 					<h4>{{item.author}}</h4>

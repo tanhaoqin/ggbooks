@@ -21,7 +21,7 @@
 					<div class="form-group">
 						<label for="account-email" class="col-sm-2 control-label">ISBN13</label>
 						<div class="col-sm-10">
-							<input type="number" class="form-control" ng-model="isbn" placeholder="ISBN13" value="">
+							<input type="text" class="form-control" ng-model="isbn" placeholder="ISBN13" value="">
 						</div>
 					</div>
 					<div class="form-group">
@@ -33,7 +33,7 @@
 					<div class="form-group">
 						<label for="account-password" class="col-sm-2 control-label">Format</label>
 						<div class="col-sm-10">
-							<select ng-model="book.format" class="form-control">
+							<select ng-model="format" class="form-control">
 								<option ng-selected="true">Hardcover</option>
 								<option>Paperback</option>
 							</select>
@@ -104,13 +104,13 @@
 					<div class="form-group">
 						<label for="account-email" class="col-sm-2 control-label">ISBN13</label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control" ng-model="isbn" placeholder="ISBN13" value="">
+							<input type="text" class="form-control" ng-model="quantityisbn" placeholder="ISBN13" value="">
 							<!-- Add search here. When search done, change to book info and increase quantity -->
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-10">
-							<button type="submit" ng-click="getBook(isbn)" class="btn btn-primary">Search For Book</button>
+							<button type="submit" ng-click="getBook(quantityisbn)" class="btn btn-primary">Search For Book</button>
 						</div>
 					</div>
 					<div class="panel-body list-group">

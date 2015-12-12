@@ -402,6 +402,7 @@ router.post('/admin/book', auth, function(req,res){
 			if (err) throw err;
 			responseMessage.status = 1;
 			res.send(responseMessage);
+
 			
 		});
 		

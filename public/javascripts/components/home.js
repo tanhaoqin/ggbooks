@@ -14,15 +14,15 @@
   	  	  console.log(auth.isLoggedIn());
 		  if ($scope.isLoggedIn){
 		  	$scope.currentUser = auth.currentUser();
-		  	$scope.featured = dataservice.topSellers;
-		  	// dataservice.getRecommendations(function(res){
-		  	// 	if (res.user.length < 6){
-		  	// 		var slack = 6 - res.user.length;
-		  	// 		dataservice.getPopularBooks(slack, function(res){
-		  	// 			console.log(res);
-		  	// 		});
-		  	// 	} 
-		  	// });
+		  	// $scope.featured = dataservice.topSellers;
+		  	dataservice.getRecommendations(function(res){
+		  		if (res.user.length < 6){
+		  			var slack = 6 - res.user.length;
+		  			dataservice.getPopularBooks(slack, function(res){
+		  				$scope.featured = res.books;
+		  			});
+		  		} 
+		  	});
 		  } else {
 		  	$scope.featured = dataservice.topSellers;
 		  }	  	

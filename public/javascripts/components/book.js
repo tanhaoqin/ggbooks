@@ -26,7 +26,7 @@
 				}
 			});
 			$scope.feedbackCount = 5;
-			$scope.getFeedback(1,5);
+			$scope.getFeedback(0,5);
 		};
 
 		$scope.getFeedback = function(start, count){

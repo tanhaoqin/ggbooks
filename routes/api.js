@@ -323,7 +323,7 @@ router.get('/recommendation', auth, function(req,res){
 	}
 });
 
-router.get('/popular/books', auth, function(req,res){
+router.get('/popular/books', function(req,res){
 	console.log("RESTFUL API: \t popular/books");
 	quantity = parseInt(req.query.quantity);
 
@@ -333,8 +333,8 @@ router.get('/popular/books', auth, function(req,res){
 		connection.query(query,[quantity], function(err, rows, fields) {
 			if (err) throw err;
 			responseMessage.books = rows;
-		});
-		res.send(responseMessage);
+			res.send(responseMessage);
+		});	
 	} catch (err){
 		console.log(err);
 		responseMessage.books = [];

@@ -17,9 +17,8 @@
 
 			$scope.getBooks = function() {
 		  	if (!$scope.searchText || $scope.searchText === ''){ return;}
-		  	dataservice.getBooks($scope.searchText, function(){
-		  		console.log(dataservice[0]);
-			  	$scope.featuredBook.push(dataservice[0]);
+		  	dataservice.getBooks($scope.searchText, function(res){
+		  		dataservice.search = res;
 			  	$state.go('search');
 		  	})
 		  };

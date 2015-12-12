@@ -55,7 +55,7 @@ router.get('/books', auth, function(req,res){
 	console.log("RESTFUL API: \t books");
 	search = req.query.search;
 
-	responseMessage = {}
+	responseMessage = {};
 	try{
 		connection.query("select * from book where title like '%"+search+"%' or author like '%"+search+"%' or isbn13 like '%"+search+"%';", function(err, rows, fields) {
 			if (err) throw err;

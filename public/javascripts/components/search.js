@@ -10,10 +10,10 @@
         function($scope, $state, $stateParams, auth, dataservice) {
             $scope.update = function() {
                 $scope.currentUser = auth.currentUser();
-                $scope.featured = dataservice.getSearchResults();
+                $scope.searchArray = dataservice.getSearchResults();
             }
             $scope.update();
-            $scope.featuredBook = dataservice.featuredBook;
+            // $scope.featuredBook = dataservice.featuredBook;
 
             $scope.range = function(num) {
                 return new Array(num);
@@ -25,13 +25,13 @@
             }
             $scope.sortArray = function() {
                 if ($scope.sortingStyle == "Normal") {
-                    $scope.featured = dataservice.getSearchResults();
+                    $scope.searchArray = dataservice.getSearchResults();
                 } 
                 else if ($scope.sortingStyle == "Year") {
-                	$scope.featured = _.sortBy($scope.featured, "year")
+                	$scope.searchArray = _.sortBy($scope.searchArray, "year")
                 }
                 else {
-                	$scope.featured = _.sortBy($scope.featured, "avgScore")
+                	$scope.searchArray = _.sortBy($scope.searchArray, "avgScore")
 
                 }
             }

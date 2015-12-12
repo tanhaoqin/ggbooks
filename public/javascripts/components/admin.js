@@ -29,13 +29,12 @@
                 });
             };
             $scope.insertBook = function(title, isbn, author, format, price, publisher, summary, quantity, year, url, subject) {
-                var bookFormat = format == 'Hardcover' ? 'H' : 'P';
                 var book = {
                     'book': {
                         'title': title,
                         'isbn13': isbn,
                         'author': author,
-                        'format': bookFormat,
+                        'format': format == 'Paperback' ? 'P' : 'H',
                         'price': price,
                         'publisher': publisher,
                         'summary': summary,

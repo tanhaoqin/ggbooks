@@ -21,9 +21,13 @@
 			isbn13: 9781405925136
 		}];
 
-		o.getRecommendations = function(){
-			return o.topSellers;
-			//$http.get('/api/recommendations')
+		o.getRecommendations = function(callback){
+			// return o.topSellers;
+			$http.get('/api/recommendation',{
+				headers: {Authorization: 'Bearer '+auth.getToken()}
+			}).success(function(res){
+				callback(res);
+			});
 		};
 
 		o.getBooks = function(searchString, callback) {
@@ -38,6 +42,13 @@
 				callback();
 			});
 		};
+
+		o.getPopularBooks = function(quantity,callback){
+			$http.get('/api/popular/books?quantity='+quantity)
+			.success(function(res){
+				callback(res);
+			});
+		}
 
 		o.getBook = function(isbn13, callback){
 			$http.get('/api/book?isbn13='+isbn13,
@@ -81,6 +92,17 @@
 				console.log(err);
 			});
 		};
+
+		o.postCart = function(data, callback){
+			$http.post('/api/cart', data, {
+				headers: {Authorization: 'Bearer '+auth.getToken()}
+			}).success(function(res){
+				callback(res);
+			}).error(function(err){
+				console.log(err);
+			});
+
+		}
 
 		o.getCart = function(){
 

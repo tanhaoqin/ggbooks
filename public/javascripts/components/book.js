@@ -21,6 +21,9 @@
 				}
 				console.log($scope.book);
 				$scope.displayedPrice = parseFloat($scope.book.price) * $scope.qtySelected;
+				if($scope.book.fb_sub == 1){
+					$scope.feedbackSubmitted = true;
+				}
 			});
 			$scope.feedbackCount = 5;
 			$scope.getFeedback(1,5);
@@ -84,6 +87,20 @@
 
 		$scope.hide = function(){
 			$scope.show = false;
+		}
+
+		$scope.addToCart = function(){
+			dataservice.postCart({
+				"isbn13": $scope.bookId,
+				"quantity": $scope.qtySelected
+			}, function(){
+				$timeout(function(){
+					$scope.cartWaiting = false;
+				}, 1500);
+			}, function(err){
+				$scope.cartWaiting = false;
+			});
+			$scope.cartWaiting = true;
 		}
 
 	}]);

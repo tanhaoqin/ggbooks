@@ -24,16 +24,16 @@
 				<span>{{(book.summary).substring(0,1000)}}</span><span ng-if="book.summary.length>1000" ng-show="show">{{(book.summary).substring(1000)}}</span><span ng-if="book.summary.length>1000" ng-hide="show">...</span><a class="btn" ng-click="expand()" ng-if="book.summary.length>1000" ng-hide="show">Show more</a><a class="btn" ng-click="hide()" ng-if="book.summary.length>1000" ng-show="show">Show less</a>
 			</p>
 		</div>
-		<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+		<form ng-submit="addToCart()" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
 			<h2>${{displayedPrice}}</h2>
 			<div class="form-group">
 			  <label for="sel1">Quantity:</label>
 			  <select ng-model="qtySelected" ng-change="updateQuantity()" class="form-control" id="sel1" ng-options="i as i for i in bookCopies">
 	 		  </select>
 	 		  <p></p>
-			  <button type="button" class="btn btn-default">Add to Cart</button>
+			  <button type="submit" class="btn btn-default">Add to Cart</button> <i ng-show="cartWaiting" class="fa fa-spinner fa-pulse"></i>
 			</div>
-		</div>
+		</form>
 	</div>
 	<hr>
 	<div class="book-card" class="row">

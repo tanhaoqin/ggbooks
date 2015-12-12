@@ -15,9 +15,9 @@
 			};
 			$scope.featuredBook = dataservice.featuredBook;
 
-			$scope.getBook = function() {
-		  	if (!$scope.isbn13 || $scope.isbn13 === ''){ return;}
-		  	dataservice.getBook($scope.isbn13, function(){
+			$scope.getBooks = function() {
+		  	if (!$scope.searchText || $scope.searchText === ''){ return;}
+		  	dataservice.getBooks($scope.searchText, function(){
 		  		console.log(dataservice[0]);
 			  	$scope.featuredBook.push(dataservice[0]);
 			  	$state.go('search');

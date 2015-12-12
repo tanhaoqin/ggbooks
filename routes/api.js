@@ -289,13 +289,13 @@ router.get('/user', auth, function(req,res){
 					connection.query(query,[user], function(err, rows, fields) {
 						if (err) throw err;
 						responseMessage["own_feedback"] = rows;
-
+						res.send(responseMessage);
 					});
 
 				});
 			});
 		});
-		res.send(responseMessage);
+
 	} catch (err){
 		console.log(err);
 		responseMessage.cart = [];

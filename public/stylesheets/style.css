@@ -221,3 +221,7 @@ a {
 .sorting {
 	display: inline-block;
 }
+
+.feedback-none {
+	min-height: 100px;
+}

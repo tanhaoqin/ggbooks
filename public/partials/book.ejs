@@ -8,14 +8,14 @@
 			<h4>by {{book.author}}</h4>
 			<div class="rating-container">
 				<span class="fa-stack" ng-repeat="i in countFullStars(book.avgScore) track by $index">
-				     <i class="fa fa-fw fa-lg fa-star fa-stack-1x yellow"></i>
+					<i class="fa fa-fw fa-lg fa-star fa-stack-1x yellow"></i>
 				</span>
 				<span class="fa-stack" ng-repeat="i in countHalfStars(book.avgScore) track by $index">
-				     <i class="fa fa-fw fa-lg fa-star-half fa-stack-1x"></i>
-				     <i class="fa fa-fw fa-lg fa-star fa-stack-1x"></i>
+					<i class="fa fa-fw fa-lg fa-star-half fa-stack-1x"></i>
+					<i class="fa fa-fw fa-lg fa-star fa-stack-1x"></i>
 				</span>
 				<span class="fa-stack" ng-repeat="i in countEmptyStars(book.avgScore) track by $index">
-				     <i class="fa fa-fw fa-lg fa-star fa-stack-1x"></i>
+					<i class="fa fa-fw fa-lg fa-star fa-stack-1x"></i>
 				</span>
 			</div>
 			<hr>
@@ -27,11 +27,11 @@
 		<form ng-submit="addToCart()" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
 			<h2>${{displayedPrice}}</h2>
 			<div class="form-group">
-			  <label for="sel1">Quantity:</label>
-			  <select ng-model="qtySelected" ng-change="updateQuantity()" class="form-control" id="sel1" ng-options="i as i for i in bookCopies">
-	 		  </select>
-	 		  <p></p>
-			  <button type="submit" class="btn btn-default">Add to Cart</button> <i ng-show="cartWaiting" class="fa fa-spinner fa-pulse"></i>
+				<label for="sel1">Quantity:</label>
+				<select ng-model="qtySelected" ng-change="updateQuantity()" class="form-control" id="sel1" ng-options="i as i for i in bookCopies">
+				</select>
+				<p></p>
+				<button type="submit" class="btn btn-default">Add to Cart</button> <i ng-show="cartWaiting" class="fa fa-spinner fa-pulse"></i>
 			</div>
 		</form>
 	</div>
@@ -51,57 +51,70 @@
 			<form ng-disabled="feedbackWaiting" ng-submit="postFeedback()">
 				<div class="form-group">
 					<label class="control-label">Your Rating</label><select ng-model="feedback.score" class="form-control">
-						<option value="">Choose your rating, 0 for terrible, 10 for awesomeness.</option>
-						option
-						<option ng-repeat="i in range(11) track by $index" value="{{10 - $index}}">{{10 - $index}}</option>
-					</select>
-				</div>
-				<div class="form-group">
-					<label class="control-label">Your Comments</label><textarea ng-model="feedback.comment" class="form-control" rows="5" placeholder="Your comments here."></textarea>
-				</div>
-				<button ng-disabled="feedbackWaiting" class="btn btn-primary">Shoot away!</button> <i ng-show="feedbackWaiting" class="fa fa-spinner fa-pulse"></i>
-			</form>
-		</div>
-		<p>Top <span class="form-inline">
-			  <select ng-model="feedbackCount" ng-change="updateQuantity(qty)"class="form-control" value="5">
-			    <option ng-selected="true">5</option>
-			    <option>10</option>
-			    <option>25</option>
-			    <option>100</option>
-			  </select>
-			</span> submissions</p>
-		<div ng-if="feedbacks.length==0">
-			<p>There are no feedbacks available for this item yet.</p>
-		</div>
-		<div ng-repeat="feedback in feedbacks">
-			<hr>
-			<div class="rating-container">
-				<span class="fa-stack" ng-repeat="i in countFullStars(feedback.score) track by $index">
-				     <i class="fa fa-fw fa-lg fa-star fa-stack-1x yellow"></i>
-				</span>
-				<span class="fa-stack" ng-repeat="i in countHalfStars(feedback.score) track by $index">
-				     <i class="fa fa-fw fa-lg fa-star-half fa-stack-1x"></i>
-				     <i class="fa fa-fw fa-lg fa-star fa-stack-1x"></i>
-				</span>
-				<span class="fa-stack" ng-repeat="i in countEmptyStars(feedback.score) track by $index">
-				     <i class="fa fa-fw fa-lg fa-star fa-stack-1x"></i>
-				</span>
+					<option value="">Choose your rating, 0 for terrible, 10 for awesomeness.</option>
+					option
+					<option ng-repeat="i in range(11) track by $index" value="{{10 - $index}}">{{10 - $index}}</option>
+				</select>
 			</div>
-			<div class="feedback-user"><span>by {{feedback.fullname}}</span></div>
-			<h6 class="feedback-content">Rated on {{feedback.date | date:"dd-mm-yy"}}</h6>
-			<p class="feedback-content"><br>
-				<span ng-if="feedback.comment != null">{{feedback.comment}}</span>
-				<span class="feedback-none" ng-if="feedback.comment == null">No comments.</span>
-			</p>
-			<p class="feedback-content">
-				Rate this review: 
-				<button ng-if="feedback.rating != 2" type="button" class="btn btn-default" ng-click = "postFeedbackRating(2, feedback.fbID, feedback.userID)">Very Useful</button>
-				<button ng-if="feedback.rating == 2" type="button" class="btn btn-primary" ng-click = "postFeedbackRating(2, feedback.fbID, feedback.userID)">Very Useful</button>
-				<button ng-if="feedback.rating != 1" type="button" class="btn btn-default" ng-click = "postFeedbackRating(1, feedback.fbID, feedback.userID)">Useful</button>
-				<button ng-if="feedback.rating == 1" type="button" class="btn btn-primary" ng-click = "postFeedbackRating(1, feedback.fbID, feedback.userID)">Useful</button>
-				<button ng-if="feedback.rating != 0" type="button" class="btn btn-default" ng-click = "postFeedbackRating(0, feedback.fbID, feedback.userID)">Useless</button>
-				<button ng-if="feedback.rating == 0" type="button" class="btn btn-primary" ng-click = "postFeedbackRating(0, feedback.fbID, feedback.userID)">Useless</button>
-			</p>
-		</div>
+			<div class="form-group">
+				<label class="control-label">Your Comments</label><textarea ng-model="feedback.comment" class="form-control" rows="5" placeholder="Your comments here."></textarea>
+			</div>
+			<button ng-disabled="feedbackWaiting" class="btn btn-primary">Shoot away!</button> <i ng-show="feedbackWaiting" class="fa fa-spinner fa-pulse"></i>
+		</form>
 	</div>
+	<p>Top <span class="form-inline">
+		<select ng-model="feedbackCount" ng-change="getFeedback()" class="form-control" value="5">
+			<option value="5" ng-selected="true">5</option>
+			<option value="10">10</option>
+			<option value="25">25</option>
+			<option value="100">100</option>
+		</select>
+	</span> submissions</p>
+	<div ng-if="feedbacks.length==0">
+		<p class="feedback-none">There are no feedbacks available for this item yet.</p>
+	</div>
+	<div ng-repeat="feedback in feedbacks">
+		<hr>
+		<div class="rating-container">
+			<span class="fa-stack" ng-repeat="i in countFullStars(feedback.score) track by $index">
+				<i class="fa fa-fw fa-lg fa-star fa-stack-1x yellow"></i>
+			</span>
+			<span class="fa-stack" ng-repeat="i in countHalfStars(feedback.score) track by $index">
+				<i class="fa fa-fw fa-lg fa-star-half fa-stack-1x"></i>
+				<i class="fa fa-fw fa-lg fa-star fa-stack-1x"></i>
+			</span>
+			<span class="fa-stack" ng-repeat="i in countEmptyStars(feedback.score) track by $index">
+				<i class="fa fa-fw fa-lg fa-star fa-stack-1x"></i>
+			</span>
+		</div>
+		<div class="feedback-user"><span>by {{feedback.fullname}}</span></div>
+		<h6 class="feedback-content">Rated on {{feedback.date | date:"dd-mm-yy"}}</h6>
+		<p class="feedback-content"><br>
+			<span ng-if="feedback.comment != null">{{feedback.comment}}</span>
+			<span class="feedback-none" ng-if="feedback.comment == null">No comments.</span>
+		</p>
+		<p class="feedback-content">
+			Rate this review:
+			<button ng-if="feedback.rating != 2" type="button" class="btn btn-default" ng-click = "postFeedbackRating(2, feedback.fbID, feedback.userID)">Very Useful</button>
+			<button ng-if="feedback.rating == 2" type="button" class="btn btn-primary" ng-click = "postFeedbackRating(2, feedback.fbID, feedback.userID)">Very Useful</button>
+			<button ng-if="feedback.rating != 1" type="button" class="btn btn-default" ng-click = "postFeedbackRating(1, feedback.fbID, feedback.userID)">Useful</button>
+			<button ng-if="feedback.rating == 1" type="button" class="btn btn-primary" ng-click = "postFeedbackRating(1, feedback.fbID, feedback.userID)">Useful</button>
+			<button ng-if="feedback.rating != 0" type="button" class="btn btn-default" ng-click = "postFeedbackRating(0, feedback.fbID, feedback.userID)">Useless</button>
+			<button ng-if="feedback.rating == 0" type="button" class="btn btn-primary" ng-click = "postFeedbackRating(0, feedback.fbID, feedback.userID)">Useless</button>
+		</p>
+	</div>
+	<nav>
+		<ul class="pagination">
+			<li ng-show="page == 0" class="disabled">
+					<span >Previous</span>
+			</li>
+			<li ng-hide="page == 0">
+				<span ng-click="previousPage()">Previous</span>
+			</li>
+			<li>
+				<span ng-click="nextPage()">Next</span>
+			</li>
+		</ul>
+	</nav>
+</div>
 </div>

@@ -26,11 +26,14 @@
 				}
 			});
 			$scope.feedbackCount = 5;
-			$scope.getFeedback(0,5);
+			$scope.page = 0;
+			$scope.getFeedback();
 		};
 
-		$scope.getFeedback = function(start, count){
-			dataservice.getFeedback($scope.bookId, start, start + count - 1, function(res){
+		$scope.getFeedback = function(){
+			var start = $scope.page * parseInt($scope.feedbackCount) + 1;
+			var end = parseInt(start) + parseInt($scope.feedbackCount) - 1;
+			dataservice.getFeedback($scope.bookId, start, end, function(res){
 				$scope.feedbacks = res.feedback;
 				$scope.ratings = res.rating;
 				for (var i = 0; i < $scope.feedbacks.length; i++){
@@ -116,6 +119,19 @@
 				$scope.cartWaiting = false;
 			});
 			$scope.cartWaiting = true;
+		}
+
+		$scope.nextPage = function(){
+			$scope.page += 1;
+			$scope.getFeedback();
+		}
+
+		$scope.previousPage = function(){
+			if($scope.page > 0){
+				$scope.page -= 1;
+				$scope.getFeedback();
+			}
+
 		}
 
 	}]);

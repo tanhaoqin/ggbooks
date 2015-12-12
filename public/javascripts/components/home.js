@@ -24,7 +24,9 @@
 		  		} 
 		  	});
 		  } else {
-		  	$scope.featured = dataservice.topSellers;
+		  	dataservice.getPopularBooks(6, function(res){
+  				$scope.featured = res.books;
+  			});
 		  }	  	
 	  }
 	  $scope.update();

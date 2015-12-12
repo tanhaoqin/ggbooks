@@ -145,12 +145,6 @@
 			<div class="panel-body list-group">
 				<div ng-repeat="feedback in feedbacks" class="list-group-item">
 					<div class="row">
-						<div class="col-sm-2">
-							<div class="thumbnail">
-								<img src="{{feedback.image_url}}" alt="">
-							</div>
-						</div>
-						<div class="col-sm-7">
 							<p><span class="details-label">Title: </span>{{feedback.title}}</p>
 							<p><span class="details-label">Author: </span>{{feedback.author}}</p>
 							<p><span class="details-label">ISBN-13: </span>{{feedback.book}}</p>
@@ -171,7 +165,6 @@
 								<span ng-if="feedback.comment != null">{{feedback.comment}}</span>
 								<span class="feedback-none" ng-if="feedback.comment == null">No comments.</span>
 							</p>
-						</div>
 					</div>
 					
 				</div>

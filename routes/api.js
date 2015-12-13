@@ -281,7 +281,7 @@ router.post('/order', auth, function (req, res) {
 
 		    console.log('Order added');
 
-		    connection.query('INSERT into orderItem select o.orderid, c.book,c.quantity from orders o join cart c where o.userID=c.userID AND o.userID=?;', [user], function(err, result) {
+		    connection.query('INSERT into orderItem select max(o.orderid), c.book,c.quantity from orders o join cart c where o.userID=c.userID AND o.userID=?;', [user], function(err, result) {
 		      if (err) { 
 		        connection.rollback(function() {
 		          throw err;

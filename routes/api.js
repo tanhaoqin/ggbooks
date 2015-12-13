@@ -136,10 +136,21 @@ router.post('/feedback/rating', auth ,function (req, res) {
 
 	responseMessage = {};
 	try{
-		connection.query('INSERT into rating (usefulness, fbID, userID) values (?,?,?);', [rating, feedback, user], function(err, rows, fields) {
+		connection.query('SELECT * from feedback where fbID like ? and userID like ?;', [feedback, user], function(err, rows, fields) {
 			if (err) throw err;
-			responseMessage.status = 1;
-			res.send(responseMessage);
+			if (rows.length == 0){
+				connection.query('INSERT into rating (usefulness, fbID, userID) values (?,?,?);', [rating, feedback, user], function(err, rows, fields) {
+					if (err) throw err;
+					responseMessage.status = 1;
+					res.send(responseMessage);
+				});
+			} else{
+				connection.query('update rating set usefulness=? where fbID like ? and userID like ?;', [rating, feedback, user], function(err, rows, fields) {
+					if (err) throw err;
+					responseMessage.status = 1;
+					res.send(responseMessage);
+				});
+			}
 		});
 	} catch (err){
 		console.log(err);

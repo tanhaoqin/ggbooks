@@ -30,7 +30,8 @@
 		  		item = $scope.cart[i]
 		  		$scope.totalPrice += (item.price * item.quantity);
 	  		};
-	  	})
+	  		$scope.totalPrice = $scope.totalPrice.toFixed(2);
+	  	});
 	  }
 
 	  $scope.orderBooks = function(){

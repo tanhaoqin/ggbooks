@@ -134,9 +134,12 @@ select count(fbID) from feedback where book LIKE '9780380973651';
 
 select r.usefulness,r.fbID from rating r join feedback f where r.fbID=f.fbID and r.userID like 3 and f.book like '9780380973651';
 
+<<<<<<< HEAD
 select f.*, b.title,b.author,b.image_url from feedback f join book b where f.book=b.isbn13 AND f.userID = 4;
 
 select * from user;
+=======
+>>>>>>> parent of eb275d6... profile feedback fix
 select * from cart;
 select * from customer;
 select * from rating;

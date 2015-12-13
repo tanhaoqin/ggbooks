@@ -150,15 +150,13 @@ router.post('/feedback/rating', auth ,function (req, res) {
 
 router.post('/cart', auth, function (req, res) {
 	console.log("RESTFUL API: \t cart");
-	console.log("hello");
-	console.log(req);
 	isbn13 = req.body.isbn13;
 	user = req.payload._id;
 	quantity = req.body.quantity;
 
 	responseMessage = {};
 	try{
-		connection.query('INSERT into cart (user, book,quantity) values (?,?,?);', [user, isbn13, quantity], function(err,rows, fields) {
+		connection.query('INSERT into cart (userID, book,quantity) values (?,?,?);', [user, isbn13, quantity], function(err,rows, fields) {
 			if (err) throw err;
 			responseMessage.status = 1;
 			res.send(responseMessage);

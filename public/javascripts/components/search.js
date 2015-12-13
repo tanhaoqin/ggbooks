@@ -23,6 +23,7 @@
                 $stateParams.bookId = isbn13;
                 $state.go('book');
             }
+            
             $scope.sortArray = function() {
                 if ($scope.sortingStyle == "Normal") {
                     $scope.searchArray = dataservice.getSearchResults();

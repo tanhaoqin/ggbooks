@@ -32,6 +32,10 @@
 				</select>
 				<p></p>
 				<button type="submit" class="btn btn-default">Add to Cart</button> <i ng-show="cartWaiting" class="fa fa-spinner fa-pulse"></i>
+				<p></p>
+				<div ng-show="cartSubmitted" class="alert alert-success">
+					<strong>Success!</strong> Book submitted to cart!
+				</div>
 			</div>
 		</form>
 	</div>
@@ -103,10 +107,10 @@
 			<button ng-if="feedback.rating == 0" type="button" class="btn btn-primary" ng-click = "postFeedbackRating(0, feedback.fbID, feedback.userID)">Useless</button>
 		</p>
 	</div>
-	<nav>
+	<nav ng-if="feedbacks.length!=0">
 		<ul class="pagination">
 			<li ng-show="page == 0" class="disabled">
-					<span >Previous</span>
+				<span >Previous</span>
 			</li>
 			<li ng-hide="page == 0">
 				<span ng-click="previousPage()">Previous</span>

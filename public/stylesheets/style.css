@@ -210,9 +210,9 @@ a {
 	text-align: right;
 }
 
-.alert {
+/*.alert {
 	color: #FF0000;
-}
+}*/
 
 .details-label{
 	font-weight: bold;
@@ -224,4 +224,8 @@ a {
 
 .feedback-none {
 	min-height: 100px;
+}
+
+.carousel-inner>.item>a>img, .carousel-inner>.item>img, .img-responsive, .thumbnail a>img, .thumbnail>img {
+    min-height: 400px;
 }

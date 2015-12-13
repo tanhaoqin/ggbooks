@@ -114,6 +114,10 @@
 			}, function(){
 				$timeout(function(){
 					$scope.cartWaiting = false;
+					$scope.cartSubmitted = true;
+					$timeout(function(){
+						$scope.cartSubmitted = false;
+					}, 1500);
 				}, 1500);
 			}, function(err){
 				$scope.cartWaiting = false;

@@ -44,7 +44,11 @@
 					</div>
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-10">
-							<button type="submit" class="btn btn-primary">Change Details</button>
+							<button type="submit" class="btn btn-primary">Change Details</button> <i ng-show="profileWaiting" class="fa fa-spinner fa-pulse"></i>
+							<p></p>
+				<div ng-show="profileSuccess" class="alert alert-success">
+					<strong>Success!</strong> Profile updated!
+				</div>
 						</div>
 					</div>
 				<hr></form>

@@ -92,6 +92,11 @@
 				$timeout(function(){
 					$scope.feedbackWaiting = false;
 					$scope.feedbackSubmitted = true;
+					$scope.feedbackSuccess = true;
+					$timeout(function(){
+						$scope.feedbackSuccess = false;
+					},2000)
+					$scope.getFeedback();
 				}, 1500);
 			}, function(err){
 				$scope.feedbackWaiting = false;

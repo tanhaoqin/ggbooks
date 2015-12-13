@@ -66,6 +66,9 @@
 			<button ng-disabled="feedbackWaiting" class="btn btn-primary">Shoot away!</button> <i ng-show="feedbackWaiting" class="fa fa-spinner fa-pulse"></i>
 		</form>
 	</div>
+	<div ng-show="feedbackSuccess" class="alert alert-success">
+		<strong>Success!</strong> Feedback submitted!
+	</div>
 	<p>Top <span class="form-inline">
 		<select ng-model="feedbackCount" ng-change="getFeedback()" class="form-control" value="5">
 			<option value="5" ng-selected="true">5</option>

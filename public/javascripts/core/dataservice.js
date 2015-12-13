@@ -37,7 +37,8 @@
 			}
 			).success(
 			function(res){
-				callback(res['book']);
+				o.search = res['book'];
+				callback(res);
 			});
 		};
 

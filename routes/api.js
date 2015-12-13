@@ -176,7 +176,7 @@ router.post('/cart', auth, function (req, res) {
 
 	responseMessage = {};
 	try{
-		connection.query('SELECT * from cart where userID=? AND isbn13=?;', [user, isbn13], function(err,rows, fields) {
+		connection.query('SELECT * from cart where userID=? AND book=?;', [user, isbn13], function(err,rows, fields) {
 			if (err) throw err;
 			if (rows.length == 0){
 				connection.query('INSERT into cart (userID, book,quantity) values (?,?,?);', [user, isbn13, quantity], function(err,rows, fields) {

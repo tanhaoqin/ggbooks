@@ -80,7 +80,7 @@ router.get('/feedback', auth, function(req,res){
 
 	responseMessage = {}
 	try{
-		query = "select f.fbID, f.date, f.score, f.comment, c.fullname, c.userID from feedback f left join customer c on (f.userID = c.userID) where f.book like ?  ORDER BY f.avgUseful  DESC  LIMIT ?, ?;"
+		query = "select f.fbID, f.date, f.score, f.comment, c.fullname, c.userID from feedback f, customer c where  f.userID = c.userID and f.book like ?  ORDER BY f.avgUseful  DESC  LIMIT ?, ?;"
 		console.log(query);
 		connection.query(query,[isbn13, start, end], function(err, rows, fields) {
 			if (err) throw err;
@@ -128,6 +128,26 @@ router.post('/feedback/rating', auth ,function (req, res) {
 	responseMessage = {};
 	try{
 		connection.query('INSERT into rating (usefulness, fbID, userID) values (?,?,?);', [rating, feedback, user], function(err, rows, fields) {
+			if (err) throw err;
+			responseMessage.status = 1;
+			res.send(responseMessage);
+		});
+	} catch (err){
+		console.log(err);
+		responseMessage.status = 0;
+		res.send(responseMessage);
+	}
+});
+
+router.put('/feedback/rating', auth ,function (req, res) {
+	console.log("RESTFUL API: \t feedback/rating");
+	user = req.payload._id;
+	feedback = req.body.feedback;
+	rating = parseInt(req.body.rating);
+
+	responseMessage = {};
+	try{
+		connection.query('UPDATE rating set usefulness = ? where fbID=? and userID=?;', [rating, feedback, user], function(err, rows, fields) {
 			if (err) throw err;
 			responseMessage.status = 1;
 			res.send(responseMessage);

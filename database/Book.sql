@@ -125,7 +125,7 @@ select * from orders o2 join orderItem oi2 join book b where o2.orderid=oi2.orde
 (select book from orders o join orderItem oi where o.orderid=oi.orderid AND userId=4) AND o1.userID !=4) AND book not in 
 (select book from orders o join orderItem oi where o.orderid=oi.orderid AND userId=4);
 
-select sum(quantity) AS sold, b.* from orders o join orderItem oi join book b where o.orderid=oi.orderid and b.isbn13=oi.book and o.date BETWEEN NOW() - INTERVAL 30 DAY AND NOW() group by book order by sold DESC limit 6;
+select sum(quantity) AS sold, b.* from orders o, orderItem oi, book b where o.orderid=oi.orderid and b.isbn13=oi.book and o.date BETWEEN NOW() - INTERVAL 30 DAY AND NOW() group by book order by sold DESC limit 6;
 
 select sum(quantity) AS sold, b.* from orders o join orderItem oi join book b where o.orderid=oi.orderid and b.isbn13=oi.book and o.date BETWEEN NOW() - INTERVAL 30 DAY AND NOW() group by b.author order by sold DESC limit 6;
 
@@ -133,6 +133,8 @@ select f.fbID, f.book, f.date, f.score, f.comment, f.avgUseful, c.fullname, c.us
 select count(fbID) from feedback where book LIKE '9780380973651';
 
 select r.usefulness,r.fbID from rating r join feedback f where r.fbID=f.fbID and r.userID like 3 and f.book like '9780380973651';
+
+select f.*, b.title,b.author,b.image_url from feedback f join book b where f.book=b.isbn13 AND f.userID = 4;
 
 select * from user;
 select * from cart;

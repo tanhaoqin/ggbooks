@@ -112,8 +112,13 @@
 		}
 
 		o.postOrder = function(){
-
-			//$http.post('/api/order')
+			$http.post('/api/order', '', {
+				headers: {Authorization: 'Bearer '+auth.getToken()}
+			}).success(function(res){
+				callback(res);
+			}).error(function(err){
+				console.log(err);
+			});
 		}
 
 		o.getUser = function(callback){
@@ -138,6 +143,19 @@
 		o.updateQuantity = function(quantity, callback) {
 			$http.post('/api/admin/book/quantity', quantity, {
 				headers: {Authorization: 'Bearer '+auth.getToken()
+			}
+			}).success(function(res){
+				callback(res);
+			}).error(function(err){
+				console.log(quantity);
+				console.log(err);
+			});
+		};
+
+		o.deleteBook = function(quantity, callback) {
+			$http.delete('/api/cart', {
+				headers: {Authorization: 'Bearer '+auth.getToken(),
+				params: {isbn13:quantity}
 			}
 			}).success(function(res){
 				callback(res);

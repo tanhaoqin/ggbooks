@@ -11,6 +11,7 @@
 		$scope.update = function(){
 			$scope.currentUser = auth.currentUser();
 			$scope.orderStatus = false;
+			$scope.totalPrice = 0;
 			$scope.cart = ""
 			$scope.recommendedBooks = ""
 			$scope.getCart();
@@ -21,20 +22,36 @@
 	  }
 
 	  $scope.getCart = function(){
+	  	var item;
+	  	var totalPrice;
 	  	dataservice.getCart(function(res){
 	  		$scope.cart = res['cart'];
+	  		for (var i = 0; i < $scope.cart.length; i++) {
+		  		item = $scope.cart[i]
+		  		$scope.totalPrice += (item.price * item.quantity);
+		  		console.log($scope.totalPrice);
+	  		};
 	  	})
 	  }
 
-	  $scope.orderBooks = function(cart){
-	  	$stateParams.cart = cart;
-			$scope.orderStatus = true;
-			$scope.getRecommendations();
+	  $scope.orderBooks = function(){
+	  	dataservice.postOrder(function(res){
+	  		$scope.orderStatus = true;
+				$scope.getRecommendations();
+	  	})
+			
 	  }
 
 	  $scope.getRecommendations = function() {
 	  	$scope.recommendedBooks = dataservice.topSellers;
 	  }
+
+	  $scope.deleteBook = function(isbn13){
+	  	dataservice.deleteBook(isbn13, function(res){
+	  			$scope.getCart();
+	  	});
+	  }
+
 		$scope.update();
 	}]);
 })();

@@ -9,15 +9,18 @@
 					<div class="search-caption">
 						<h2><a href="#/book/{{item.isbn13}}">{{item.title}}</a></h2>
 						<h4>{{item.author}}</h4>
-						<br>
-						<br>
-						<h4 class="price">${{item.price}}</h4>
+					
 						<div class="cart-quantity">
+						<h4>Price: ${{item.price}}</h4>
+						<!-- <div class="cart-quantity">
 							<div class="overflow">
 								<label for="sel1">Quantity:</label>
 								<select class="form-control" id="sel1" ng-options="i as i for i in bookCopies">
 								</select>
 							</div>
+						</div> -->
+						<h4>Quantity: {{item.quantity}}</h4>
+						<button type="submit" class="btn btn-default" ng-click ="deleteBook(item.isbn13)">Delete</button>
 						</div>
 						<div class="rating-container">
 							<div class="glyphicon glyphicon-star" aria-hidden="true"ng-repeat="i in range(item.rating) track by $index"></div>
@@ -28,7 +31,7 @@
 			</div>
 		</div>
 		<div class="cart-order" ng-hide='orderStatus'>
-			<div class="total-price"><h4>Total Price: $10000</h4></div>
+			<div class="total-price"><h4>Total Price: ${{totalPrice}}</h4></div>
 			<button type="submit" class="btn btn-default" ng-click = "orderBooks()">Order</button>
 		</div>
 		<div class="row" ng-show='orderStatus'>

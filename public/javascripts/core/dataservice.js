@@ -104,8 +104,11 @@
 		}
 
 		o.getCart = function(){
-
-			//$http.get('/api/cart')
+			$http.get('/api/cart', {
+				headers: {Authorization: 'Bearer '+auth.getToken()}				
+			}).success(function(res){
+				callback(res);
+			});
 		}
 
 		o.postOrder = function(){

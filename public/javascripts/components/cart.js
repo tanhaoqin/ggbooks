@@ -11,14 +11,20 @@
 		$scope.update = function(){
 			$scope.currentUser = auth.currentUser();
 			$scope.orderStatus = false;
+			$scope.cart = ""
 			$scope.recommendedBooks = ""
-			// $scope.cart = dataservice.getCart();
-			$scope.cart = dataservice.getSearchResults();
+			$scope.getCart();
 		}
 		$scope.update();
 
 		$scope.range = function(num){
 	  	return new Array(num);
+	  }
+
+	  $scope.getCart = function(){
+	  	dataservice.getCart(function(res){
+	  		$scope.cart = res;
+	  	})
 	  }
 
 	  $scope.orderBooks = function(cart){

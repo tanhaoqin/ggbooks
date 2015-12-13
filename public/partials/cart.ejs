@@ -24,7 +24,10 @@
 							</div>
 						</div> -->
 						<h4>Quantity: {{item.quantity}}</h4>
-						<button type="submit" class="btn btn-default" ng-click ="deleteBook(item.isbn13)">Delete</button>
+						<button type="submit" class="btn btn-default" ng-click ="deleteBook(item.isbn13)">Delete</button> <i ng-show="cartWaiting" class="fa fa-spinner fa-pulse"> </i>
+						<div ng-show="itemDeleted" class="alert alert-success">
+							<strong>Success!</strong> Book deleted from cart!
+						</div>
 						</div>
 						<div class="rating-container">
 							<div class="glyphicon glyphicon-star" aria-hidden="true"ng-repeat="i in range(item.rating) track by $index"></div>

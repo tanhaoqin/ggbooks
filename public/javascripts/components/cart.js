@@ -5,9 +5,10 @@
 	'$scope',
 	'$state',
 	'$stateParams',
+	'$timeout',
 	'auth',	
 	'dataservice',
-	function($scope, $state, $stateParams, auth, dataservice) {
+	function($scope, $state, $stateParams, $timeout, auth, dataservice) {
 		$scope.update = function(){
 			$scope.currentUser = auth.currentUser();
 			$scope.orderStatus = false;
@@ -54,10 +55,19 @@
 
 	  $scope.deleteBook = function(isbn13){
 	  	dataservice.deleteBook(isbn13, function(res){
-	  			$scope.getCart();
-	  	});
+					$timeout(function(){
+						$scope.cartWaiting = false;
+						$scope.itemDeleted = true;
+						$timeout(function(){
+							$scope.itemDeleted = false;
+								 $scope.getCart();
+						}, 1500);
+					}, 1500);
+				}, function(err){
+					$scope.cartWaiting = false;
+				});
+				$scope.cartWaiting = true;
 	  }
-
 		$scope.update();
 	}]);
 })();

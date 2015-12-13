@@ -41,7 +41,14 @@
 	  }
 
 	  $scope.getRecommendations = function() {
-	  	$scope.recommendedBooks = dataservice.topSellers;
+	  	dataservice.getRecommendations(function(res){
+		  		if (res.user.length < 6){
+		  			var slack = 6 - res.user.length;
+		  			dataservice.getPopularBooks(slack, function(res){
+		  				$scope.recommendedBooks = res.books;
+		  			});
+		  		} 
+		  	});
 	  }
 
 	  $scope.deleteBook = function(isbn13){

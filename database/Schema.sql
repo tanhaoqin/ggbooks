@@ -44,6 +44,8 @@ CREATE TABLE orders(
     FOREIGN KEY (userID) REFERENCES user(id)
 );
 
+select * from orders;
+
 CREATE TABLE orderItem(
 	orderId int NOT NULL,
 	book char(13) NOT NULL,
@@ -105,16 +107,3 @@ BEGIN
     WHERE fbID=NEW.fbID;
 END $$
 DELIMITER ;
-   
-DELIMITER $$
-CREATE TRIGGER rating_own 
-BEFORE INSERT ON rating
-FOR EACH ROW
-BEGIN
-    IF NEW.userID = (select userID from feedback where fbID=NEW.fbID) THEN
-		signal sqlstate '45000'
-        SET MESSAGE_TEXT = 'Cannot rate your own feedback';
-    END IF;
-END $$
-DELIMITER ;
-

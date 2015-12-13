@@ -136,10 +136,21 @@ router.post('/feedback/rating', auth ,function (req, res) {
 
 	responseMessage = {};
 	try{
-		connection.query('INSERT into rating (usefulness, fbID, userID) values (?,?,?);', [rating, feedback, user], function(err, rows, fields) {
+		connection.query('SELECT * from feedback where fbID like ? and userID like ?;', [feedback, user], function(err, rows, fields) {
 			if (err) throw err;
-			responseMessage.status = 1;
-			res.send(responseMessage);
+			if (rows.length == 0){
+				connection.query('INSERT into rating (usefulness, fbID, userID) values (?,?,?);', [rating, feedback, user], function(err, rows, fields) {
+					if (err) throw err;
+					responseMessage.status = 1;
+					res.send(responseMessage);
+				});
+			} else{
+				connection.query('update rating set usefulness=? where fbID like ? and userID like ?;', [rating, feedback, user], function(err, rows, fields) {
+					if (err) throw err;
+					responseMessage.status = 1;
+					res.send(responseMessage);
+				});
+			}
 		});
 	} catch (err){
 		console.log(err);
@@ -221,21 +232,20 @@ router.get('/cart', auth, function(req,res){
 });
 
 router.delete('/cart', auth, function(req,res){
-	console.log("RESTFUL API: \t cart");
+	console.log("RESTFUL API: DELETE \t cart");
 	user = req.payload._id;
-	isbn13 = req.body.isbn13;
+	isbn13 = req.query.isbn13;
 
 	responseMessage = {}
 	try{
 		query = "delete from cart where userID like ? AND book like ?;"
-		connection.query(query,[user,isbn13], function(err, rows, fields) {
+		connection.query(query,[user,isbn13], function(err, result) {
 			if (err) throw err;
 			responseMessage.status = 1;
 			res.send(responseMessage);
 			 
 		});
 	} catch (err){
-		 
 		console.log(err);
 		responseMessage.status = 0;
 		res.send(responseMessage)
@@ -252,14 +262,14 @@ router.post('/order', auth, function (req, res) {
 	try{
 		connection.beginTransaction(function(err) {
 		  if (err) { throw err; }
-		  connection.query('INSERT into orders (userID, totalcost, creditcard) values (?, (select sum(b.price)*c.quantity from book b join cart c where b.isbn13=c.book and c.userID=?),(select creditcard from user where userID=?)));', [user,user,user], function(err, result) {
+		  connection.query('INSERT into orders (userID, totalcost, creditcard) values (?, (select sum(b.price)*c.quantity from book b join cart c where b.isbn13=c.book and c.userID=?),(select creditcard from customer where userID=?));', [user,user,user], function(err, result) {
 		    if (err) { 
 		      connection.rollback(function() {
 		        throw err;
 		      });
 		    }
 
-		    console.log('Order ' + result.insertId() + ' added');
+		    console.log('Order added');
 
 		    connection.query('INSERT into orderItem select o.orderid, c.book,c.quantity from orders o join cart c where o.userID=c.userID AND o.userID=?;', [user], function(err, result) {
 		      if (err) { 
@@ -267,7 +277,7 @@ router.post('/order', auth, function (req, res) {
 		          throw err;
 		        });
 		      }  
-		      console.log('OrderItem ' + result.insertId() + ' added');
+		      console.log('OrderItem added');
 
 			    connection.query('DELETE from cart where userID=?;', [user], function(err, result) {
 			      if (err) { 
@@ -275,7 +285,7 @@ router.post('/order', auth, function (req, res) {
 			          throw err;
 			        });
 			      }  
-			      console.log('CartItem ' + result.insertId() + ' delete');
+			      console.log('CartItem deleted');
 			      connection.commit(function(err) {
 			        if (err) { 
 			          connection.rollback(function() {

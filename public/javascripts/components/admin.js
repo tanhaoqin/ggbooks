@@ -10,7 +10,11 @@
             $scope.init = function() {
                 $scope.user = auth.currentUser();
                 $scope.bookFound = false;
+                $scope.popularBookFound = false;
                 $scope.book = "";
+                $scope.popularbooks;
+                $scope.popularauthors;
+                $scope.popularpublishers;
             };
             $scope.countFullStars = function(num) {
                 return new Array(parseInt(num / 2));
@@ -63,6 +67,13 @@
                     });
                 })
             };
+
+            $scope.getPopularBook = function(number) {
+                dataservice.getPopularBooks(number, function(res){
+                    $scope.popularbooks = res['books'];
+                    $scope.popularBookFound = true;
+                })
+            }
             $scope.init();
         }
     ]);

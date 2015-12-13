@@ -91,14 +91,14 @@
 		</div>
 	</div>
 	<div class="panel panel-default">
-		<div class="panel-heading" role="tab" id="infoHeader">
+		<div class="panel-heading" role="tab" id="quantityHeader">
 			<h4 class="panel-title">
 			<a role="button" data-toggle="collapse" data-parent="#accordion" data-target="#infoContent" aria-expanded="true" aria-controls="infoContent">
 				Increase Quantity
 			</a>
 			</h4>
 		</div>
-		<div id="infoContent" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="infoHeader">
+		<div id="infoContent" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="quantityHeader">
 			<div class="panel-body">
 				<form class="form-horizontal">
 					<div class="form-group">
@@ -114,70 +114,126 @@
 						</div>
 					</div>
 					<div class="panel-body list-group">
-				<div class="list-group-item" ng-show="bookFound">
-					<div class="row">
-						<div class="col-sm-2 profile profile-label">
-							<span>Title</span>
+						<div class="list-group-item" ng-show="bookFound">
+							<div class="row">
+								<div class="col-sm-2 profile profile-label">
+									<span>Title</span>
+								</div>
+								<div class="col-sm-10 profile">
+									<span>{{book.title}}</span>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-2 profile profile-label">
+									<span>ISBN 13</span>
+								</div>
+								<div class="col-sm-10 profile">
+									<span>{{book.isbn13}}</span>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-2 profile profile-label">
+									<span>Subject</span>
+								</div>
+								<div class="col-sm-10 profile">
+									<span>{{book.subject}}</span>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-2 profile profile-label">
+									<span>Price </span>
+								</div>
+								<div class="col-sm-10 profile">
+									<span>{{book.price}}</span>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-2 profile profile-label">
+									<span>Quantity</span>
+								</div>
+								<div class="col-sm-10 profile">
+									<span>{{book.copies}}</span>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-2 profile profile-label">
+									<span>Author</span>
+								</div>
+								<div class="col-sm-10 profile">
+									<span>{{book.author}}</span>
+								</div>
+							</div>
+							<hr>
+							<div class="form-group">
+								<label for="account-retype" class="col-sm-2 control-label">Increase Quantity By:</label>
+								<div class="col-sm-10">
+									<input type="number" class="form-control" ng-model="book.quantity" placeholder="Quantity">
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-offset-2 col-sm-10">
+									<button type="submit" ng-click="updateQuantity(book.quantity, quantityisbn)" class="btn btn-primary">Update Quantity</button>
+								</div>
+							</div>
 						</div>
-						<div class="col-sm-10 profile">
-							<span>{{book.title}}</span>
+					</form>
+				</div>
+			</div>
+		</div>
+		</div>
+<div class="panel panel-default">
+	<div class="panel-heading" role="tab" id="popularHeader">
+		<h4 class="panel-title">
+		<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" data-target="#popularContent" aria-expanded="true" aria-controls="popularContent">
+			Most Popular Books
+		</a>
+		</h4>
+	</div>
+	<div id="popularContent" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="popularHeader">
+		<div class="panel-body list-group">
+			<div class="form-group">
+				<label for="account-email" class="col-sm-2 control-label">Quantity</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" ng-model="popularbook.quantity" placeholder="Quantity" value="">
+				</div>
+			</div>
+			<br>
+			<br>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="submit" ng-click="getPopularBook(popularbook.quantity)" class="btn btn-primary">Get Popular Books</button>
+				</div>
+			</div>
+			<br>
+			<br>
+			<div ng-repeat="item in popularbooks" class="list-group-item">
+				<div class="row" ng-show="popularBookFound">
+					<div class="col-sm-2">
+						<div class="thumbnail profile-thumbnail">
+							<img src="{{item.image_url}}" alt="">
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-sm-2 profile profile-label">
-							<span>ISBN 13</span>
-						</div>
-						<div class="col-sm-10 profile">
-							<span>{{book.isbn13}}</span>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-sm-2 profile profile-label">
-							<span>Subject</span>
-						</div>
-						<div class="col-sm-10 profile">
-							<span>{{book.subject}}</span>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-sm-2 profile profile-label">
-							<span>Price </span>
-						</div>
-						<div class="col-sm-10 profile">
-							<span>{{book.price}}</span>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-sm-2 profile profile-label">
-							<span>Quantity</span>
-						</div>
-						<div class="col-sm-10 profile">
-							<span>{{book.copies}}</span>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-sm-2 profile profile-label">
-							<span>Author</span>
-						</div>
-						<div class="col-sm-10 profile">
-							<span>{{book.author}}</span>
-						</div>
-					</div>
-					<hr>
-					<div class="form-group">
-						<label for="account-retype" class="col-sm-2 control-label">Increase Quantity By:</label>
-						<div class="col-sm-10">
-							<input type="number" class="form-control" ng-model="book.quantity" placeholder="Quantity">
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="col-sm-offset-2 col-sm-10">
-							<button type="submit" ng-click="updateQuantity(book.quantity, quantityisbn)" class="btn btn-primary">Update Quantity</button>
+					<div class="col-sm-7">
+						<p><span class="details-label">Title: </span>{{item.title}}</p>
+						<p><span class="details-label">Author: </span>{{item.author}}</p>
+						<p><span class="details-label">ISBN-13: </span>{{item.isbn13}}</p>
+						<div class="rating-container">
+							<span class="fa-stack" ng-repeat="i in countFullStars(item.score) track by $index">
+								<i class="fa fa-fw fa-lg fa-star fa-stack-1x yellow"></i>
+							</span>
+							<span class="fa-stack" ng-repeat="i in countHalfStars(item.score) track by $index">
+								<i class="fa fa-fw fa-lg fa-star-half fa-stack-1x"></i>
+								<i class="fa fa-fw fa-lg fa-star fa-stack-1x"></i>
+							</span>
+							<span class="fa-stack" ng-repeat="i in countEmptyStars(item.score) track by $index">
+								<i class="fa fa-fw fa-lg fa-star fa-stack-1x"></i>
+							</span>
 						</div>
 					</div>
 				</div>
-				</form>
+				
 			</div>
 		</div>
-	</div>	
+	</div>
+</div>
 </div>

@@ -44,6 +44,7 @@
 				console.log($scope.orders);
 				$scope.feedbacks = res.feedback;
 				$scope.own_feedback = res.own_feedback;
+				// console.log($scope.profile);
 			});
 		};
 
@@ -57,6 +58,10 @@
 
 		$scope.countEmptyStars = function(num){
 			return new Array(5 - parseInt(parseInt(num)/2) - parseInt(num%2));
+		}
+
+		$scope.updateProfile = function(){
+			
 		}
 
 		$scope.init();

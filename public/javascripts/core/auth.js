@@ -73,11 +73,15 @@
 				console.log(data);
 			}
 			$scope.register = function(){
-				auth.register($scope.user).error(function(error){
+				if($scope.user.password!=$scope.password){
+					$scope.error = {"message": "Password does not match."}
+				} else{
+					auth.register($scope.user).error(function(error){
 					$scope.error = error;
 				}).then(function(){
 					$scope.logIn();
 				});
+				}	
 			};
 			$scope.logIn = function(){
 				auth.logIn($scope.user).error(function(error){

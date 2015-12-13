@@ -233,4 +233,6 @@ a {
 .thumbnail.profile-thumbnail>img{
 	min-height: 160px;
 }
-.
+.thumbnail.home{
+	min-height: 559px;
+}

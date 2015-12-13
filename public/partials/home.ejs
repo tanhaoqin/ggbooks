@@ -35,7 +35,7 @@
 	<p ng-show="isLoggedIn">Recommendations for you</p>
 	<p ng-hide="isLoggedIn">Top-selling books at ggbooks</p>
 	<div class="col-sm-6 col-md-4" ng-repeat="item in featured">
-		  <div class="thumbnail">
+		  <div class="thumbnail home">
 		  <a ng-show="isLoggedIn" href="#/book/{{item.isbn13}}"><img src="{{item.image_url}}" alt="{{item.title}}"></a>
       <a ng-hide="isLoggedIn" href="#/login"><img src="{{item.image_url}}" alt="{{item.title}}"></a>
 		      <div class="caption">

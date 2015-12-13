@@ -21,7 +21,9 @@
 		  			dataservice.getPopularBooks(slack, function(res){
 		  				$scope.featured = res.books;
 		  			});
-		  		} 
+		  		} else {
+		  			$scope.featured = res.user;
+		  		}
 		  	});
 		  } else {
 		  	dataservice.getPopularBooks(6, function(res){

@@ -1,6 +1,6 @@
 <div class="container">
 	<div class="row">
-		<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+		<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 thumbnail">
 			<img src="{{book.image_url}}" alt="book.title">
 		</div>
 		<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -70,7 +70,7 @@
 		<strong>Success!</strong> Feedback submitted!
 	</div>
 	<p>Top <span class="form-inline">
-		<select ng-model="feedbackCount" ng-change="getFeedback()" class="form-control" value="5">
+		<select ng-model="feedbackCount" ng-change="changeFeedbackCount()" class="form-control" value="5">
 			<option value="5" ng-selected="true">5</option>
 			<option value="10">10</option>
 			<option value="25">25</option>
@@ -110,7 +110,7 @@
 			<button ng-if="feedback.rating == 0" type="button" class="btn btn-primary" ng-click = "postFeedbackRating(0, feedback.fbID, feedback.userID)">Useless</button>
 		</p>
 	</div>
-	<nav ng-if="feedbacks.length!=0">
+	<nav ng-if="feedbacks.length==feedbackCount || onePage == false">
 		<ul class="pagination">
 			<li ng-show="page == 0" class="disabled">
 				<span >Previous</span>
@@ -118,7 +118,10 @@
 			<li ng-hide="page == 0">
 				<span ng-click="previousPage()">Previous</span>
 			</li>
-			<li>
+			<li ng-hide="feedbacks.length==5" class="disabled">
+				<span >Next</span>
+			</li>
+			<li ng-show="feedbacks.length==5">
 				<span ng-click="nextPage()">Next</span>
 			</li>
 		</ul>

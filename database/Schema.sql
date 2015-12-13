@@ -26,11 +26,12 @@ CREATE TABLE user(
 );
 
 CREATE TABLE customer(
-	userID int auto_increment PRIMARY KEY,
+	userID int PRIMARY KEY,
     fullname varchar(255),
     creditcard varchar(16),
     address varchar(255),
-    phone varchar(50)
+    phone varchar(50),
+    FOREIGN KEY (userID) REFERENCES user(id)
 );
 
 CREATE TABLE orders(

@@ -190,12 +190,8 @@ router.post('/cart', auth, function (req, res) {
 					responseMessage.status = 1;
 					res.send(responseMessage);
 				});
-				responseMessage = rows[0];
-				responseMessage.status = 1;
-			responseMessage.status = 1;
-			res.send(responseMessage);
+			}
 		});
-		
 	} catch (err){
 		console.log(err);
 		responseMessage.status = 0;

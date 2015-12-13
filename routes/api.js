@@ -427,10 +427,7 @@ router.get('/recommendation', auth, function(req,res){
 
 	responseMessage = {}
 	try{
-		query = "select sum(oi2.quantity) as sales, b.* from orders o2 join orderItem oi2 join book b where o2.orderid=oi2.orderid AND oi2.book=b.isbn13 AND o2.orderid in
-(select o1.orderid from orders o1 join orderItem oi1 where o1.orderid=oi1.orderid AND book in
-(select book from orders o join orderItem oi where o.orderid=oi.orderid AND userId=?) AND o1.userID !=?) AND book not in 
-(select book from orders o join orderItem oi where o.orderid=oi.orderid AND userId=?) group by book order by sales DESC;"
+		query = "select sum(oi2.quantity) as sales, b.* from orders o2 join orderItem oi2 join book b where o2.orderid=oi2.orderid AND oi2.book=b.isbn13 AND o2.orderid in (select o1.orderid from orders o1 join orderItem oi1 where o1.orderid=oi1.orderid AND book in (select book from orders o join orderItem oi where o.orderid=oi.orderid AND userId=?) AND o1.userID !=?) AND book not in  (select book from orders o join orderItem oi where o.orderid=oi.orderid AND userId=?) group by book order by sales DESC;"
 		connection.query(query,[user,user,user], function(err, rows, fields) {
 			if (err) throw err;
 			responseMessage.user = rows;

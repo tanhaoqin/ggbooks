@@ -134,6 +134,7 @@ select count(fbID) from feedback where book LIKE '9780380973651';
 
 select r.usefulness,r.fbID from rating r join feedback f where r.fbID=f.fbID and r.userID like 3 and f.book like '9780380973651';
 
+select * from user;
 select * from cart;
 select * from customer;
 select * from rating;

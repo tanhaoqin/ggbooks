@@ -4,7 +4,7 @@
 	home.controller('BookCtrl', [
 	'$scope',
 	'$stateParams',
-	'$timeout',
+	'$timeout',	
 	'dataservice',
 	function($scope, $stateParams, $timeout, dataservice){
 
@@ -84,6 +84,11 @@
 						$timeout(function(){
 							$scope.feedbacks[index].ratingSuccess = false;
 						}, 1500);
+					}, 1500);
+				}, function(error){
+					$timeout(function(){
+						$scope.feedbacks[index].ratingWaiting = false;
+						$scope.feedbacks[index].ratingError = error;
 					}, 1500);
 				});
 			$scope.feedbacks[index].ratingWaiting = true;

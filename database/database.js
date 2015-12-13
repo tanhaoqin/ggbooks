@@ -10,4 +10,8 @@ var connection = mysql.createConnection({
   multipleStatements: true
 });
 
+connection.on('error',function(err){
+	console.log(err.code);
+})
+
 module.exports = connection;

@@ -44,8 +44,6 @@ CREATE TABLE orders(
     FOREIGN KEY (userID) REFERENCES user(id)
 );
 
-select * from orders;
-
 CREATE TABLE orderItem(
 	orderId int NOT NULL,
 	book char(13) NOT NULL,

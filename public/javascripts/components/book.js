@@ -15,6 +15,7 @@
 			$scope.qtySelected = 1;
 			dataservice.getBook($scope.bookId, function(res){
 				$scope.book = res;
+				$scope.book.avgScore = Math.round($scope.book.avgScore);
 				$scope.bookCopies = []
 				for (var i = 1; i < $scope.book.copies + 1; i++){
 					$scope.bookCopies.push(i);
@@ -39,6 +40,7 @@
 				$scope.ratings = res.rating;
 				for (var i = 0; i < $scope.feedbacks.length; i++){
 					$scope.feedbacks[i].rating = null;
+					$scope.feedbacks[i].index = i;
 					for (var j = 0; j < $scope.ratings.length; j++){
 						if($scope.feedbacks[i].fbID == $scope.ratings[j].fbID){
 							$scope.feedbacks[i].rating = $scope.ratings[j].usefulness;
@@ -70,18 +72,21 @@
 			return new Array(5 - parseInt(parseInt(num)/2) - parseInt(num%2));
 		}
 
-		$scope.postFeedbackRating = function(rating, feedback, user){
+		$scope.postFeedbackRating = function(index, rating, feedback, user){
 
 			dataservice.postFeedbackRating({
 				"rating": rating, "feedback": feedback, "user": user},
 				function(){
-					for (var i = 0; i < $scope.feedbacks.length; i++){
-						if ($scope.feedbacks[i].fbID == feedback){							
-							$scope.feedbacks[i].rating = rating;
-						}
-					}
+					$scope.feedbacks[index].rating = rating;
+					$timeout(function(){
+						$scope.feedbacks[index].ratingWaiting = false;
+						$scope.feedbacks[index].ratingSuccess = true;
+						$timeout(function(){
+							$scope.feedbacks[index].ratingSuccess = false;
+						}, 1500);
+					}, 1500);
 				});
-
+			$scope.feedbacks[index].ratingWaiting = true;
 		}
 
 		$scope.postFeedback = function(){

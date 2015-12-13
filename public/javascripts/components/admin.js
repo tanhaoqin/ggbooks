@@ -56,6 +56,11 @@
                 }
                 dataservice.updateQuantity(quantityJSON, function(res) {
                     console.log(res);
+                    dataservice.getBook(isbn, function(res) {
+                        $scope.book = res;
+                        $scope.bookFound = true;
+                    console.log($scope.book);
+                    });
                 })
             };
             $scope.init();

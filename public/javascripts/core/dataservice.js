@@ -103,12 +103,12 @@
 
 		}
 
-		o.getCart = function(){
+		o.getCart = function(callback){
 			$http.get('/api/cart', {
 				headers: {Authorization: 'Bearer '+auth.getToken()}				
 			}).success(function(res){
 				callback(res);
-			});
+			})
 		}
 
 		o.postOrder = function(){

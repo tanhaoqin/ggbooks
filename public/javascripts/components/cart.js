@@ -15,7 +15,6 @@
 			$scope.recommendedBooks = ""
 			$scope.getCart();
 		}
-		$scope.update();
 
 		$scope.range = function(num){
 	  	return new Array(num);
@@ -23,7 +22,7 @@
 
 	  $scope.getCart = function(){
 	  	dataservice.getCart(function(res){
-	  		$scope.cart = res;
+	  		$scope.cart = res['cart'];
 	  	})
 	  }
 
@@ -36,6 +35,6 @@
 	  $scope.getRecommendations = function() {
 	  	$scope.recommendedBooks = dataservice.topSellers;
 	  }
-
+		$scope.update();
 	}]);
 })();

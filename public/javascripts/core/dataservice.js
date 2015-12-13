@@ -156,6 +156,14 @@
 			});
 		}
 
+		o.putPassword = function(data, callback){
+			$http.put('/api/password', data, {
+				headers: {Authorization: 'Bearer '+auth.getToken()}
+			}).success(function(res){
+				callback();
+			});
+		}
+
 		o.insertBook = function(book, callback) {
 			$http.post('/api/admin/book', book, {
 				headers: {Authorization: 'Bearer '+auth.getToken()}

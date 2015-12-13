@@ -22,6 +22,7 @@ CREATE TABLE user(
 	id int auto_increment PRIMARY KEY,
     email varchar(255) NOT NULL UNIQUE,
     password varchar(255) NOT NULL
+    type char(1) NOT NULL
 );
 
 CREATE TABLE customer(

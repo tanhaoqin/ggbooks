@@ -22,8 +22,7 @@
 		}];
 
 		o.getRecommendations = function(callback){
-			// return o.topSellers;
-			$http.get('/api/recommendation',{
+			$http.get('/api/recommendation', {
 				headers: {Authorization: 'Bearer '+auth.getToken()}
 			}).success(function(res){
 				callback(res);
@@ -111,7 +110,7 @@
 			})
 		}
 
-		o.postOrder = function(){
+		o.postOrder = function(callback){
 			$http.post('/api/order', '', {
 				headers: {Authorization: 'Bearer '+auth.getToken()}
 			}).success(function(res){

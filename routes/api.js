@@ -22,11 +22,7 @@ router.get('/book', auth, function(req,res){
 				responseMessage = rows[0];
 				responseMessage.status = 1;
 
-// <<<<<<< HEAD
 				connection.query('select fbID from feedback where book LIKE ? AND userID like ?;', [isbn13,user] , function(err, rows, fields) {	
-// =======
-// 				connection.query('select * from feedback where book LIKE ? ;', [isbn13] , function(err, rows, fields) {	
-// >>>>>>> origin/master
 					if (err) throw err;
 				
 					if (rows.length == 0){
@@ -55,7 +51,7 @@ router.get('/books', auth, function(req,res){
 	console.log("RESTFUL API: \t books");
 	search = req.query.search;
 
-	responseMessage = {};
+	responseMessage = {}
 	try{
 		connection.query("select * from book where title like '%"+search+"%' or author like '%"+search+"%' or isbn13 like '%"+search+"%';", function(err, rows, fields) {
 			if (err) throw err;
@@ -81,35 +77,31 @@ router.get('/feedback', auth, function(req,res){
 	isbn13 = req.query.isbn13;
 	start = parseInt(req.query.start);
 	end = parseInt(req.query.end);
-	console.log(start, end, isbn13);
 
-	responseMessage = {};
+	responseMessage = {}
 	try{
-		query = "select f.fbID, f.date, f.score, f.comment, c.fullname, c.userID from feedback f left join customer c on (f.userID = c.userID) where f.book like ?  ORDER BY f.avgUseful  DESC  LIMIT ?, ?;";
+		query = "select f.fbID, f.date, f.score, f.comment, c.fullname, c.userID from feedback f left join customer c on (f.userID = c.userID) where f.book like ?  ORDER BY f.avgUseful  DESC  LIMIT ?, ?;"
+		console.log(query);
 		connection.query(query,[isbn13, start, end], function(err, rows, fields) {
 			if (err) throw err;
-
-			responseMessage['feedback'] = rows;
-			query = "select usefulness,fbID from rating where userID = ?;";
-			connection.query(query,[user], function(err, rows, fields) {
+			responseMessage.feedback = rows;
+			connection.query("select r.usefulness,r.fbID from rating r join feedback f where r.fbID=f.fbID and r.userID like ? and f.book like ?;",[user,isbn13], function(err, rows, fields) {
 				if (err) throw err;
-				responseMessage['rating'] = rows;
-				console.log(responseMessage);
-				res.send(responseMessage);
+				responseMessage.rating = rows;
 			});
+			res.send(responseMessage);
 		});
-
 	} catch (err){
 		console.log(err);
-		responseMessage['feedback'] = [];
-		res.send(responseMessage);
+		responseMessage.feedback = [];
+		res.send(responseMessage)
 	}
 });
 
 router.post('/feedback', auth, function (req, res) {
 	console.log("RESTFUL API: \t feedback");
-	isbn13 = req.body.isbn13;
 	user = req.payload._id;
+	isbn13 = req.body.isbn13;
 	score = parseInt(req.body.score);
 	comment = req.body.comment;
 
@@ -120,7 +112,6 @@ router.post('/feedback', auth, function (req, res) {
 			responseMessage.status = 1;
 			res.send(responseMessage);
 		});
-
 	} catch (err){
 		console.log(err);
 		responseMessage.status = 0;
@@ -150,13 +141,16 @@ router.post('/feedback/rating', auth ,function (req, res) {
 
 router.post('/cart', auth, function (req, res) {
 	console.log("RESTFUL API: \t cart");
+	console.log("hello");
+	console.log(req);
+	
 	isbn13 = req.body.isbn13;
 	user = req.payload._id;
 	quantity = req.body.quantity;
 
 	responseMessage = {};
 	try{
-		connection.query('INSERT into cart (userID, book,quantity) values (?,?,?);', [user, isbn13, quantity], function(err,rows, fields) {
+		connection.query('INSERT into cart (user, book,quantity) values (?,?,?);', [user, isbn13, quantity], function(err,rows, fields) {
 			if (err) throw err;
 			responseMessage.status = 1;
 			res.send(responseMessage);
@@ -224,7 +218,7 @@ router.post('/order', auth, function (req, res) {
 		      });
 		    }
 
-		    console.log('Order ' + result.insertId() + ' added');
+		    console.log('Order ' + result.insertId + ' added';);
 
 		    connection.query('INSERT into orderItem select o.orderid, c.book,c.quantity from orders o join cart c where o.userID=c.userID AND o.userID=?;', [user], function(err, result) {
 		      if (err) { 
@@ -232,7 +226,7 @@ router.post('/order', auth, function (req, res) {
 		          throw err;
 		        });
 		      }  
-		      console.log('OrderItem ' + result.insertId() + ' added');
+		      console.log('OrderItem ' + result.insertId + ' added';);
 
 			    connection.query('DELETE from cart where userID=?;', [user], function(err, result) {
 			      if (err) { 
@@ -240,7 +234,7 @@ router.post('/order', auth, function (req, res) {
 			          throw err;
 			        });
 			      }  
-			      console.log('CartItem ' + result.insertId() + ' delete');
+			      console.log('CartItem ' + result.insertId + ' delete';);
 			      connection.commit(function(err) {
 			        if (err) { 
 			          connection.rollback(function() {
@@ -268,32 +262,24 @@ router.get('/user', auth, function(req,res){
 
 	responseMessage = {}
 	try{
-		query = "select c.fullname as name, u.email, c.creditcard, c.addressid as shipping_address, phone from user u, customer c where u.id = c.userID and u.id = ?;"
+		query = "select * from customer where userID = ?;"
 		connection.query(query,[user], function(err, rows, fields) {
 			if (err) throw err;
 			responseMessage.user = rows;
 
-			query = "select b.title, b.isbn13, b.author, b.publisher, b.subject, b.year, b.image_url, oi.quantity from orders o join orderItem oi join book b where oi.book=b.isbn13 AND o.orderId=oi.orderId AND o.userID= ?;"
+			query = "select * from orders o join orderItem oi join book b where oi.book=b.isbn13 AND o.orderId=oi.orderId AND o.userID= ?;"
 			connection.query(query,[user], function(err, rows, fields) {
 				if (err) throw err;
 				responseMessage.orders = rows;
 
-				query = "select f.fbID as fb_id, f.date, f.score, f.comment, f.book as isbn13 from feedback f where f.userID = ? order by f.date desc;"
+				query = "select f.*, b.title,b.author,b.image_url from feedback f join book b where f.book=b.isbn13 AND f.userID = ?;"
 				connection.query(query,[user], function(err, rows, fields) {
 					if (err) throw err;
 					responseMessage.feedback = rows;
-
-					query = "select f.fbID, f.date, f.score, f.comment, r.usefulness, f.book as isbn13, b.title from rating r left join feedback f on (r.fbID = f.fbID) left join book b on (f.book = b.isbn13) where r.userID = ? order by f.date desc, usefulness desc;"
-					connection.query(query,[user], function(err, rows, fields) {
-						if (err) throw err;
-						responseMessage["own_feedback"] = rows;
-						res.send(responseMessage);
-					});
-
+					res.send(responseMessage);
 				});
 			});
 		});
-
 	} catch (err){
 		console.log(err);
 		responseMessage.cart = [];
@@ -321,21 +307,22 @@ router.get('/recommendation', auth, function(req,res){
 	}
 });
 
-router.get('/popular/books', function(req,res){
+router.get('/popular/books', auth, function(req,res){
 	console.log("RESTFUL API: \t popular/books");
 	quantity = parseInt(req.query.quantity);
 
 	responseMessage = {}
 	try{
-		query = "select sum(oi.quantity) as quantity, b.* from orders o left join orderItem oi on (o.orderid = oi.orderID) left join book b on (oi.book = b.isbn13) WHERE MONTH(o.date) = MONTH(NOW()) and YEAR(o.date) = YEAR(NOW()) group by oi.book order by quantity desc limit ?;"
+		query = "select sum(quantity) AS sold, b.* from orders o join orderItem oi join book b where o.orderid=oi.orderid and b.isbn13=oi.book and o.date BETWEEN NOW() - INTERVAL 30 DAY AND NOW() group by book order by sold DESC limit ?;"
 		connection.query(query,[quantity], function(err, rows, fields) {
 			if (err) throw err;
-			responseMessage.books = rows;
+			responseMessage.user = rows;
 			res.send(responseMessage);
-		});	
+		});
+		
 	} catch (err){
 		console.log(err);
-		responseMessage.books = [];
+		responseMessage.cart = [];
 		res.send(responseMessage)
 	}
 });
@@ -346,12 +333,13 @@ router.get('/popular/author', auth, function(req,res){
 
 	responseMessage = {}
 	try{
-		query = "select b.author from orders o left join orderItem oi on (o.orderid = oi.orderID) left join book b on (oi.book = b.isbn13) WHERE MONTH(o.date) = MONTH(NOW()) and YEAR(o.date) = YEAR(NOW()) group by b.author order by sum(oi.quantity) desc limit ? ;"
+		query = "select sum(quantity) AS sold, b.* from orders o join orderItem oi join book b where o.orderid=oi.orderid and b.isbn13=oi.book and o.date BETWEEN NOW() - INTERVAL 30 DAY AND NOW() group by book order by sold DESC limit ?;"
 		connection.query(query,[quantity], function(err, rows, fields) {
 			if (err) throw err;
-			responseMessage.author = rows;
+			responseMessage.user = rows;
+			res.send(responseMessage);
 		});
-		res.send(responseMessage);
+		
 	} catch (err){
 		console.log(err);
 		responseMessage.cart = [];
@@ -359,78 +347,6 @@ router.get('/popular/author', auth, function(req,res){
 	}
 });
 
-router.get('/popular/publisher', auth, function(req,res){
-	console.log("RESTFUL API: \t popular/publisher");
-	quantity = parseInt(req.query.quantity);
-
-	responseMessage = {}
-	try{
-		query = "select b.publisher from orders o left join orderItem oi on (o.orderid = oi.orderID) left join book b on (oi.book = b.isbn13) WHERE MONTH(o.date) = MONTH(NOW()) and YEAR(o.date) = YEAR(NOW()) group by b.publisher order by sum(oi.quantity) desc limit ? ;"
-		connection.query(query,[quantity], function(err, rows, fields) {
-			if (err) throw err;
-			responseMessage.publisher = rows;
-		});
-		res.send(responseMessage);
-	} catch (err){
-		console.log(err);
-		responseMessage.cart = [];
-		res.send(responseMessage)
-	}
-});
-
-router.post('/admin/book', auth, function(req,res){
-	console.log("RESTFUL API: \t admin/book");
-	//req.body.??
-	title = req.body.book.title
-	isbn13 = req.body.book.isbn13
-	author = req.body.book.author
-	format = req.body.book.format
-	image_url = req.body.book['image_url']
-	subject = req.body.book.subject
-	year = req.body.book.year
-	price = req.body.book.price
-	publisher = req.body.book.publisher
-	summary = req.body.book.summary
-	quantity = req.body.book.quantity
-
-	responseMessage = {}
-	try{
-		query = "INSERT into book values (?,?,?,DEFAULT,?,NULL,?,?,?,?,?,DEFAULT,?,?);"
-		connection.query(query,[isbn13,title,author,format,quantity,price,subject,publisher,year,image_url,summary], function(err, rows, fields) {
-			if (err) throw err;
-			responseMessage.status = 1;
-			res.send(responseMessage);
-
-		});
-		
-	} catch (err){
-		console.log(err);
-		responseMessage.status = 0;
-		res.send(responseMessage)
-	}
-});
-
-router.post('/admin/book/quantity', auth, function(req,res){
-	console.log("RESTFUL API: \t admin/book/quantity");
-	
-	isbn13 = req.body.isbn13
-	quantity = req.body.quantity
-
-	responseMessage = {}
-	try{
-		query = "UPDATE book SET copies = copies + ? WHERE isbn13 = ?;"
-		connection.query(query,[quantity, isbn13], function(err, rows, fields) {
-			if (err) throw err;
-			responseMessage.status = 1;
-			res.send(responseMessage);
-		});
-		
-	} catch (err){
-		console.log(err);
-		responseMessage.status = 0;
-		res.send(responseMessage)
-	}
-});
 
 
 

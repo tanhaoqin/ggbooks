@@ -116,10 +116,10 @@ WHERE orderItem.book = '9780380973651');
 
 select book from orders o join orderItem oi where o.orderid=oi.orderid AND userId=4;
 
-select * from orders o2 join orderItem oi2 join book b where o2.orderid=oi2.orderid AND oi2.book=b.isbn13 AND o2.orderid in
+select sum(oi2.quantity) as sales, b.* from orders o2 join orderItem oi2 join book b where o2.orderid=oi2.orderid AND oi2.book=b.isbn13 AND o2.orderid in
 (select o1.orderid from orders o1 join orderItem oi1 where o1.orderid=oi1.orderid AND book in
 (select book from orders o join orderItem oi where o.orderid=oi.orderid AND userId=4) AND o1.userID !=4) AND book not in 
-(select book from orders o join orderItem oi where o.orderid=oi.orderid AND userId=4);
+(select book from orders o join orderItem oi where o.orderid=oi.orderid AND userId=4) group by book order by sales DESC;
 
 select sum(quantity) AS sold, b.* from orders o, orderItem oi, book b where o.orderid=oi.orderid and b.isbn13=oi.book and o.date BETWEEN NOW() - INTERVAL 30 DAY AND NOW() group by book order by sold DESC limit 6;
 
@@ -142,4 +142,5 @@ select * from cart;
 select * from customer;
 select * from rating;
 select * from feedback;
-select * from orders;
+select * from orders join orderItem where orders.orderID=orderItem.orderID;
+select * from orderItem;

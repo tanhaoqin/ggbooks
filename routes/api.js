@@ -340,7 +340,7 @@ router.get('/user', auth, function(req,res){
 					if (err) throw err;
 					responseMessage.feedback = rows;
 
-					query = "select f.fbID, f.date, f.score, f.comment, r.usefulness, f.book as isbn13, b.title, b.author, b.image_url from rating r, feedback f, book b where r.fbID = f.fbID and f.book = b.isbn13 and r.userID = ? order by f.date desc, usefulness desc;"
+					query = "select f.fbID, f.date, f.score, f.comment, r.usefulness, f.book as isbn13, b.title, b.author, b.image_url from rating r, feedback f, book b where r.fbID = f.fbID and f.book = b.isbn13 and r.userID = ? order by usefulness desc,f.date desc ;"
 					connection.query(query,[user], function(err, rows, fields) {
 						if (err) throw err;
 						responseMessage["own_feedback"] = rows;

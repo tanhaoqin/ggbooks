@@ -173,17 +173,19 @@ a {
 
 .cart-quantity {
 	position: relative;
+	width: 80%;
 	float: left;
 }
 
 .price {
 	float: left;
+	width: 20%;
 	display: inline-block;
 }
 
 .cart-quantity label {
 	float: left;
-	width: 50%;
+	width: 20%;
 	padding-top: 8px;
 }
 

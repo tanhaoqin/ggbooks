@@ -18,7 +18,30 @@
 		$scope.getUser = function(){
 			dataservice.getUser(function(res){
 				$scope.profile = res.user[0];
-				$scope.orders = res.orders;
+				$scope.orders = {};
+				for (var i = 0; i < res.orders.length; i++){
+					console.log(res.orders);
+					var order = res.orders[i];
+					console.log(!(order.orderid in $scope.orders))
+					if (!(order.orderid in $scope.orders)){
+						$scope.orders[order.orderid] = {}
+						$scope.orders[order.orderid].id = "000000".substring(order.orderid.toString().length)+order.orderid.toString();
+						$scope.orders[order.orderid].status = order.status;
+						$scope.orders[order.orderid].date = order.date;
+						$scope.orders[order.orderid].totalcost = order.totalcost;
+						$scope.orders[order.orderid].creditcard = order.creditcard;
+						$scope.orders[order.orderid].items = []
+					}
+					$scope.orders[order.orderid].items.push({
+						"isbn13": order.isbn13,
+						"title" : order.title,
+						"author" : order.author,
+						"url" : order.image_url,
+						"price" : order.price,
+						"qty" : order.quantity
+					});
+				}
+				console.log($scope.orders);
 				$scope.feedbacks = res.feedback;
 				$scope.own_feedback = res.own_feedback;
 			});

@@ -5,9 +5,10 @@
 	'$scope',
 	'$state',
 	'$stateParams',
+	'$timeout', 
 	'auth',	
 	'dataservice',
-	function($scope, $state, $stateParams, auth, dataservice) {
+	function($scope, $state, $stateParams, $timeout, auth, dataservice) {
 		$scope.init = function(){
 			$scope.user = auth.currentUser();
 			$scope.passnew = "";
@@ -44,6 +45,7 @@
 				console.log($scope.orders);
 				$scope.feedbacks = res.feedback;
 				$scope.own_feedback = res.own_feedback;
+				// console.log($scope.profile);
 			});
 		};
 
@@ -57,6 +59,24 @@
 
 		$scope.countEmptyStars = function(num){
 			return new Array(5 - parseInt(parseInt(num)/2) - parseInt(num%2));
+		}
+
+		$scope.updateProfile = function(){
+			dataservice.putUser({
+				"fullname": $scope.profile.name,
+				"creditcard": $scope.profile.creditcard,
+				"address": $scope.profile.shipping_address,
+				"phonenum": $scope.profile.phone,
+			}, function(res){
+				$timeout(function(){
+					$scope.profileWaiting = false;
+					$scope.profileSuccess = true;
+					$timeout(function() {
+						$scope.profileSuccess = false;						
+					}, 1500);
+				}, 1500);
+			});
+			$scope.profileWaiting = true;
 		}
 
 		$scope.init();

@@ -375,6 +375,7 @@ router.put('/user', auth, function(req,res){
 		connection.query(query,[fullname, creditcard, address, phonenum, user], function(err, result) {
 			if (err) throw err;
 			responseMessage.status = 1;
+			res.send(responseMessage);
 		});
 
 	} catch (err){

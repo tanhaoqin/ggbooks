@@ -145,7 +145,15 @@
 				headers: {Authorization: 'Bearer '+auth.getToken()}
 			}).success(function(res){
 				callback(res);
-			})
+			});
+		}
+
+		o.putUser = function(data, callback){
+			$http.put('/api/user', data, {
+				headers: {Authorization: 'Bearer '+auth.getToken()}
+			}).success(function(res){
+				callback();
+			});
 		}
 
 		o.insertBook = function(book, callback) {

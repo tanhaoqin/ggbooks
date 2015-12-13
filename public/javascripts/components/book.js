@@ -145,6 +145,12 @@
 
 		}
 
+		$scope.changeFeedbackCount = function(){
+			$scope.onePage = true;
+			$scope.page = 0;
+			$scope.getFeedback();
+		}
+
 	}]);
 
 })();

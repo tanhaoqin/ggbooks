@@ -27,7 +27,7 @@ router.post('/register', function(req, res, next){
 			
 			console.log("user inserted")
 		});
-		connection.query('insert into customer(userID,fullname,creditcard,phone,addressid) values((SELECT MAX(id) from user),?,?,?,?);', [name, credit_card, phone, address], function(err,rows, fields) {
+		connection.query('insert into customer(userID,fullname,creditcard,phone,address) values((SELECT MAX(id) from user),?,?,?,?);', [name, credit_card, phone, address], function(err,rows, fields) {
 			if (err) throw err;
 			
 			console.log("customer inserted")

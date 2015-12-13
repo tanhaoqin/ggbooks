@@ -95,20 +95,23 @@
 			</span>
 		</div>
 		<div class="feedback-user"><span>by {{feedback.fullname}}</span></div>
-		<h6 class="feedback-content">Rated on {{feedback.date | date:"dd-mm-yy"}}</h6>
+		<h6 class="feedback-content">Rated on {{feedback.date | date:"dd-MM-yy"}}</h6>
 		<p class="feedback-content"><br>
 			<span ng-if="feedback.comment != null">{{feedback.comment}}</span>
 			<span class="feedback-none" ng-if="feedback.comment == null">No comments.</span>
 		</p>
 		<p class="feedback-content">
 			Rate this review:
-			<button ng-if="feedback.rating != 2" type="button" class="btn btn-default" ng-click = "postFeedbackRating(2, feedback.fbID, feedback.userID)">Very Useful</button>
-			<button ng-if="feedback.rating == 2" type="button" class="btn btn-primary" ng-click = "postFeedbackRating(2, feedback.fbID, feedback.userID)">Very Useful</button>
-			<button ng-if="feedback.rating != 1" type="button" class="btn btn-default" ng-click = "postFeedbackRating(1, feedback.fbID, feedback.userID)">Useful</button>
-			<button ng-if="feedback.rating == 1" type="button" class="btn btn-primary" ng-click = "postFeedbackRating(1, feedback.fbID, feedback.userID)">Useful</button>
-			<button ng-if="feedback.rating != 0" type="button" class="btn btn-default" ng-click = "postFeedbackRating(0, feedback.fbID, feedback.userID)">Useless</button>
-			<button ng-if="feedback.rating == 0" type="button" class="btn btn-primary" ng-click = "postFeedbackRating(0, feedback.fbID, feedback.userID)">Useless</button>
+			<button ng-if="feedback.rating != 2" type="button" class="btn btn-default" ng-click = "postFeedbackRating(feedback.index, 2, feedback.fbID, feedback.userID)">Very Useful</button>
+			<button ng-if="feedback.rating == 2" type="button" class="btn btn-primary" ng-click = "postFeedbackRating(feedback.index, 2, feedback.fbID, feedback.userID)">Very Useful</button>
+			<button ng-if="feedback.rating != 1" type="button" class="btn btn-default" ng-click = "postFeedbackRating(feedback.index, 1, feedback.fbID, feedback.userID)">Useful</button>
+			<button ng-if="feedback.rating == 1" type="button" class="btn btn-primary" ng-click = "postFeedbackRating(feedback.index, 1, feedback.fbID, feedback.userID)">Useful</button>
+			<button ng-if="feedback.rating != 0" type="button" class="btn btn-default" ng-click = "postFeedbackRating(feedback.index, 0, feedback.fbID, feedback.userID)">Useless</button>
+			<button ng-if="feedback.rating == 0" type="button" class="btn btn-primary" ng-click = "postFeedbackRating(feedback.index, 0, feedback.fbID, feedback.userID)">Useless</button> <i ng-show="feedback.ratingWaiting" class="fa fa-spinner fa-pulse"></i>
 		</p>
+		<div ng-show="feedback.ratingSuccess" class="alert alert-success">
+			<strong>Success!</strong> Rating submitted! Thank you for making our community better!
+		</div>
 	</div>
 	<nav ng-if="feedbacks.length==feedbackCount || onePage == false">
 		<ul class="pagination">

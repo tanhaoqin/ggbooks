@@ -16,10 +16,13 @@
 				<a href="#/book/{{item.isbn13}}"><img src={{item.image_url}} alt="{{item.title}}"></a>
 				<div class="search-caption">
 					<h2><a href="#/book/{{item.isbn13}}">{{item.title}}</a></h2>
-					<h4>{{item.author}}</h4>
-					<br>
-					<br>
-					<h4>${{item.price}}</h4>
+					<h4>Year: {{item.year}}</h4>
+					<h4>Author: {{item.author}}</h4>
+					<h4>Publisher: {{item.publisher}}</h4>
+					<h4>ISBN-13: {{item.isbn13}}</h4>
+					<h3>Price: ${{item.price}}</h3>
+
+					<h4 ng-if="item.format=='H'">Format: Hardcover</h4><h4 ng-if="item.format=='p'">Format: Paperback</h4>
 					<div class="rating-container">
 						<div class="glyphicon glyphicon-star" aria-hidden="true"ng-repeat="i in range(item.rating) track by $index"></div>
 						<div class="glyphicon glyphicon-star-empty" aria-hidden="true"ng-repeat="i in range((5-item.rating)) track by $index"></div>

@@ -97,7 +97,11 @@
 
 
 .search-caption h4 {
-	margin-bottom: 30px;
+	margin-bottom: 10px;
+}
+
+.search-caption h3 {
+	margin-top: 40px;
 }
 
 .search-thumbnail img {

@@ -266,7 +266,7 @@
 					<div class="row" ng-show="popularAuthorFound">
 						<div class="col-sm-7">
 							<p><span class="details-label">Author: </span>{{item.author}}</p>
-							<p><span class="details-label">Number Of Books sold: </span>{{item.count(b.author)}}</p>
+							<p><span class="details-label">Number Of Books sold: </span>{{item.count}}</p>
 							<div class="rating-container">
 								<span class="fa-stack" ng-repeat="i in countFullStars(item.avgScore) track by $index">
 									<i class="fa fa-fw fa-lg fa-star fa-stack-1x yellow"></i>
@@ -313,8 +313,8 @@
 				<div ng-repeat="item in popularpublishers" class="list-group-item">
 					<div class="row" ng-show="popularPublisherFound">
 						<div class="col-sm-7">
-							<p><span class="details-label">Publisher Name: </span>{{item.author}}</p>
-							<p><span class="details-label">Number Of Books sold: </span>{{item.count(b.author)}}</p>
+							<p><span class="details-label">Publisher Name: </span>{{item.publisher}}</p>
+							<p><span class="details-label">Number Of Books sold: </span>{{item.count}}</p>
 							<div class="rating-container">
 								<span class="fa-stack" ng-repeat="i in countFullStars(item.avgScore) track by $index">
 									<i class="fa fa-fw fa-lg fa-star fa-stack-1x yellow"></i>

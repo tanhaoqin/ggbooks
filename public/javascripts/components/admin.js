@@ -12,6 +12,7 @@
                 $scope.bookFound = false;
                 $scope.popularBookFound = false;
                 $scope.popularAuthorFound = false;
+                $scope.popularPublisherxFound = false;
                 $scope.book = "";
                 $scope.popularbooks;
                 $scope.popularauthors;
@@ -78,14 +79,14 @@
 
             $scope.getPopularAuthor = function(number) {
                 dataservice.getPopularAuthors(number, function(res){
-                    $scope.popularauthors = res['books'];
+                    $scope.popularauthors = res['author'];
                     $scope.popularAuthorFound = true;
                 })
             }
 
             $scope.getPopularPublisher = function(number) {
                 dataservice.getPopularPublishers(number, function(res){
-                    $scope.popularpublishers = res['books'];
+                    $scope.popularpublishers = res['publisher'];
                     $scope.popularPublisherFound = true;
                 })
             }

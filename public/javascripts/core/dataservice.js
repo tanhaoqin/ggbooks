@@ -154,8 +154,8 @@
 
 		o.deleteBook = function(quantity, callback) {
 			$http.delete('/api/cart', {
-				headers: {Authorization: 'Bearer '+auth.getToken(),
-				params: {isbn13:quantity}
+				params: {isbn13:quantity},
+				headers: {Authorization: 'Bearer '+auth.getToken()
 			}
 			}).success(function(res){
 				callback(res);

@@ -23,13 +23,12 @@
 
 	  $scope.getCart = function(){
 	  	var item;
-	  	var totalPrice;
+			$scope.totalPrice = 0;
 	  	dataservice.getCart(function(res){
 	  		$scope.cart = res['cart'];
 	  		for (var i = 0; i < $scope.cart.length; i++) {
 		  		item = $scope.cart[i]
 		  		$scope.totalPrice += (item.price * item.quantity);
-		  		console.log($scope.totalPrice);
 	  		};
 	  	})
 	  }
@@ -39,7 +38,6 @@
 	  		$scope.orderStatus = true;
 				$scope.getRecommendations();
 	  	})
-			
 	  }
 
 	  $scope.getRecommendations = function() {

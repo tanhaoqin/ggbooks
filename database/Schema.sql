@@ -18,19 +18,19 @@ CREATE TABLE book(
     avgScore decimal(2,1) UNSIGNED NOT NULL DEFAULT 0
 );
 
-CREATE TABLE admin(
+CREATE TABLE user(
 	id int auto_increment PRIMARY KEY,
     username varchar(255) NOT NULL UNIQUE,
     password varchar(255) NOT NULL
 );
 
-CREATE TABLE user(
+CREATE TABLE customer(
 	userID int auto_increment PRIMARY KEY,
     email varchar(255) NOT NULL UNIQUE,
     password varchar(255) NOT NULL,
     fullname varchar(255),
     creditcard varchar(16),
-    addressid varchar(255),
+    address varchar(255),
     phone varchar(50)
 );
 

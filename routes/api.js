@@ -40,8 +40,10 @@ router.get('/book', auth, function(req,res){
 
 				});
 			}
+			connection.destroy();
 		});
 	} catch (err){
+		connection.destroy();
 		console.log(err);
 		responseMessage.status = 0;
 		res.send(responseMessage);
@@ -63,8 +65,10 @@ router.get('/books', auth, function(req,res){
 				responseMessage.book = rows;
 			}
 			res.send(responseMessage);
+			connection.destroy();
 		});
 	} catch(err){
+		connection.destroy();
 		console.log(err);
 		responseMessage.status = 0;
 		res.send(responseMessage);
@@ -96,10 +100,12 @@ router.get('/feedback', auth, function(req,res){
 				responseMessage['rating'] = rows;
 				console.log(responseMessage);
 				res.send(responseMessage);
+				connection.destroy();
 			});
 		});
 
 	} catch (err){
+		connection.destroy();
 		console.log(err);
 		responseMessage['feedback'] = [];
 		res.send(responseMessage);
@@ -119,9 +125,11 @@ router.post('/feedback', auth, function (req, res) {
 			if (err) throw err;
 			responseMessage.status = 1;
 			res.send(responseMessage);
+			connection.destroy();
 		});
 
 	} catch (err){
+		connection.destroy();
 		console.log(err);
 		responseMessage.status = 0;
 		res.send(responseMessage);
@@ -140,8 +148,10 @@ router.post('/feedback/rating', auth ,function (req, res) {
 			if (err) throw err;
 			responseMessage.status = 1;
 			res.send(responseMessage);
+			connection.destroy();
 		});
 	} catch (err){
+		connection.destroy();
 		console.log(err);
 		responseMessage.status = 0;
 		res.send(responseMessage);
@@ -160,8 +170,10 @@ router.put('/feedback/rating', auth ,function (req, res) {
 			if (err) throw err;
 			responseMessage.status = 1;
 			res.send(responseMessage);
+			connection.destroy();
 		});
 	} catch (err){
+		connection.destroy();
 		console.log(err);
 		responseMessage.status = 0;
 		res.send(responseMessage);
@@ -180,8 +192,10 @@ router.post('/cart', auth, function (req, res) {
 			if (err) throw err;
 			responseMessage.status = 1;
 			res.send(responseMessage);
+			connection.destroy();
 		});
 	} catch (err){
+		connection.destroy();
 		console.log(err);
 		responseMessage.status = 0;
 		res.send(responseMessage);
@@ -199,8 +213,10 @@ router.get('/cart', auth, function(req,res){
 			if (err) throw err;
 			responseMessage.cart = rows;
 			res.send(responseMessage);
+			connection.destroy();
 		});
 	} catch (err){
+		connection.destroy();
 		console.log(err);
 		responseMessage.cart = [];
 		res.send(responseMessage)
@@ -219,8 +235,10 @@ router.delete('/cart', auth, function(req,res){
 			if (err) throw err;
 			responseMessage.status = 1;
 			res.send(responseMessage);
+			connection.destroy();
 		});
 	} catch (err){
+		connection.destroy();
 		console.log(err);
 		responseMessage.status = 0;
 		res.send(responseMessage)
@@ -270,12 +288,14 @@ router.post('/order', auth, function (req, res) {
 			        responseMessage.status = 1;
 							res.send(responseMessage);
 		        	console.log('success!');
+		        	connection.destroy();
 		      	});
 		      });
 		    });
 		  });
 		});
 	} catch (err){
+		connection.destroy();
 		console.log(err);
 		responseMessage.status = 0;
 		res.send(responseMessage)
@@ -288,17 +308,17 @@ router.get('/user', auth, function(req,res){
 
 	responseMessage = {}
 	try{
-		query = "select c.fullname as name, u.email, c.creditcard, c.addressid as shipping_address, phone from user u, customer c where u.id = c.userID and u.id = ?;"
+		query = "select c.fullname as name, u.email, c.creditcard, c.address as shipping_address, phone from user u, customer c where u.id = c.userID and u.id = ?;"
 		connection.query(query,[user], function(err, rows, fields) {
 			if (err) throw err;
 			responseMessage.user = rows;
 
-			query = "select b.title, b.isbn13, b.author, b.publisher, b.subject, b.year, b.image_url, oi.quantity from orders o join orderItem oi join book b where oi.book=b.isbn13 AND o.orderId=oi.orderId AND o.userID= ?;"
+			query = "select o.orderId, o.total, b.title, b.isbn13, b.author, b.publisher, b.subject, b.year, b.image_url, oi.quantity from orders o join orderItem oi join book b where oi.book=b.isbn13 AND o.orderId=oi.orderId AND o.userID= ?;"
 			connection.query(query,[user], function(err, rows, fields) {
 				if (err) throw err;
 				responseMessage.orders = rows;
 
-				query = "select f.fbID as fb_id, f.date, f.score, f.comment, f.book, b.title, b.author, b.image_url as isbn13 from feedback f, book b where f.book=b.isbn13 and f.userID = ? order by f.date desc;"
+				query = "select f.fbID as fb_id, f.date, f.score, f.comment, f.book, b.title, b.author, b.image_url from feedback f, book b where f.book=b.isbn13 and f.userID = ? order by f.date desc;"
 				connection.query(query,[user], function(err, rows, fields) {
 					if (err) throw err;
 					responseMessage.feedback = rows;
@@ -308,13 +328,17 @@ router.get('/user', auth, function(req,res){
 						if (err) throw err;
 						responseMessage["own_feedback"] = rows;
 						res.send(responseMessage);
+						connection.destroy();
 					});
-
+					connection.destroy();
 				});
+				connection.destroy();
 			});
+			connection.destroy();
 		});
 
 	} catch (err){
+		connection.destroy();
 		console.log(err);
 		responseMessage.cart = [];
 		res.send(responseMessage)
@@ -332,6 +356,7 @@ router.get('/recommendation', auth, function(req,res){
 			if (err) throw err;
 			responseMessage.user = rows;
 			res.send(responseMessage);
+			connection.destroy();
 		});
 		
 	} catch (err){
@@ -352,8 +377,10 @@ router.get('/popular/books', function(req,res){
 			if (err) throw err;
 			responseMessage.books = rows;
 			res.send(responseMessage);
+			connection.destroy();
 		});	
 	} catch (err){
+		connection.destroy();
 		console.log(err);
 		responseMessage.books = [];
 		res.send(responseMessage)
@@ -372,7 +399,9 @@ router.get('/popular/author', auth, function(req,res){
 			responseMessage.author = rows;
 		});
 		res.send(responseMessage);
+		connection.destroy();
 	} catch (err){
+		connection.destroy();
 		console.log(err);
 		responseMessage.cart = [];
 		res.send(responseMessage)
@@ -391,7 +420,9 @@ router.get('/popular/publisher', auth, function(req,res){
 			responseMessage.publisher = rows;
 		});
 		res.send(responseMessage);
+		connection.destroy();
 	} catch (err){
+		connection.destroy();
 		console.log(err);
 		responseMessage.cart = [];
 		res.send(responseMessage)
@@ -420,10 +451,11 @@ router.post('/admin/book', auth, function(req,res){
 			if (err) throw err;
 			responseMessage.status = 1;
 			res.send(responseMessage);
-
+			connection.destroy();
 		});
 		
 	} catch (err){
+		connection.destroy();
 		console.log(err);
 		responseMessage.status = 0;
 		res.send(responseMessage)
@@ -443,9 +475,11 @@ router.post('/admin/book/quantity', auth, function(req,res){
 			if (err) throw err;
 			responseMessage.status = 1;
 			res.send(responseMessage);
+			connection.destroy();
 		});
 		
 	} catch (err){
+		connection.destroy();
 		console.log(err);
 		responseMessage.status = 0;
 		res.send(responseMessage)

@@ -138,7 +138,11 @@ router.post('/feedback/rating', auth ,function (req, res) {
 	try{
 		connection.query('SELECT * from feedback where fbID like ? and userID like ?;', [feedback, user], function(err, rows, fields) {
 			if (err) throw err;
-			if (rows.length == 0){
+			if (rows.length == 1){
+				responseMessage.status = 0;
+				responseMessage.message = 'Cannot rate own feedback -_-+';
+				res.send(responseMessage);
+			}else{
 				connection.query('INSERT into rating (usefulness, fbID, userID) values (?,?,?);', [rating, feedback, user], function(err, rows, fields) {
 					if (err) throw err;
 					responseMessage.status = 1;
@@ -151,6 +155,7 @@ router.post('/feedback/rating', auth ,function (req, res) {
 					res.send(responseMessage);
 				});
 			}
+		}
 		});
 	} catch (err){
 		console.log(err);
@@ -400,13 +405,13 @@ router.get('/popular/author', auth, function(req,res){
 
 	responseMessage = {}
 	try{
-		query = "select b.author from orders o left join orderItem oi on (o.orderid = oi.orderID) left join book b on (oi.book = b.isbn13) WHERE MONTH(o.date) = MONTH(NOW()) and YEAR(o.date) = YEAR(NOW()) group by b.author order by sum(oi.quantity) desc limit ? ;"
+		query = "select distinct(b.author), count(b.author)  from orders o left join orderItem oi on (o.orderid = oi.orderID) left join book b on (oi.book = b.isbn13) WHERE MONTH(o.date) = MONTH(NOW()) and YEAR(o.date) = YEAR(NOW()) group by b.author order by sum(oi.quantity) desc limit ? ;"
 		connection.query(query,[quantity], function(err, rows, fields) {
 			if (err) throw err;
 			responseMessage.author = rows;
+			res.send(responseMessage);
 		});
-		res.send(responseMessage);
-		 
+		
 	} catch (err){
 		 
 		console.log(err);
@@ -421,13 +426,13 @@ router.get('/popular/publisher', auth, function(req,res){
 
 	responseMessage = {}
 	try{
-		query = "select b.publisher from orders o left join orderItem oi on (o.orderid = oi.orderID) left join book b on (oi.book = b.isbn13) WHERE MONTH(o.date) = MONTH(NOW()) and YEAR(o.date) = YEAR(NOW()) group by b.publisher order by sum(oi.quantity) desc limit ? ;"
+		query = "select distinct(b.publisher), count(b.publisher) from orders o left join orderItem oi on (o.orderid = oi.orderID) left join book b on (oi.book = b.isbn13) WHERE MONTH(o.date) = MONTH(NOW()) and YEAR(o.date) = YEAR(NOW()) group by b.publisher order by sum(oi.quantity) desc limit ? ;"
 		connection.query(query,[quantity], function(err, rows, fields) {
 			if (err) throw err;
 			responseMessage.publisher = rows;
+			res.send(responseMessage);
 		});
-		res.send(responseMessage);
-		 
+		
 	} catch (err){
 		 
 		console.log(err);

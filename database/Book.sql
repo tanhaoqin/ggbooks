@@ -132,6 +132,8 @@ select r.usefulness,r.fbID from rating r join feedback f where r.fbID=f.fbID and
 
 select f.*, b.title,b.author,b.image_url from feedback f join book b where f.book=b.isbn13 AND f.userID = 4;
 
+select distinct(b.publisher), count(b.publisher) from orders o left join orderItem oi on (o.orderid = oi.orderID) left join book b on (oi.book = b.isbn13) WHERE MONTH(o.date) = MONTH(NOW()) and YEAR(o.date) = YEAR(NOW()) group by b.publisher order by sum(oi.quantity) desc limit 10 ;
+
 select * from user;
 select * from cart;
 select * from customer;

@@ -94,46 +94,54 @@
 					There are no orders in your order history.
 				</div>
 				<div ng-repeat="order in orders" class="list-group-item">
+
 					<div class="row">
 						<div class="col-sm-2 profile profile-label">
-							<span>Title</span>
+						<div>
+							
 						</div>
-						<div class="col-sm-10 profile">
-							<span>{{order.title}}</span>
+							<span class="row">Order</span>
+							<span class="row">Date</span>
+							<span class="row">Status</span>
+							<span class="row">Total Price </span>
+						</div>
+						<div class="col-sm-1 profile">
+						<div>
+							
+						</div>
+							<span class="row">#{{order.id}}</span>
+							<span class="row">{{order.date | date:"dd-MM-yy"}}</span>
+							<span ng-hide="order.status == 0" class="row">
+								Delivered
+							</span>
+							<span ng-show="order.status == 0" class="row">
+								In Transit
+							</span>
+							<span class="row">${{order.totalcost}}</span>
+						</div>
+						<div class="col-sm-9">
+						<div class="profile well">
+							<div ng-repeat="item in order.items" >
+								<div class="row">
+									<div class="col-sm-2">
+										<div class="thumbnail profile-thumbnail">
+											<img src="{{item.url}}" alt="">
+										</div>
+									</div>
+									<div class="col-sm-7">
+										<p><span class="details-label">Title: </span>{{item.title}}</p>
+										<p><span class="details-label">Author: </span>{{item.author}}</p>
+										<p><span class="details-label">ISBN-13: </span>{{item.isbn13}}</p>
+										<p><span class="details-label">Price: </span>${{item.price}}</p>
+										<p><span class="details-label">Quantity: </span>{{item.qty}}</p>
+										<p><span class="details-label">Sub-Total: </span>${{item.qty*item.price}}</p>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-sm-2 profile profile-label">
-							<span>Date</span>
-						</div>
-						<div class="col-sm-10 profile">
-							<span>{{order.date}}</span>
-						</div>
 					</div>
-					<div class="row">
-						<div class="col-sm-2 profile profile-label">
-							<span>Price </span>
-						</div>
-						<div class="col-sm-10 profile">
-							<span>$1.00</span>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-sm-2 profile profile-label">
-							<span>Quantity Ordered</span>
-						</div>
-						<div class="col-sm-10 profile">
-							<span>{{order.quantity}}</span>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-sm-2 profile profile-label">
-							<span>Total Price</span>
-						</div>
-						<div class="col-sm-10 profile">
-							<span>$2.00</span>
-						</div>
-					</div>
+					
 				</div>
 			</div>
 		</div>

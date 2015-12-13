@@ -110,7 +110,7 @@
 			<button ng-if="feedback.rating == 0" type="button" class="btn btn-primary" ng-click = "postFeedbackRating(0, feedback.fbID, feedback.userID)">Useless</button>
 		</p>
 	</div>
-	<nav ng-if="feedbacks.length!=0">
+	<nav ng-if="feedbacks.length==5 || onePage == false">
 		<ul class="pagination">
 			<li ng-show="page == 0" class="disabled">
 				<span >Previous</span>
@@ -118,7 +118,10 @@
 			<li ng-hide="page == 0">
 				<span ng-click="previousPage()">Previous</span>
 			</li>
-			<li>
+			<li ng-hide="feedbacks.length==5" class="disabled">
+				<span >Next</span>
+			</li>
+			<li ng-show="feedbacks.length==5">
 				<span ng-click="nextPage()">Next</span>
 			</li>
 		</ul>

@@ -210,9 +210,9 @@ a {
 	text-align: right;
 }
 
-/*.alert {
+.alert-password {
 	color: #FF0000;
-}*/
+}
 
 .details-label{
 	font-weight: bold;
@@ -229,3 +229,8 @@ a {
 .carousel-inner>.item>a>img, .carousel-inner>.item>img, .img-responsive, .thumbnail a>img, .thumbnail>img {
     min-height: 400px;
 }
+
+.thumbnail.profile-thumbnail>img{
+	min-height: 160px;
+}
+.

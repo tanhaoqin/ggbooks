@@ -10,6 +10,8 @@
 	function($scope, $state, $stateParams, auth, dataservice) {
 		$scope.init = function(){
 			$scope.user = auth.currentUser();
+			$scope.passnew = "";
+			$scope.passre = "";
 			$scope.getUser();
 		};
 
@@ -18,6 +20,7 @@
 				$scope.profile = res.user[0];
 				$scope.orders = res.orders;
 				$scope.feedbacks = res.feedback;
+				$scope.own_feedback = res.own_feedback;
 			});
 		};
 

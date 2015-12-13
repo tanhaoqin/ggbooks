@@ -28,6 +28,7 @@
 			$scope.feedbackCount = 5;
 			$scope.page = 0;
 			$scope.getFeedback();
+			$scope.onePage = true;
 		};
 
 		$scope.getFeedback = function(){
@@ -133,6 +134,7 @@
 		$scope.nextPage = function(){
 			$scope.page += 1;
 			$scope.getFeedback();
+			$scope.onePage = false;
 		}
 
 		$scope.previousPage = function(){

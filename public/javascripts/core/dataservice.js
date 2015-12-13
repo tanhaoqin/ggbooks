@@ -48,6 +48,26 @@
 			});
 		}
 
+		o.getPopularAuthors = function(quantity,callback){
+			$http.get('/api/popular/author?quantity='+quantity, 
+			{
+				headers: {Authorization: 'Bearer '+auth.getToken()
+			}				
+			}).success(function(res){
+				callback(res);
+			});
+		}
+
+		o.getPopularPublishers = function(quantity,callback){
+			$http.get('/api/popular/publisher?quantity='+quantity, 
+			{
+				headers: {Authorization: 'Bearer '+auth.getToken()
+			}				
+			}).success(function(res){
+				callback(res);
+			});
+		}
+
 		o.getBook = function(isbn13, callback){
 			$http.get('/api/book?isbn13='+isbn13,
 				{	

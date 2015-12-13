@@ -38,8 +38,6 @@ INSERT into book values ('9781118951309','Coding For Dummies','Nikhil Abraham',D
 INSERT into book values ('9780007179732','The Monk Who Sold His Ferrari','Robin S. Sharma',DEFAULT,'P',NULL,5,20.61,'Health', 'HarperCollins Publishers',2004,DEFAULT);
 INSERT into book values ('9780571314263','Family Life','Akhil Sharma',DEFAULT,'H',NULL,5,29.25,'Fiction', 'Faber & Faber',2014,DEFAULT);
 
-
-
 alter table book
 add column image_url varchar(255);
 alter table book
@@ -116,8 +114,6 @@ where oi.book=b.isbn13 AND o.orderId=oi.orderId AND o.userID in
 FROM (customer INNER JOIN (orders INNER JOIN orderItem))
 WHERE orderItem.book = '9780380973651');
 
-select * from orders;
-
 select book from orders o join orderItem oi where o.orderid=oi.orderid AND userId=4;
 
 select * from orders o2 join orderItem oi2 join book b where o2.orderid=oi2.orderid AND oi2.book=b.isbn13 AND o2.orderid in
@@ -134,13 +130,11 @@ select count(fbID) from feedback where book LIKE '9780380973651';
 
 select r.usefulness,r.fbID from rating r join feedback f where r.fbID=f.fbID and r.userID like 3 and f.book like '9780380973651';
 
-<<<<<<< HEAD
 select f.*, b.title,b.author,b.image_url from feedback f join book b where f.book=b.isbn13 AND f.userID = 4;
 
 select * from user;
-=======
->>>>>>> parent of eb275d6... profile feedback fix
 select * from cart;
 select * from customer;
 select * from rating;
 select * from feedback;
+select * from orders;

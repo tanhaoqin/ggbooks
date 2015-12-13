@@ -115,7 +115,7 @@ router.post('/feedback', auth, function (req, res) {
 
 	responseMessage = {};
 	try{
-		connection.query('INSERT into feedback (score, comment, userID, book) values (?,?,?,?);', [score, comment, user, isbn13], function(err,rows, fields) {
+		connection.query('INSERT into feedback (score, comment, userID, book) values (?,?,?,?);', [score, comment, user, isbn13], function(err,result) {
 			if (err) throw err;
 			responseMessage.status = 1;
 			res.send(responseMessage);
@@ -143,19 +143,23 @@ router.post('/feedback/rating', auth ,function (req, res) {
 				responseMessage.message = 'Cannot rate own feedback -_-+';
 				res.send(responseMessage);
 			}else{
-				connection.query('INSERT into rating (usefulness, fbID, userID) values (?,?,?);', [rating, feedback, user], function(err, rows, fields) {
+				connection.query('SELECT * from rating where fbID like ? and userID like ?;', [feedback, user], function(err, rows, fields) {
 					if (err) throw err;
-					responseMessage.status = 1;
-					res.send(responseMessage);
-				});
-			} else{
-				connection.query('update rating set usefulness=? where fbID like ? and userID like ?;', [rating, feedback, user], function(err, rows, fields) {
-					if (err) throw err;
-					responseMessage.status = 1;
-					res.send(responseMessage);
-				});
-			}
-		}
+					if (rows.length == 1){
+						connection.query('INSERT into rating (usefulness, fbID, userID) values (?,?,?);', [rating, feedback, user], function(err, result) {
+							if (err) throw err;
+							responseMessage.status = 1;
+							res.send(responseMessage);
+						});
+					}else{
+						connection.query('update rating set usefulness=? where fbID like ? and userID like ?;', [rating, feedback, user], function(err, rows, fields) {
+							if (err) throw err;
+							responseMessage.status = 1;
+							res.send(responseMessage);
+						});
+					}
+					});
+				}
 		});
 	} catch (err){
 		console.log(err);
@@ -172,7 +176,7 @@ router.put('/feedback/rating', auth ,function (req, res) {
 
 	responseMessage = {};
 	try{
-		connection.query('UPDATE rating set usefulness = ? where fbID=? and userID=?;', [rating, feedback, user], function(err, rows, fields) {
+		connection.query('UPDATE rating set usefulness = ? where fbID=? and userID=?;', [rating, feedback, user], function(err, result) {
 			if (err) throw err;
 			responseMessage.status = 1;
 			res.send(responseMessage);
@@ -195,13 +199,13 @@ router.post('/cart', auth, function (req, res) {
 		connection.query('SELECT * from cart where userID=? AND book=?;', [user, isbn13], function(err,rows, fields) {
 			if (err) throw err;
 			if (rows.length == 0){
-				connection.query('INSERT into cart (userID, book,quantity) values (?,?,?);', [user, isbn13, quantity], function(err,rows, fields) {
+				connection.query('INSERT into cart (userID, book,quantity) values (?,?,?);', [user, isbn13, quantity], function(err,result) {
 					if (err) throw err;
 					responseMessage.status = 1;
 					res.send(responseMessage);
 				});
 			} else{
-				connection.query('UPDATE cart set quantity=? where  userID=? and book=?;', [quantity,user, isbn13], function(err,rows, fields) {
+				connection.query('UPDATE cart set quantity=? where  userID=? and book=?;', [quantity,user, isbn13], function(err,result) {
 					if (err) throw err;
 					responseMessage.status = 1;
 					res.send(responseMessage);
@@ -357,6 +361,62 @@ router.get('/user', auth, function(req,res){
 	}
 });
 
+router.put('/user', auth, function(req,res){
+	console.log("RESTFUL API: \t user");
+	user = req.payload._id;
+
+	responseMessage = {}
+	try{
+		query = "select c.fullname as name, u.email, c.creditcard, c.address as shipping_address, phone from user u, customer c where u.id = c.userID and u.id = ?;"
+		connection.query(query,[user], function(err, rows, fields) {
+			if (err) throw err;
+			responseMessage.user = rows;
+
+			 
+		});
+
+	} catch (err){
+		 
+		console.log(err);
+		responseMessage.cart = [];
+		res.send(responseMessage)
+	}
+});
+
+router.put('/password', auth, function(req,res){
+	console.log("RESTFUL API: \t user");
+	user = req.payload._id;
+	oldpw = req.body.oldpw;
+	newpw = req.body.newpw;
+
+	responseMessage = {}
+	try{
+		query = "select * from user where id like ? and password like ?;"
+		connection.query(query,[user,oldpw], function(err, rows, fields) {
+			if (err) throw err;
+			responseMessage.user = rows;
+
+			if (rows.length == 1){
+				connection.query('INSERT into user (password) values (?) where id like user;', [newpw, user], function(err,result) {
+					if (err) throw err;
+					responseMessage.status = 1;
+					res.send(responseMessage);
+				});
+			} else{
+				responseMessage.status = 0;
+				responseMessage.message = 'wrong old password -_-+';
+				res.send(responseMessage);
+			}
+		});
+
+	} catch (err){
+		 
+		console.log(err);
+		responseMessage.status = 0;
+		res.send(responseMessage)
+	}
+});
+
 router.get('/recommendation', auth, function(req,res){
 	console.log("RESTFUL API: \t recommendation");
 	user = req.payload._id;
@@ -459,7 +519,7 @@ router.post('/admin/book', auth, function(req,res){
 	responseMessage = {}
 	try{
 		query = "INSERT into book values (?,?,?,DEFAULT,?,NULL,?,?,?,?,?,DEFAULT,?,?);"
-		connection.query(query,[isbn13,title,author,format,quantity,price,subject,publisher,year,image_url,summary], function(err, rows, fields) {
+		connection.query(query,[isbn13,title,author,format,quantity,price,subject,publisher,year,image_url,summary], function(err, result) {
 			if (err) throw err;
 			responseMessage.status = 1;
 			res.send(responseMessage);
@@ -483,7 +543,7 @@ router.post('/admin/book/quantity', auth, function(req,res){
 	responseMessage = {}
 	try{
 		query = "UPDATE book SET copies = copies + ? WHERE isbn13 = ?;"
-		connection.query(query,[quantity, isbn13], function(err, rows, fields) {
+		connection.query(query,[quantity, isbn13], function(err, result) {
 			if (err) throw err;
 			responseMessage.status = 1;
 			res.send(responseMessage);

@@ -67,7 +67,7 @@
 				"creditcard": $scope.profile.creditcard,
 				"address": $scope.profile.shipping_address,
 				"phonenum": $scope.profile.phone,
-			}, function(res){
+			}, function(){
 				$timeout(function(){
 					$scope.profileWaiting = false;
 					$scope.profileSuccess = true;
@@ -77,6 +77,25 @@
 				}, 1500);
 			});
 			$scope.profileWaiting = true;
+		}
+
+		$scope.changePassword = function(){
+			if ($scope.passre != $scope.passnew&&$scope.passre!=null){
+			} else {
+				dataservice.putPassword({
+					"oldpw": $scope.passold,
+					"newpw": $scope.passnew
+				}, function(){
+					$timeout(function(){
+					$scope.pwWaiting = false;
+					$scope.pwSuccess = true;
+					$timeout(function() {
+						$scope.pwSuccess = false;						
+					}, 1500);
+				}, 1500);
+				});
+				$scope.pwWaiting = true;
+			}
 		}
 
 		$scope.init();

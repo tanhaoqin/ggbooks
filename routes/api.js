@@ -139,7 +139,7 @@ router.post('/feedback/rating', auth ,function (req, res) {
 			if (err) throw err;
 			if (rows.length == 1){
 				responseMessage.status = 400;
-				responseMessage.message = 'Cannot rate own feedback -_-+';
+				responseMessage.message = 'Cannot rate own feedback -_-"';
 				res.send(responseMessage);
 			}else{
 				connection.query('SELECT * from rating where fbID like ? and userID like ?;', [feedback, user], function(err, rows, fields) {
@@ -425,7 +425,10 @@ router.get('/recommendation', auth, function(req,res){
 
 	responseMessage = {}
 	try{
-		query = "select * from orders o2 join orderItem oi2 join book b where o2.orderid=oi2.orderid AND oi2.book=b.isbn13 AND o2.orderid in (select o1.orderid from orders o1 join orderItem oi1 where o1.orderid=oi1.orderid AND book in (select book from orders o join orderItem oi where o.orderid=oi.orderid AND userId=?) AND o1.userID !=?) AND book not in (select book from orders o join orderItem oi where o.orderid=oi.orderid AND userId=?);"
+		query = "select sum(oi2.quantity) as sales, b.* from orders o2 join orderItem oi2 join book b where o2.orderid=oi2.orderid AND oi2.book=b.isbn13 AND o2.orderid in
+(select o1.orderid from orders o1 join orderItem oi1 where o1.orderid=oi1.orderid AND book in
+(select book from orders o join orderItem oi where o.orderid=oi.orderid AND userId=4) AND o1.userID !=4) AND book not in 
+(select book from orders o join orderItem oi where o.orderid=oi.orderid AND userId=4) group by book order by sales DESC;"
 		connection.query(query,[user,user,user], function(err, rows, fields) {
 			if (err) throw err;
 			responseMessage.user = rows;

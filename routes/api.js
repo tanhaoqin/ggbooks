@@ -400,7 +400,7 @@ router.put('/password', auth, function(req,res){
 			responseMessage.user = rows;
 
 			if (rows.length == 1){
-				connection.query('INSERT into user (password) values (?) where id like user;', [newpw, user], function(err,result) {
+				connection.query('UPDATE user set password =? where id like ?;', [newpw, user], function(err,result) {
 					if (err) throw err;
 					responseMessage.status = 1;
 					res.send(responseMessage);
@@ -468,7 +468,7 @@ router.get('/popular/author', auth, function(req,res){
 
 	responseMessage = {}
 	try{
-		query = "select distinct(b.author), count(b.author)  from orders o left join orderItem oi on (o.orderid = oi.orderID) left join book b on (oi.book = b.isbn13) WHERE MONTH(o.date) = MONTH(NOW()) and YEAR(o.date) = YEAR(NOW()) group by b.author order by sum(oi.quantity) desc limit ? ;"
+		query = "select distinct(b.author), count(b.author) As count from orders o left join orderItem oi on (o.orderid = oi.orderID) left join book b on (oi.book = b.isbn13) WHERE MONTH(o.date) = MONTH(NOW()) and YEAR(o.date) = YEAR(NOW()) group by b.author order by sum(oi.quantity) desc limit ? ;"
 		connection.query(query,[quantity], function(err, rows, fields) {
 			if (err) throw err;
 			responseMessage.author = rows;
@@ -489,7 +489,7 @@ router.get('/popular/publisher', auth, function(req,res){
 
 	responseMessage = {}
 	try{
-		query = "select distinct(b.publisher), count(b.publisher) from orders o left join orderItem oi on (o.orderid = oi.orderID) left join book b on (oi.book = b.isbn13) WHERE MONTH(o.date) = MONTH(NOW()) and YEAR(o.date) = YEAR(NOW()) group by b.publisher order by sum(oi.quantity) desc limit ? ;"
+		query = "select distinct(b.publisher), count(b.publisher) AS count from orders o left join orderItem oi on (o.orderid = oi.orderID) left join book b on (oi.book = b.isbn13) WHERE MONTH(o.date) = MONTH(NOW()) and YEAR(o.date) = YEAR(NOW()) group by b.publisher order by sum(oi.quantity) desc limit ? ;"
 		connection.query(query,[quantity], function(err, rows, fields) {
 			if (err) throw err;
 			responseMessage.publisher = rows;

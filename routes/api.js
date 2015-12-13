@@ -76,8 +76,8 @@ router.get('/feedback', auth, function(req,res){
 	user = req.payload._id;
 	isbn13 = req.query.isbn13;
 	start = parseInt(req.query.start);
-	end = parseInt(req.query.end);
-	console.log(start, end, isbn13);
+	count = parseInt(req.query.count);
+	console.log(start, count, isbn13);
 
 	responseMessage = {};
 	try{
@@ -85,7 +85,7 @@ router.get('/feedback', auth, function(req,res){
 		query = "select f.fbID, f.date, f.score, f.comment, c.fullname, c.userID from feedback f, customer c where  f.userID = c.userID and f.book like ?  ORDER BY f.avgUseful  DESC  LIMIT ?, ?;"
 		console.log(query);
 
-		connection.query(query,[isbn13, start, end], function(err, rows, fields) {
+		connection.query(query,[isbn13, start, count], function(err, rows, fields) {
 			if (err) throw err;
 
 			responseMessage['feedback'] = rows;

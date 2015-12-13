@@ -46,9 +46,9 @@
 						<div class="col-sm-offset-2 col-sm-10">
 							<button type="submit" class="btn btn-primary">Change Details</button> <i ng-show="profileWaiting" class="fa fa-spinner fa-pulse"></i>
 							<p></p>
-				<div ng-show="profileSuccess" class="alert alert-success">
-					<strong>Success!</strong> Profile updated!
-				</div>
+							<div ng-show="profileSuccess" class="alert alert-success">
+								<strong>Success!</strong> Profile updated!
+							</div>
 						</div>
 					</div>
 				<hr></form>
@@ -80,9 +80,9 @@
 						<div class="col-sm-offset-2 col-sm-10">
 							<button type="submit" class="btn btn-primary">Change Password</button> <i ng-show="pwWaiting" class="fa fa-spinner fa-pulse"></i>
 							<p></p>
-				<div ng-show="pwSuccess" class="alert alert-success">
-					<strong>Success!</strong> Password updated!
-				</div>
+							<div ng-show="pwSuccess" class="alert alert-success">
+								<strong>Success!</strong> Password updated!
+							</div>
 						</div>
 					</div>
 				</form>
@@ -104,7 +104,7 @@
 				</div>
 				<div ng-repeat="order in orders" class="list-group-item">
 					<div class="row">
-						<div class="col-sm-2 profile profile-label">
+						<div class="col-sm-1 profile profile-label">
 							<div>
 								
 							</div>
@@ -145,6 +145,7 @@
 											<p><span class="details-label">Sub-Total: </span>${{item.qty*item.price}}</p>
 										</div>
 									</div>
+									<hr>
 								</div>
 							</div>
 						</div>
@@ -237,9 +238,8 @@
 								<span ng-if="own.comment != null">{{own.comment}}</span>
 								<span class="feedback-none" ng-if="own.comment == null">No comments.</span>
 							</p>
-							<p ng-if="own.usefulness == 2">You rated this feedback as very useful.</p>
-							<p ng-if="own.usefulness == 1">You rated this feedback as useful.</p>
-							<p ng-if="own.usefulness == 0">You rated this feedback as useless.</p>
+							<hr>
+							<div class="alert alert-info"><p ng-if="own.usefulness == 2">You rated this feedback as <strong>very useful</strong>.</p><p ng-if="own.usefulness == 1">You rated this feedback as <strong>useful</strong>.</p><p ng-if="own.usefulness == 0">You rated this feedback as <strong>useless</strong>.</p></div>
 						</div>
 					</div>
 					

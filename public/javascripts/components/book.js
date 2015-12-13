@@ -33,9 +33,9 @@
 		};
 
 		$scope.getFeedback = function(){
-			var start = $scope.page * parseInt($scope.feedbackCount) + 1;
-			var end = parseInt(start) + parseInt($scope.feedbackCount) - 1;
-			dataservice.getFeedback($scope.bookId, start, end, function(res){
+			var start = $scope.page * parseInt($scope.feedbackCount);
+			var count = parseInt($scope.feedbackCount);
+			dataservice.getFeedback($scope.bookId, start, count, function(res){
 				$scope.feedbacks = res.feedback;
 				$scope.ratings = res.rating;
 				for (var i = 0; i < $scope.feedbacks.length; i++){

@@ -79,8 +79,8 @@
 	  		});
 		};
 
-		o.getFeedback = function(isbn13, start, end, callback){
-			$http.get('/api/feedback?isbn13='+isbn13+'&start='+start+'&end='+end, {
+		o.getFeedback = function(isbn13, start, count, callback){
+			$http.get('/api/feedback?isbn13='+isbn13+'&start='+start+'&count='+count, {
 				headers: {Authorization: 'Bearer '+auth.getToken()}				
 			}).success(function(res){
 				callback(res);

@@ -221,21 +221,20 @@ router.get('/cart', auth, function(req,res){
 });
 
 router.delete('/cart', auth, function(req,res){
-	console.log("RESTFUL API: \t cart");
+	console.log("RESTFUL API: DELETE \t cart");
 	user = req.payload._id;
-	isbn13 = req.body.isbn13;
+	isbn13 = req.query.isbn13;
 
 	responseMessage = {}
 	try{
 		query = "delete from cart where userID like ? AND book like ?;"
-		connection.query(query,[user,isbn13], function(err, rows, fields) {
+		connection.query(query,[user,isbn13], function(err, result) {
 			if (err) throw err;
 			responseMessage.status = 1;
 			res.send(responseMessage);
 			 
 		});
 	} catch (err){
-		 
 		console.log(err);
 		responseMessage.status = 0;
 		res.send(responseMessage)

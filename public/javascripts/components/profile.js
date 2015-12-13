@@ -82,7 +82,7 @@
 		$scope.changePassword = function(){
 			if ($scope.passre != $scope.passnew&&$scope.passre!=null){
 			} else {
-				dataservice.putUser({
+				dataservice.putPassword({
 					"oldpw": $scope.passold,
 					"newpw": $scope.passnew
 				}, function(){

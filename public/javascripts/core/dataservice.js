@@ -157,7 +157,7 @@
 		}
 
 		o.putPassword = function(data, callback){
-			$http.put('/api/password', data, {
+			$http.post('/api/password', data, {
 				headers: {Authorization: 'Bearer '+auth.getToken()}
 			}).success(function(res){
 				callback();

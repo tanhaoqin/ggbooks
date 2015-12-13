@@ -22,11 +22,8 @@ router.get('/book', auth, function(req,res){
 				responseMessage = rows[0];
 				responseMessage.status = 1;
 
-// <<<<<<< HEAD
 				connection.query('select fbID from feedback where book LIKE ? AND userID like ?;', [isbn13,user] , function(err, rows, fields) {	
-// =======
-// 				connection.query('select * from feedback where book LIKE ? ;', [isbn13] , function(err, rows, fields) {	
-// >>>>>>> origin/master
+
 					if (err) throw err;
 				
 					if (rows.length == 0){
@@ -85,12 +82,10 @@ router.get('/feedback', auth, function(req,res){
 
 	responseMessage = {};
 	try{
-<<<<<<< HEAD
+
 		query = "select f.fbID, f.date, f.score, f.comment, c.fullname, c.userID from feedback f, customer c where  f.userID = c.userID and f.book like ?  ORDER BY f.avgUseful  DESC  LIMIT ?, ?;"
 		console.log(query);
-=======
-		query = "select f.fbID, f.date, f.score, f.comment, c.fullname, c.userID from feedback f left join customer c on (f.userID = c.userID) where f.book like ?  ORDER BY f.avgUseful  DESC  LIMIT ?, ?;";
->>>>>>> parent of eb275d6... profile feedback fix
+
 		connection.query(query,[isbn13, start, end], function(err, rows, fields) {
 			if (err) throw err;
 
@@ -303,12 +298,12 @@ router.get('/user', auth, function(req,res){
 				if (err) throw err;
 				responseMessage.orders = rows;
 
-				query = "select f.fbID as fb_id, f.date, f.score, f.comment, f.book as isbn13 from feedback f where f.userID = ? order by f.date desc;"
+				query = "select f.fbID as fb_id, f.date, f.score, f.comment, f.book, b.title, b.author, b.image_url as isbn13 from feedback f, book b where f.book=b.isbn13 and f.userID = ? order by f.date desc;"
 				connection.query(query,[user], function(err, rows, fields) {
 					if (err) throw err;
 					responseMessage.feedback = rows;
 
-					query = "select f.fbID, f.date, f.score, f.comment, r.usefulness, f.book as isbn13, b.title from rating r left join feedback f on (r.fbID = f.fbID) left join book b on (f.book = b.isbn13) where r.userID = ? order by f.date desc, usefulness desc;"
+					query = "select f.fbID, f.date, f.score, f.comment, r.usefulness, f.book as isbn13, b.title, b.author, b.image_url from rating r, feedback f, book b where r.fbID = f.fbID and f.book = b.isbn13 and r.userID = ? order by f.date desc, usefulness desc;"
 					connection.query(query,[user], function(err, rows, fields) {
 						if (err) throw err;
 						responseMessage["own_feedback"] = rows;

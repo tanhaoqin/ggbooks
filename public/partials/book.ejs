@@ -77,8 +77,11 @@
 			<option value="100">100</option>
 		</select>
 	</span> submissions</p>
-	<div ng-if="feedbacks.length==0">
+	<div ng-if="feedbacks.length==0&&page==0">
 		<p class="feedback-none">There are no feedbacks available for this item yet.</p>
+	</div>
+	<div ng-if="feedbacks.length==0&&page!=0">
+		<p class="feedback-none">There are no more feedbacks for this item.</p>
 	</div>
 	<div ng-repeat="feedback in feedbacks">
 		<hr>

@@ -264,15 +264,9 @@
 				<br>
 				<div ng-repeat="item in popularauthors" class="list-group-item">
 					<div class="row" ng-show="popularAuthorFound">
-						<div class="col-sm-2">
-							<div class="thumbnail profile-thumbnail">
-								<img src="{{item.image_url}}" alt="">
-							</div>
-						</div>
 						<div class="col-sm-7">
-							<p><span class="details-label">Title: </span>{{item.title}}</p>
 							<p><span class="details-label">Author: </span>{{item.author}}</p>
-							<p><span class="details-label">ISBN-13: </span>{{item.isbn13}}</p>
+							<p><span class="details-label">Number Of Books sold: </span>{{item.count(b.author)}}</p>
 							<div class="rating-container">
 								<span class="fa-stack" ng-repeat="i in countFullStars(item.avgScore) track by $index">
 									<i class="fa fa-fw fa-lg fa-star fa-stack-1x yellow"></i>
@@ -318,15 +312,9 @@
 				<br>
 				<div ng-repeat="item in popularpublishers" class="list-group-item">
 					<div class="row" ng-show="popularPublisherFound">
-						<div class="col-sm-2">
-							<div class="thumbnail profile-thumbnail">
-								<img src="{{item.image_url}}" alt="">
-							</div>
-						</div>
 						<div class="col-sm-7">
-							<p><span class="details-label">Title: </span>{{item.title}}</p>
-							<p><span class="details-label">Author: </span>{{item.author}}</p>
-							<p><span class="details-label">ISBN-13: </span>{{item.isbn13}}</p>
+							<p><span class="details-label">Publisher Name: </span>{{item.author}}</p>
+							<p><span class="details-label">Number Of Books sold: </span>{{item.count(b.author)}}</p>
 							<div class="rating-container">
 								<span class="fa-stack" ng-repeat="i in countFullStars(item.avgScore) track by $index">
 									<i class="fa fa-fw fa-lg fa-star fa-stack-1x yellow"></i>

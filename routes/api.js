@@ -144,7 +144,7 @@ router.post('/feedback/rating', auth ,function (req, res) {
 			}else{
 				connection.query('SELECT * from rating where fbID like ? and userID like ?;', [feedback, user], function(err, rows, fields) {
 					if (err) throw err;
-					if (rows.length == 1){
+					if (rows.length == 0){
 						connection.query('INSERT into rating (usefulness, fbID, userID) values (?,?,?);', [rating, feedback, user], function(err, result) {
 							if (err) throw err;
 							responseMessage.status = 1;

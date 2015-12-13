@@ -446,7 +446,7 @@ router.get('/popular/books', function(req,res){
 
 	responseMessage = {}
 	try{
-		query = "select sum(oi.quantity) as quantity, b.* from orders o left join orderItem oi on (o.orderid = oi.orderID) left join book b on (oi.book = b.isbn13) WHERE MONTH(o.date) = MONTH(NOW()) and YEAR(o.date) = YEAR(NOW()) group by oi.book order by quantity desc limit ?;"
+		query = "select sum(oi.quantity) as quantity, b.* from orders o, orderItem oi, book b WHERE o.orderid = oi.orderID and oi.book = b.isbn13 and MONTH(o.date) = MONTH(NOW()) and YEAR(o.date) = YEAR(NOW()) group by oi.book order by quantity desc limit ?;"
 		connection.query(query,[quantity], function(err, rows, fields) {
 			if (err) throw err;
 			responseMessage.books = rows;
@@ -467,7 +467,7 @@ router.get('/popular/author', auth, function(req,res){
 
 	responseMessage = {}
 	try{
-		query = "select distinct(b.author), count(b.author) As from orders o left join orderItem oi on (o.orderid = oi.orderID) left join book b on (oi.book = b.isbn13) WHERE MONTH(o.date) = MONTH(NOW()) and YEAR(o.date) = YEAR(NOW()) group by b.author order by sum(oi.quantity) desc limit ? ;"
+		query = "select distinct(b.author), count(b.author) As count from orders o, orderItem oi, book b WHERE o.orderid = oi.orderID and oi.book = b.isbn13 and MONTH(o.date) = MONTH(NOW()) and YEAR(o.date) = YEAR(NOW()) group by b.author order by sum(oi.quantity) desc limit ? ;"
 		connection.query(query,[quantity], function(err, rows, fields) {
 			if (err) throw err;
 			responseMessage.author = rows;
@@ -488,7 +488,7 @@ router.get('/popular/publisher', auth, function(req,res){
 
 	responseMessage = {}
 	try{
-		query = "select distinct(b.publisher), count(b.publisher) AS count from orders o left join orderItem oi on (o.orderid = oi.orderID) left join book b on (oi.book = b.isbn13) WHERE MONTH(o.date) = MONTH(NOW()) and YEAR(o.date) = YEAR(NOW()) group by b.publisher order by sum(oi.quantity) desc limit ? ;"
+		query = "select distinct(b.publisher), count(b.publisher) AS count from orders o, orderItem oi, book b WHERE o.orderid = oi.orderID and oi.book = b.isbn13 and MONTH(o.date) = MONTH(NOW()) and YEAR(o.date) = YEAR(NOW()) group by b.publisher order by sum(oi.quantity) desc limit ? ;"
 		connection.query(query,[quantity], function(err, rows, fields) {
 			if (err) throw err;
 			responseMessage.publisher = rows;

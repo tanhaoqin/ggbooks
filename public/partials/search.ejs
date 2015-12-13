@@ -2,8 +2,7 @@
 	<div class="row">
 		<h2>Search Results</h2>
 		<div class="sorting">
-			<h4>Sort By:
-			</h4>
+			<h4>Sort By: </h4>
 			<select ng-model="sortingStyle" ng-change="sortArray()"class="form-control">
 				<option ng-selected="true">Normal</option>
 				<option>Year</option>
@@ -11,31 +10,33 @@
 			</select>
 		</div>
 		<br>
+		<hr>
 		<div ng-repeat="item in searchArray">
-			<div class="search-thumbnail">
-				<a href="#/book/{{item.isbn13}}"><img src={{item.image_url}} alt="{{item.title}}"></a>
-				<div class="search-caption">
-					<h2><a href="#/book/{{item.isbn13}}">{{item.title}}</a></h2>
-					<h4>Year: {{item.year}}</h4>
-					<h4>Author: {{item.author}}</h4>
-					<h4>Publisher: {{item.publisher}}</h4>
-					<h4>ISBN-13: {{item.isbn13}}</h4>
-					<h3>Price: ${{item.price}}</h3>
-
-					<h4 ng-if="item.format=='H'">Format: Hardcover</h4><h4 ng-if="item.format=='p'">Format: Paperback</h4>
-					<div class="rating-container">
-						<div class="glyphicon glyphicon-star" aria-hidden="true"ng-repeat="i in range(item.rating) track by $index"></div>
-						<div class="glyphicon glyphicon-star-empty" aria-hidden="true"ng-repeat="i in range((5-item.rating)) track by $index"></div>
+			<div class="profile well">
+				<div class="row">
+					<div class="col-sm-2">
+						<div class="thumbnail profile-thumbnail">
+							<a href="#/book/{{item.isbn13}}"><img src={{item.image_url}} alt="{{item.title}}"></a>
+						</div>
+					</div>
+					<div class="col-sm-7">
+						<h2><span class="details-label">Title: </span><a href="#/book/{{item.isbn13}}">{{item.title}}</a></h2>
+						<h4><span class="details-label">Year: </span>{{item.year}}</h4>
+						<h4><span class="details-label">Author: </span>{{item.author}}</h4>
+						<h4><span class="details-label">Publisher: </span>{{item.publisher}}</h4>
+						<h4><span class="details-label">ISBN-13: </span>{{item.isbn13}}</h4>
+						<h3><span class="details-label">Price: </span>${{item.price}}</h3>
 					</div>
 				</div>
 			</div>
-		</div>
+		</div>		
 	</div>
+</div>
 </div>
 <!-- <div class="input-group">
 			<input type="text" class="form-control" placeholder="Search for...">
 			<span class="input-group-btn">
-						<button class="btn btn-default" type="button">Go!</button>
+							<button class="btn btn-default" type="button">Go!</button>
 			</span>
 </div>
 <form ng-submit="addBook()">
@@ -47,4 +48,4 @@
 				<button type="submit">Find Book</button>
 </form>
 <div ng-repeat="book in featuredBook">
-	<p>{{book.isbn13}}</p><p>{{book.title}}</p></div> -->
+<p>{{book.isbn13}}</p><p>{{book.title}}</p></div> -->

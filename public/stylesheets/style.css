@@ -233,10 +233,14 @@ a {
 .carousel-inner>.item>a>img, .carousel-inner>.item>img, .img-responsive, .thumbnail a>img, .thumbnail>img {
     min-height: 400px;
 }
+.thumbnail.profile-thumbnail.carousel-inner>.item>a>img, .thumbnail.profile-thumbnail.carousel-inner>.item>img, .thumbnail.profile-thumbnail.img-responsive, .thumbnail.profile-thumbnail.thumbnail a>img, .thumbnail.profile-thumbnail.thumbnail>img {
+	min-height: auto;
+}
 
 .thumbnail.profile-thumbnail>img{
 	min-height: 160px;
 }
+
 .thumbnail.home{
 	min-height: 559px;
 }

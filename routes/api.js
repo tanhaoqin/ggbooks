@@ -236,7 +236,7 @@ router.get('/cart', auth, function(req,res){
 		 
 		console.log(err);
 		responseMessage.cart = [];
-		res.send(responseMessage)
+		res.send(responseMessage);
 	}
 });
 
@@ -257,7 +257,7 @@ router.delete('/cart', auth, function(req,res){
 	} catch (err){
 		console.log(err);
 		responseMessage.status = 0;
-		res.send(responseMessage)
+		res.send(responseMessage);
 	}
 });
 
@@ -357,29 +357,31 @@ router.get('/user', auth, function(req,res){
 		 
 		console.log(err);
 		responseMessage.cart = [];
-		res.send(responseMessage)
+		res.send(responseMessage);
 	}
 });
 
 router.put('/user', auth, function(req,res){
 	console.log("RESTFUL API: \t user");
 	user = req.payload._id;
+	fullname = req.body.fullname;
+	creditcard = req.body.creditcard;
+	address = req.body.address;
+	phonenum = req.body.phonenum;
 
 	responseMessage = {}
 	try{
-		query = "select c.fullname as name, u.email, c.creditcard, c.address as shipping_address, phone from user u, customer c where u.id = c.userID and u.id = ?;"
-		connection.query(query,[user], function(err, rows, fields) {
+		query = "UPDATE customer set fullname = ?,creditcard=?,address=?,phone=? where userID=?;"
+		connection.query(query,[fullname, creditcard, address, phonenum, user], function(err, result) {
 			if (err) throw err;
-			responseMessage.user = rows;
-
-			 
+			responseMessage.status = 1;
 		});
 
 	} catch (err){
 		 
 		console.log(err);
-		responseMessage.cart = [];
-		res.send(responseMessage)
+		responseMessage.status = 0;
+		res.send(responseMessage);
 	}
 });
 
@@ -413,7 +415,7 @@ router.put('/password', auth, function(req,res){
 		 
 		console.log(err);
 		responseMessage.status = 0;
-		res.send(responseMessage)
+		res.send(responseMessage);
 	}
 });
 
@@ -434,7 +436,7 @@ router.get('/recommendation', auth, function(req,res){
 	} catch (err){
 		console.log(err);
 		responseMessage.cart = [];
-		res.send(responseMessage)
+		res.send(responseMessage);
 	}
 });
 
@@ -455,7 +457,7 @@ router.get('/popular/books', function(req,res){
 		 
 		console.log(err);
 		responseMessage.books = [];
-		res.send(responseMessage)
+		res.send(responseMessage);
 	}
 });
 
@@ -476,7 +478,7 @@ router.get('/popular/author', auth, function(req,res){
 		 
 		console.log(err);
 		responseMessage.cart = [];
-		res.send(responseMessage)
+		res.send(responseMessage);
 	}
 });
 
@@ -497,24 +499,24 @@ router.get('/popular/publisher', auth, function(req,res){
 		 
 		console.log(err);
 		responseMessage.cart = [];
-		res.send(responseMessage)
+		res.send(responseMessage);
 	}
 });
 
 router.post('/admin/book', auth, function(req,res){
 	console.log("RESTFUL API: \t admin/book");
-	//req.body.??
-	title = req.body.book.title
-	isbn13 = req.body.book.isbn13
-	author = req.body.book.author
-	format = req.body.book.format
-	image_url = req.body.book['image_url']
-	subject = req.body.book.subject
-	year = req.body.book.year
-	price = req.body.book.price
-	publisher = req.body.book.publisher
-	summary = req.body.book.summary
-	quantity = req.body.book.quantity
+	
+	title = req.body.book.title;
+	isbn13 = req.body.book.isbn13;
+	author = req.body.book.author;
+	format = req.body.book.format;
+	image_url = req.body.book['image_url'];
+	subject = req.body.book.subject;
+	year = req.body.book.year;
+	price = req.body.book.price;
+	publisher = req.body.book.publisher;
+	summary = req.body.book.summary;
+	quantity = req.body.book.quantity;
 
 	responseMessage = {}
 	try{
@@ -530,15 +532,15 @@ router.post('/admin/book', auth, function(req,res){
 		 
 		console.log(err);
 		responseMessage.status = 0;
-		res.send(responseMessage)
+		res.send(responseMessage);
 	}
 });
 
 router.post('/admin/book/quantity', auth, function(req,res){
 	console.log("RESTFUL API: \t admin/book/quantity");
 	
-	isbn13 = req.body.isbn13
-	quantity = req.body.quantity
+	isbn13 = req.body.isbn13;
+	quantity = req.body.quantity;
 
 	responseMessage = {}
 	try{
@@ -554,7 +556,7 @@ router.post('/admin/book/quantity', auth, function(req,res){
 		 
 		console.log(err);
 		responseMessage.status = 0;
-		res.send(responseMessage)
+		res.send(responseMessage);
 	}
 });
 

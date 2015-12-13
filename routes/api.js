@@ -192,6 +192,7 @@ router.post('/cart', auth, function (req, res) {
 				});
 			}
 		});
+		
 	} catch (err){
 		console.log(err);
 		responseMessage.status = 0;
@@ -309,7 +310,7 @@ router.get('/user', auth, function(req,res){
 			if (err) throw err;
 			responseMessage.user = rows;
 
-			query = "select o.orderId, o.total, b.title, b.isbn13, b.author, b.publisher, b.subject, b.year, b.image_url, oi.quantity from orders o join orderItem oi join book b where oi.book=b.isbn13 AND o.orderId=oi.orderId AND o.userID= ?;"
+			query = "select o.orderId, o.totalcost, b.title, b.isbn13, b.author, b.publisher, b.subject, b.year, b.image_url, oi.quantity from orders o join orderItem oi join book b where oi.book=b.isbn13 AND o.orderId=oi.orderId AND o.userID= ?;"
 			connection.query(query,[user], function(err, rows, fields) {
 				if (err) throw err;
 				responseMessage.orders = rows;

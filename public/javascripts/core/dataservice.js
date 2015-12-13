@@ -97,7 +97,7 @@
 			});
 		}
 
-		o.postFeedbackRating = function(feedback, callback){
+		o.postFeedbackRating = function(feedback, callback, error){
 			$http.post('/api/feedback/rating', feedback,
 			{
 				headers: {Authorization: 'Bearer '+auth.getToken()}
@@ -107,7 +107,7 @@
 				callback(res);
 			}).error(
 			function(err){
-				console.log(err);
+				error(err);
 			});
 		};
 

@@ -115,6 +115,9 @@
 		<div ng-show="feedback.ratingSuccess" class="alert alert-success">
 			<strong>Success!</strong> Rating submitted! Thank you for making our community better!
 		</div>
+		<div ng-show="feedback.ratingError" class="alert alert-danger">
+			<strong>Error!</strong> {{feedback.ratingError.message}}
+		</div>
 	</div>
 	<nav ng-if="feedbacks.length==feedbackCount || onePage == false">
 		<ul class="pagination">

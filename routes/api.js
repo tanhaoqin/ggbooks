@@ -138,9 +138,11 @@ router.post('/feedback/rating', auth ,function (req, res) {
 		connection.query('SELECT * from feedback where fbID like ? and userID like ?;', [feedback, user], function(err, rows, fields) {
 			if (err) throw err;
 			if (rows.length == 1){
+
 				responseMessage.status = 400;
 				responseMessage.message = 'Cannot rate own feedback -_-"';
 				res.send(responseMessage);
+
 			}else{
 				connection.query('SELECT * from rating where fbID like ? and userID like ?;', [feedback, user], function(err, rows, fields) {
 					if (err) throw err;

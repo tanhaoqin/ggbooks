@@ -53,7 +53,7 @@ router.get('/books', auth, function(req,res){
 	//todo search for 
 	responseMessage = {};
 	try{
-		connection.query("select * from book where title like '%"+search+"%' or author like '%"+search+"%' or isbn13 like '%"+search+"%';", function(err, rows, fields) {
+		connection.query("select * from book where title like '%"+search+"%' or author like '%"+search+"%' or isbn13 like '%"+search+"% or publisher like '%"+search+"%' ;", function(err, rows, fields) {
 			if (err) throw err;
 			if (rows.length == 0){
 				responseMessage.status = 0;
@@ -469,7 +469,7 @@ router.get('/popular/author', auth, function(req,res){
 
 	responseMessage = {}
 	try{
-		query = "select distinct(b.author), count(b.author) As count from orders o, orderItem oi, book b WHERE o.orderid = oi.orderID and oi.book = b.isbn13 and MONTH(o.date) = MONTH(NOW()) and YEAR(o.date) = YEAR(NOW()) group by b.author order by sum(oi.quantity) desc limit ? ;"
+		query = "select distinct(b.author), count(b.author) As count from orders o, orderItem oi, book b WHERE o.orderid = oi.orderID and oi.book = b.isbn13 and MONTH(o.date) = MONTH(NOW()) and YEAR(o.date) = YEAR(NOW()) group by b.author order by count desc limit ? ;"
 		connection.query(query,[quantity], function(err, rows, fields) {
 			if (err) throw err;
 			responseMessage.author = rows;
@@ -490,7 +490,7 @@ router.get('/popular/publisher', auth, function(req,res){
 
 	responseMessage = {}
 	try{
-		query = "select distinct(b.publisher), count(b.publisher) AS count from orders o, orderItem oi, book b WHERE o.orderid = oi.orderID and oi.book = b.isbn13 and MONTH(o.date) = MONTH(NOW()) and YEAR(o.date) = YEAR(NOW()) group by b.publisher order by sum(oi.quantity) desc limit ? ;"
+		query = "select distinct(b.publisher), count(b.publisher) AS count from orders o, orderItem oi, book b WHERE o.orderid = oi.orderID and oi.book = b.isbn13 and MONTH(o.date) = MONTH(NOW()) and YEAR(o.date) = YEAR(NOW()) group by b.publisher order by count desc limit ? ;"
 		connection.query(query,[quantity], function(err, rows, fields) {
 			if (err) throw err;
 			responseMessage.publisher = rows;

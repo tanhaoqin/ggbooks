@@ -134,7 +134,7 @@ select f.*, b.title,b.author,b.image_url from feedback f join book b where f.boo
 
 select distinct(b.publisher), count(b.publisher) AS count from orders o, orderItem oi, book b WHERE o.orderid = oi.orderID and oi.book = b.isbn13 and MONTH(o.date) = MONTH(NOW()) and YEAR(o.date) = YEAR(NOW()) group by b.publisher order by sum(oi.quantity) desc limit 3 ;
 
-select distinct(b.publisher), count(b.publisher) from orders o left join orderItem oi on (o.orderid = oi.orderID) left join book b on (oi.book = b.isbn13) WHERE MONTH(o.date) = MONTH(NOW()) and YEAR(o.date) = YEAR(NOW()) group by b.publisher order by sum(oi.quantity) desc limit 10 ;
+select distinct(b.publisher), count(b.publisher) as count from orders o left join orderItem oi on (o.orderid = oi.orderID) left join book b on (oi.book = b.isbn13) WHERE MONTH(o.date) = MONTH(NOW()) and YEAR(o.date) = YEAR(NOW()) group by b.publisher order by count desc limit 10 ;
 
 select * from book;
 select * from user;

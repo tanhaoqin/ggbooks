@@ -1,7 +1,0 @@
-{
-  "host"     : "sutdbinstance.c8djbsxvu2xy.ap-southeast-1.rds.amazonaws.com",
-  "user"     : "sutdadmin",
-  "password" : "sutd1234",
-  "database" : "NikhilReads",
-  "port"	 : 3306
-}

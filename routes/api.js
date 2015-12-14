@@ -53,7 +53,9 @@ router.get('/books', auth, function(req,res){
 	//todo search for 
 	responseMessage = {};
 	try{
-		connection.query("select * from book where title like '%"+search+"%' or author like '%"+search+"%' or isbn13 like '%"+search+"% or publisher like '%"+search+"%' ;", function(err, rows, fields) {
+
+		connection.query("select * from book where title like '%"+search+"%' or author like '%"+search+"%' or isbn13 like '%"+search+"%' or publisher like '%"+search+"%' or subject like '%"+search+"%';", function(err, rows, fields) {
+
 			if (err) throw err;
 			if (rows.length == 0){
 				responseMessage.status = 0;
